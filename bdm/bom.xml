@@ -3770,6 +3770,7 @@
                 <field type="INTEGER" length="255" name="toleranciaEntradaSesion" nullable="true" collection="false"/>
                 <field type="INTEGER" length="255" name="toleranciaSalidaSesion" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="idprueba" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="reagendado" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -5201,6 +5202,1114 @@
                 <field type="STRING" length="5000" name="motivoSuspension" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="vencido" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.auxiliar.AUXISolAdmiRequisitoAdicional">
+            <fields>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatRequisitosAdicionales" fetchType="EAGER" name="requisito_adicional" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="cumplido" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_azure" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.bitacora.PSGRCatBitacoraCorreos">
+            <fields>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="de" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="para" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="estatus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="codigo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="mensaje" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="campus" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes">
+            <fields>
+                <field type="STRING" length="255" name="clave_estatus" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_operacion" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="comentarios" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.model.PSGRCitaAspirante" fetchType="LAZY" name="cita_aspirante" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.bitacora.PSGRLogTransferencias">
+            <fields>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus_origen" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus_destino" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar" fetchType="LAZY" name="lic_origen" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar" fetchType="LAZY" name="lic_destino" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_transferencia" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPeriodo" fetchType="LAZY" name="periodo_origen" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPeriodo" fetchType="LAZY" name="periodo_destino" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPosgrado" fetchType="LAZY" name="posgrado_origen" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPosgrado" fetchType="LAZY" name="posgrado_destino" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatCampus">
+            <fields>
+                <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="tiene_posgrado" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="eliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_banner" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_implementacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_aviso_privacidad" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_datos_veridicos" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_autor_datos" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="activado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="grupo_bonita" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="calle" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="colonia" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numero_ext" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numero_int" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="codigo_postal" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="municipio" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPais" fetchType="LAZY" name="paises" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatEstados" fetchType="LAZY" name="estados" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_imagen" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="email" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_guia_examen" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatEstados" fetchType="LAZY" name="estados_relacion" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPais" fetchType="LAZY" name="paises_relacion" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatCampus p &#13;&#10;WHERE p.tiene_posgrado = true AND p.eliminado = :eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="java.util.List">
+                    <description>Obtiene el catálogo de Campus que están activos en el proceso (campus marcados que tienen posgrado)</description>
+                    <queryParameters>
+                        <queryParameter name="eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+                <query name="getCatGeneral" content="SELECT p &#13;&#10;FROM PSGRCatCampus p &#13;&#10;WHERE p.eliminado = :eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="java.util.List">
+                    <description>Obtiene el catálogo de Campus de manera general</description>
+                    <queryParameters>
+                        <queryParameter name="eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatCodigoPeriodo">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tipo_clave" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatDocumentosTextos">
+            <fields>
+                <field type="STRING" length="255" name="url_guia_examen_cb" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tips_cb" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="no_sabes" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_test_vocacional" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="campus_pid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="ciudad_carta" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="estado_carta" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="documentos_entregar" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="documentos_entregar_extranjero" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="notas_documentos" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="parrafo_matematicas_1" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="parrafo_matematicas_2" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="parrafo_matematicas_3" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="parrafo_espanol_1" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="parrafo_espanol_2" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="parrafo_espanol_3" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="director_admisiones" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="titulo_director_admisiones" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="correo_director_admisiones" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefono_director_admisiones" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="actividad_ingreso_1" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="actividad_ingreso_2" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="costo_sgm" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="educacion_garantizada" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="instrucciones_pago_banco" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="cancelar_seguro_gastos_medicos" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="curso_matematicas_1" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="curso_matematicas_2" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="instrucciones_pago_caja" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatEstadoCivil">
+            <fields>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_banner" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_importacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_enabled" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatEstadoCivil p &#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.persistenceId ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatEstadoCivil">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatEstados">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPais" fetchType="LAZY" name="pais" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="case_id" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getEstadosByOrden" content="SELECT c &#13;&#10;FROM PSGRCatEstados c &#13;&#10;WHERE c.is_eliminado = false&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatEstados">
+                    <queryParameters>
+                        <queryParameter name="clave" className="java.lang.String"/>
+                        <queryParameter name="descripcion" className="java.lang.String"/>
+                        <queryParameter name="fecha_creacion" className="java.time.LocalDateTime"/>
+                        <queryParameter name="usuario_creacion" className="java.lang.String"/>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                        <queryParameter name="pais" className="java.lang.String"/>
+                        <queryParameter name="orden" className="java.lang.Integer"/>
+                        <queryParameter name="case_id" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatEstados p &#13;&#10;WHERE p.is_eliminado = :is_eliminado &#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatEstados">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatEstatusProceso">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar">
+            <fields>
+                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="enlace" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="propedeutico" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="programa_parcial" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="matematicas" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="inscripcion_enero" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="inscripcion_agosto" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPeriodo" fetchType="LAZY" name="periodo_disponible" nullable="true" collection="true"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="campus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="case_id" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tipo_licenciatura" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_img_licenciatura" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tipo_centro_estudio" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="inscripcion_mayo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="inscripcion_septiembre" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_medicina" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="idioma" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPropedeutico" fetchType="LAZY" name="propedeuticos" nullable="true" collection="true"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPropedeutico" fetchType="LAZY" name="propedeuticos_gestion_escolar" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus_referencia" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPeriodo" fetchType="LAZY" name="periodo" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPosgrado" fetchType="LAZY" name="posgrado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="findById_campus_personalizado" content="SELECT p&#13;&#10;FROM PSGRCatGestionEscolar p&#13;&#10;WHERE p.campus_referencia = :campus_referencia&#13;&#10;ORDER BY p.orden" returnType="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar">
+                    <queryParameters>
+                        <queryParameter name="campus_referencia" className="java.lang.Long"/>
+                    </queryParameters>
+                </query>
+                <query name="getCat" content="SELECT p&#13;&#10;FROM PSGRCatGestionEscolar p&#13;&#10;LEFT JOIN p.campus_referencia c&#13;&#10;LEFT JOIN p.posgrado d&#13;&#10;WHERE p.is_eliminado = :is_eliminado AND c.persistenceId =: campus AND d.persistenceId =: posgrado&#13;&#10;ORDER BY p.descripcion ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                        <queryParameter name="campus" className="java.lang.Long"/>
+                        <queryParameter name="posgrado" className="java.lang.Long"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatGiroEmpresa">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatGiroEmpresa p &#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatGiroEmpresa">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatGradoEstudio">
+            <fields>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatGradoEstudio p &#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatGradoEstudio">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatImageNotificacion">
+            <fields>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="texto" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="case_id" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="titulo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="codigo" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatManejoDocumentos">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre_documento" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion_date" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="es_otro" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPosgrado" fetchType="LAZY" name="posgrado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="es_opcional" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tipo_de_archivo" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p&#13;&#10;FROM PSGRCatManejoDocumentos p&#13;&#10;LEFT JOIN p.campus c&#13;&#10;LEFT JOIN p.posgrado d&#13;&#10;WHERE p.is_eliminado = :is_eliminado AND c.persistenceId =: campus AND d.persistenceId =: posgrado&#13;&#10;ORDER BY p.descripcion ASC" returnType="java.util.List">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                        <queryParameter name="campus" className="java.lang.Long"/>
+                        <queryParameter name="posgrado" className="java.lang.Long"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatMedioEnteraste">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatMedioEnteraste p &#13;&#10;WHERE  p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatMedioEnteraste">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatNacionalidad">
+            <fields>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_banner" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_implementacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_enabled" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="case_id" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatNacionalidad p &#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatNacionalidad">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatNotificaciones">
+            <fields>
+                <field type="STRING" length="255" name="tipo_correo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="codigo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre_imagen_header" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="angulo_imagen_header" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre_imagen_footer" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="angulo_imagen_footer" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="case_id" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="asunto" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="titulo" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="bloque_aspirante" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="comentario_leon" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="enlace_facebook" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="enlace_twitter" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="enlace_contacto" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="enlace_instagram" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="texto_footer" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="enlace_footer" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="lst_correo_copia" nullable="true" collection="true"/>
+                <field type="STRING" length="255" name="lst_variable_notificacion" nullable="true" collection="true"/>
+                <field type="BOOLEAN" length="255" name="informacion_lic" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="enlace_banner" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="contenido" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="contenido_correo" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="contenido_leonel" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="doc_guia_estudio" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_img_footer" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_img_header" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="get_cat_notificaciones" content="SELECT c &#13;&#10;FROM PSGRCatNotificaciones c &#13;&#10;WHERE c.is_eliminado = false&#13;&#10;AND c.case_id = :case_id&#13;&#10;AND c.codigo= :codigo&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatNotificaciones">
+                    <queryParameters>
+                        <queryParameter name="codigo" className="java.lang.String"/>
+                        <queryParameter name="case_id" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+                <query name="getCat_notificaciones_becas" content="SELECT c &#13;&#10;FROM PSGRCatNotificaciones c &#13;&#10;WHERE  c.codigo like ('%BC_%')&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatNotificaciones">
+                    <queryParameters/>
+                </query>
+                <query name="findByCase_id_tipo_correo" content="SELECT c &#13;&#10;FROM PSGRCatNotificaciones c &#13;&#10;WHERE  c.tipo_correo in ('Notificaciones Admisiones' ,'Cartas Admisiones','Notificación de admisiones' ,'Carta de admisiones')&#13;&#10;AND c.case_id = :case_id&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatNotificaciones">
+                    <queryParameters>
+                        <queryParameter name="case_id" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+                <query name="findByCase_id_tipo_correo_sdae" content="SELECT c &#13;&#10;FROM PSGRCatNotificaciones c &#13;&#10;WHERE  c.tipo_correo in ('Notificaciones SDAE BC', 'Notificaciones SDAE FNZ', 'Cartas SDAE BC','Cartas SDAE FNZ')&#13;&#10;AND c.case_id = :case_id&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatNotificaciones">
+                    <queryParameters>
+                        <queryParameter name="case_id" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatNotificacionesCampus">
+            <fields>
+                <field type="STRING" length="255" name="codigo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="header" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="attribute" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="footer" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="catnotificacionesfirma_pid" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="catcampus_pid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="copia" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatPais">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="case_id" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="query" content="SELECT p &#13;&#10;FROM PSGRCatPais p &#13;&#10;WHERE  p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatPais">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatParentesco">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="query" content="SELECT p &#13;&#10;FROM PSGRCatParentesco p &#13;&#10;WHERE p.is_eliminado =: is_eliminado" returnType="com.anahuac.posgrados.catalog.PSGRCatParentesco">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatPeriodo">
+            <fields>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_banner" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_importacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_enabled" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_cuatrimestral" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_inicio" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_fin" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_semestral" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_trimestral" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_anual" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_propedeutico" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="activo" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="id_campus" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="codigo" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="ano" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="findById_campus_personalizado" content="FROM PSGRCatPeriodo p&#13;&#10;WHERE p.id_campus = :id_campus AND p.fecha_inicio &gt;= CURRENT_TIMESTAMP&#13;&#10;ORDER BY p.fecha_inicio" returnType="com.anahuac.posgrados.catalog.PSGRCatPeriodo">
+                    <queryParameters>
+                        <queryParameter name="id_campus" className="java.lang.Long"/>
+                    </queryParameters>
+                </query>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatPeriodo p &#13;&#10;WHERE  p.is_eliminado = :is_eliminado &#13;&#10;ORDER BY p. ano ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatPeriodo">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatPosgrado">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_registro" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="findById_campus_personalizado" content="SELECT p&#13;&#10;FROM PSGRCatPosgrado p&#13;&#10;WHERE p.campus = :campus&#13;&#10;ORDER BY p.fecha_registro" returnType="com.anahuac.posgrados.catalog.PSGRCatPosgrado">
+                    <queryParameters>
+                        <queryParameter name="campus" className="java.lang.Long"/>
+                    </queryParameters>
+                </query>
+                <query name="getCat" content="SELECT p&#13;&#10;FROM PSGRCatPosgrado p&#13;&#10;LEFT JOIN p.campus c&#13;&#10;WHERE p.is_eliminado = :is_eliminado AND c.persistenceId =: campus&#13;&#10;ORDER BY p.descripcion ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatPosgrado">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                        <queryParameter name="campus" className="java.lang.Long"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatPropedeutico">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_ejecucion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_inicio" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_final" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre_campus" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="persistence_id_cat_recibir_atencion_espiritual" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="idioma" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatPuestoTrabajo">
+            <fields>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatPuestoTrabajo p &#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatPuestoTrabajo">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatRegistro">
+            <fields>
+                <field type="STRING" length="255" name="nombre_usuario" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="primer_nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="segundo_nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="apellido_paterno" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="apellido_materno" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="correo_electronico" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="password" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="ayuda" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="case_id" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="cat_campus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="cat_gestion_escolar" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numero_contacto" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatReligion">
+            <fields>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_banner" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_importacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_enabled" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado_value" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_enabled_value" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatReligion p &#13;&#10;WHERE  p.is_eliminado_value = :is_eliminado_value&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatReligion">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado_value" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatRequisitosAdicionales">
+            <fields>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPosgrado" fetchType="LAZY" name="posgrado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="requiere_documento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tipo_de_archivo" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p&#13;&#10;FROM PSGRCatRequisitosAdicionales p&#13;&#10;LEFT JOIN p.campus c&#13;&#10;LEFT JOIN p.posgrado d&#13;&#10;WHERE p.is_eliminado = :is_eliminado AND c.persistenceId =: campus AND d.persistenceId =: posgrado&#13;&#10;ORDER BY p.descripcion ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatRequisitosAdicionales">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                        <queryParameter name="campus" className="java.lang.Long"/>
+                        <queryParameter name="posgrado" className="java.lang.Long"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatResidencia">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="orden" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p&#13;&#10;FROM PSGRCatResidencia p&#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.descripcion ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatResidencia">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatSexo">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatSexo p &#13;&#10;WHERE  p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.descripcion ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatSexo">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatSiNo">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="es_si_o_no" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="es_talvez" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="es_otro" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="eliminado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatSiNo p &#13;&#10;WHERE p.es_si_o_no= : es_si_o_no AND p.eliminado =: eliminado&#13;&#10;ORDER BY p.persistenceId" returnType="com.anahuac.posgrados.catalog.PSGRCatSiNo">
+                    <queryParameters>
+                        <queryParameter name="es_si_o_no" className="java.lang.Boolean"/>
+                        <queryParameter name="eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatTipoAdmision">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p&#13;&#10;FROM PSGRCatTipoAdmision p&#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.descripcion ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatTipoAdmision">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatTipoAlumno">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p&#13;&#10;FROM PSGRCatTipoAlumno p&#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.descripcion ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatTipoAlumno">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatTipoEmpleado">
+            <fields>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatTipoEmpleado p &#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatTipoEmpleado">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatTipoEmpresa">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatTipoEmpresa p &#13;&#10;WHERE  p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatTipoEmpresa">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.config.PSGRConfiguraciones">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="valor" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="id_campus" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="descripcion" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.config.PSGRFiltroSeguridad">
+            <fields>
+                <field type="STRING" length="255" name="rol" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="servicio" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRCitaAspirante">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.model.PSGRCitaHorario" fetchType="EAGER" name="cita_horario" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.model.PSGRCitaResponsable" fetchType="LAZY" name="responsable" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="asistio" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="eliminado_proceso" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRCitaEntrevista">
+            <fields>
+                <field type="INTEGER" length="255" name="duracion_entrevista_minutos" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="descripcion_entrevista" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_entrevista" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="hora_inicio" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="hora_fin" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="eliminado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_presencial" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_en_linea" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="liga" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="ubicacion" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRCitaEntrevistadorCarrera">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar" fetchType="LAZY" name="carrera" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="entrevistador_id" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="sesion_id" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRCitaHorario">
+            <fields>
+                <field type="STRING" length="255" name="hora_inicio" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="hora_fin" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.model.PSGRCitaEntrevista" fetchType="EAGER" name="cita_entrevista" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="eliminado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="agendado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRCitaResponsable">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.model.PSGRCitaHorario" fetchType="LAZY" name="horario" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="responsable_id" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.model.PSGRCitaEntrevista" fetchType="LAZY" name="cita_entrevista" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="ocupado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="posgrados" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="disponible_resp" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="eliminado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="responsable_todas" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRCitaResponsableLista">
+            <fields>
+                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="responsable_id" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="eliminado" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.model.PSGRCitaEntrevista" fetchType="LAZY" name="cita_entrevista" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRIdiomas">
+            <fields>
+                <field type="STRING" length="255" name="idioma" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="traduce" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="habla" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="escribe" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRInformacionLaboral">
+            <fields>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre_empresa" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGiroEmpresa" fetchType="EAGER" name="giro_empresa" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefono_empresa" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="ext_telefono_empresa" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="reporta_a" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fecha_inicio" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="desc_responsabilidad" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="es_trabajo_actual" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatTipoEmpleado" fetchType="EAGER" name="tipo_empleado" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPuestoTrabajo" fetchType="EAGER" name="reporta_a_puesto" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPuestoTrabajo" fetchType="EAGER" name="puesto_trabajo" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRMedioInformacionSolicitud">
+            <fields>
+                <field type="STRING" length="255" name="especifique" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatMedioEnteraste" fetchType="EAGER" name="cat_medio_enteraste" nullable="true" collection="false">
+                    <description></description>
+                </relationField>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="seleccionado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRProcesoCaso">
+            <fields>
+                <field type="STRING" length="255" name="case_id" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="campus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="proceso" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCase_id" content="SELECT p &#13;&#10;FROM PSGRProcesoCaso p &#13;&#10;WHERE p.campus = :campus&#13;&#10;AND p.proceso = :proceso&#13;&#10;ORDER BY p.persistenceId DESC" returnType="com.anahuac.posgrados.model.PSGRProcesoCaso">
+                    <queryParameters>
+                        <queryParameter name="campus" className="java.lang.String"/>
+                        <queryParameter name="proceso" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRRegistro">
+            <fields>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="apellido_paterno" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="apellido_materno" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefono_celular" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="correo_electronico" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="password" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="acepto_avisoprivacidad" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="EAGER" name="campus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="estatus_solicitud" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="lastIndex" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_registro" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_ultima_modificacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="mensaje_admin_escolar" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="aprobado_admin_escolar" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="mensaje_area_academic" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="aprobado_area_academic" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="mensaje_comite_admision" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="aprobado_comite_admision" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_envio_solicitud" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatTipoAlumno" fetchType="EAGER" name="tipo_alumno" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatResidencia" fetchType="EAGER" name="residencia" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatTipoAdmision" fetchType="EAGER" name="tipo_admision" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="curp_validada" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="documentos_validados" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="id_banner_validacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="no_duplicado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="tiene_requisitos_adicionales" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_dictamen" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_transferido" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_segunda_oportunidad" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes>
+                <index name="PSGRRegistro_index">
+                    <fieldNames>
+                        <fieldName>caseid</fieldName>
+                        <fieldName>correo_electronico</fieldName>
+                    </fieldNames>
+                </index>
+            </indexes>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto">
+            <fields>
+                <field type="STRING" length="255" name="calle" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numero_ext" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numero_int" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefono_celular" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefono_casa" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="correo_contacto" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="cp" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPais" fetchType="EAGER" name="pais" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="estado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="ciudad" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="municipio" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="colonia" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="cnem_nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="cnem_apellido_paterno" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="cnem_apellido_materno" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatParentesco" fetchType="EAGER" name="cnem_parentesco" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="cnem_telefono_celular" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="cnem_correo_electronico" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales">
+            <fields>
+                <field type="STRING" length="255" name="urlFoto" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSexo" fetchType="EAGER" name="sexo" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatEstadoCivil" fetchType="EAGER" name="estado_civil" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatNacionalidad" fetchType="EAGER" name="nacionalidad" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatReligion" fetchType="EAGER" name="religion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="curp" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="pasaporte" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fecha_nacimiento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="lugar_nacimiento_pais" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="lugar_nacimiento_estado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="lugar_nacimiento_ciudad" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="apellido_paterno" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="apellido_materno" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="id_banner" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="alumno_anahuac" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="EAGER" name="campus_alumno" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiDocs">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatManejoDocumentos" fetchType="EAGER" name="documento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_azure" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tamano_documento" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="es_otro" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiExpLaboral">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSiNo" fetchType="EAGER" name="trabajas_actualmente" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiInfoAcademica">
+            <fields>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="programa" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="institucion" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fecha_inicio" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="fecha_termino" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="promedio" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="titulo" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPais" fetchType="EAGER" name="pais" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGradoEstudio" fetchType="EAGER" name="grado_estudio" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiPrograma">
+            <fields>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPosgrado" fetchType="EAGER" name="posgrado" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar" fetchType="EAGER" name="programa_interes" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="EAGER" name="campus" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSiNo" fetchType="EAGER" name="estudiara_programa_otra_universidad" nullable="true" collection="false"/>
+                <relationField type="COMPOSITION" reference="com.anahuac.posgrados.model.PSGRMedioInformacionSolicitud" fetchType="EAGER" name="medios_enteraste" nullable="true" collection="true"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPeriodo" fetchType="EAGER" name="periodo_ingreso" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiRequisitoAdicional">
+            <fields>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatRequisitosAdicionales" fetchType="EAGER" name="requisito_adicional" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="cumplido" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_azure" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>

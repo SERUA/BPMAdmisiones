@@ -1,0 +1,59 @@
+<div class="table-responsive">
+    <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+        <thead>
+            <tr>
+                <th>Estado</th>
+                <th>Descripción</th>
+                <!--<th>Tamaño</th>-->
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr ng-repeat="(index, row) in properties.content" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
+                <td style="text-align: center;">
+                    <div ng-if="row.url_azure">
+                        <span class="glyphicon glyphicon-file" style="color: orange;"></span>
+                        <p>Cargado</p>
+                    </div>
+                    <div ng-if="!row.url_azure">
+                        <span class="glyphicon glyphicon-file" style="color: gray;"></span>
+                        <p>Sin cargar</p>
+                    </div>
+                </td>
+                <td>
+                    <span><b>{{row.documento.nombre_documento}}</b></span><br>
+                    <span>{{row.documento.descripcion}}</span>
+                </td>
+                <!--
+                <td>
+                    {{ row.tamano_documento ? row.tamano_documento : "0 KB"  }}
+                </td>
+                -->
+                <!-- style="display: none" -->
+                <td style="display: inline-flex;">
+                    <!--
+                    <input id="inputArchivo{{index}}" ng-disabled="properties.readOnly" class="file-upload-input"
+                    ng-class="{'file-upload-input--disabled':$isUploading}" name="{{ctrl.name}}"
+                    type="file" ng-required="properties.required" ng-model="archivoSeleccionado"
+                    accept="image/jpg, image/jpeg, image/png, application/pdf" />
+                    -->
+                    
+                    <!--class="btn btn-link"-->
+                    <button type="button" class="btn btn-default" ng-if="!properties.readOnly" ng-click="activarInputArchivo(index)">
+                        <span class="glyphicon glyphicon-upload"></span>
+                    </button>
+                     
+                    <button type="button" class="btn btn-default" ng-if="row.url_azure" ng-click="openModalFile(row)">
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </button>
+                    
+                </td>
+            </tr>
+            <tr ng-if="!properties.content || properties.content.length === 0">
+                <td colspan="3" style="text-align: center;">
+                    No se encontraron registros para mostrar.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

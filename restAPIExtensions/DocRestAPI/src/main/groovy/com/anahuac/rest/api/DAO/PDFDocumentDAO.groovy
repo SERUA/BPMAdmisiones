@@ -13,6 +13,10 @@ import java.time.LocalDate
 import java.time.Period
 import java.text.NumberFormat
 import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+import javax.imageio.ImageIO;
 
 import net.sf.jasperreports.engine.JRDataSource
 import net.sf.jasperreports.engine.JREmptyDataSource
@@ -22,6 +26,8 @@ import net.sf.jasperreports.engine.JasperFillManager
 import net.sf.jasperreports.engine.JasperPrint
 import net.sf.jasperreports.engine.JasperReport
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
+import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
+import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
 
 import org.bonitasoft.engine.bpm.document.Document
 import org.bonitasoft.engine.bpm.process.ProcessInstanceCriterion
@@ -77,7 +83,8 @@ class PDFDocumentDAO {
 			  retorno=true
 		}
 		return retorno
-  }
+	}
+	
 	public Result PdfFileCatalogo(String jsonData,RestAPIContext context) {
 		Result resultado = new Result();
 		InputStream targetStream;
@@ -402,8 +409,6 @@ class PDFDocumentDAO {
 		is.close();
 		return bytes;
 	}
-
-	
 	
 	public Result getInfoReportes(String usuario,Long intento) {
 		Result resultado = new Result();
@@ -456,7 +461,6 @@ class PDFDocumentDAO {
 		}
 		return resultado
 	}
-	
 	
 	public Result getInfoRelativos(String caseid) {
 		Result resultado = new Result();
@@ -624,7 +628,6 @@ class PDFDocumentDAO {
 		}
 		return resultado
 	}
-	
 	
 	public Result getInfoCapacidadAdaptacion(String caseid, Long intentos) {
 		Result resultado = new Result();
@@ -1656,5 +1659,712 @@ class PDFDocumentDAO {
 
 		// Retornar el valor formateado o una cadena vacía si no se pudo formatear
 		return numeroFormateado != null ? numeroFormateado : "";
+	}
+	
+	public Result pdfCartaPosgrados(String caseid, RestAPIContext context) {
+		Result resultado = new Result();
+		InputStream targetStream;
+		Boolean streamOpen = false;
+		String errorLog = "";
+		Boolean closeCon = false;
+		
+		try {
+			errorLog += "Entre al metodo ";
+			def jsonSlurper = new JsonSlurper();
+			Result dataResult = new Result();
+			List<List < Object >> lstParams;
+			String estatusSolicitud = "";
+			String jasperParameterName = "";
+			
+			// Verificar caso valido
+			if (!caseid) {
+				throw new Exception('El parametro "caseid" no debe ir vacío');
+			}
+			
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_ESTATUS_SOLICITUD);
+			pstm.setLong(1, Long.valueOf(caseid));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				estatusSolicitud = rs.getString("estatus_solicitud")
+			}
+			else {
+				throw new Exception("No se encontraron registros para el caseid proporcionado. caseid: " + caseid);
+			}
+			
+			if (estatusSolicitud == "solicitud_admitida") jasperParameterName = "jasperCartaPosgradosAdmision";
+			else if (estatusSolicitud == "solicitud_no_admitida") jasperParameterName = "jasperCartaPosgradosNoAdmision";
+			else {
+				throw new Exception("Estatus de solicitud no esperado: " + estatusSolicitud + ". Se espera solicitud_admitida o solicitud_no_admitida");
+			}
+
+			// Obtener parametros para jasper
+			Result solicitud = getSolicitudPosgrados(caseid, context);
+			List<?> info = solicitud.getData();
+			Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+			
+			if(info != null){
+				if(info.size() < 1) {
+					throw new Exception("400 Bad Request Usuario no encontrado");
+				} else {
+					columns = (Map < String, Object >) info.get(0);
+				}
+			} else {
+				throw new Exception("Algo falló al consultar los parametros para la carta de posgrados");
+			}
+			
+			// Generar carta
+			String comentarios = "";
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			
+			String plantilla = prop.getProperty(jasperParameterName);
+			inputStream.close();
+			byte [] file = Base64.getDecoder().decode(plantilla);
+			targetStream = new ByteArrayInputStream(file);
+			streamOpen = true;
+			JasperReport jasperReport = JasperCompileManager.compileReport(targetStream);
+			JRDataSource dataSource = new JREmptyDataSource();
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, columns, dataSource);
+			byte[] encode = Base64.getEncoder().encode(JasperExportManager.exportReportToPdf(jasperPrint));
+			String result = new String(encode);
+			List < Object > lstResultado = new ArrayList < Object > ();
+			lstResultado.add(result)
+			lstResultado.add(errorLog)
+						
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+			resultado.setError_info(errorLog);
+			
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
+			errorLog += e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+		}finally {
+			if(streamOpen) {
+				targetStream.close();
+			}
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result getSolicitudPosgrados(String caseId, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Long caseidSolicitud = 0L;
+		String idbanner = "";
+		
+		try {
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			rows = new ArrayList < Map < String, Object >> ();
+			closeCon = validarConexion();
+			
+			// Configuraciones (Valores estaticos)
+			pstm = con.prepareStatement(Statements.GET_CONFIGURACIONES_CARTA_POSGRADOS);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			Map < String, Object > columns = new HashMap < String, Object > ();
+			
+			while (rs.next()) {
+				if(rs.getString("clave").equals("carta_posgrado_firma")) {
+					columns.put("remitenteNombre", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_puesto")) {
+					columns.put("remitentePuesto", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_lugar")) {
+					columns.put("direccionCampus", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_contenido")) {
+					columns.put("textoCarta", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_contacto")) {
+					columns.put("campusContacto", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_contacto_dir")) {
+					columns.put("campusContactoDireccion", rs.getString("valor"));
+				} 
+				
+				else if(rs.getString("clave").equals("carta_posgrado_campus")) {
+					columns.put("campus", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_campus_telefono_contacto")) {
+					columns.put("campusTelefonoContacto", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_campus_correo_contacto")) {
+					columns.put("campusCorreoContacto", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_campus_pagina")) {
+					columns.put("campusPagina", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_lista_documentos")) {
+					def listaDocumentos = rs.getString("valor").split(",");
+					String listaDocumentosFormateda = "";
+					char letra = 'a';
+					for (String documento : listaDocumentos) {
+						listaDocumentosFormateda += "["+letra+"]. " + documento.trim() + "\n";
+						letra = (char) (letra + 1);
+					}
+					columns.put("listaDocumentos", listaDocumentosFormateda);
+				}
+			}
+			
+			// Variables (Valores dinamicos)
+			pstm = con.prepareStatement(Statements.GET_VARIABLES_CARTA_POSGRADOS);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				
+				String nombreCompleto = rs.getString("nombre") + " " + rs.getString("apellido_paterno");
+				if (rs.getString("apellido_materno")) nombreCompleto += " " + rs.getString("apellido_materno");
+
+				String fechaDictamen = rs.getString("fecha_dictamen");
+				if (!fechaDictamen) fechaDictamen = "Fecha no definida";
+				
+				columns.put("nombreAspirante", nombreCompleto);
+				columns.put("idBanner", rs.getString("id_banner_validacion"));
+				columns.put("fecha", fechaDictamen);
+				columns.put("campus", rs.getString("campus"));
+				columns.put("posgrado", rs.getString("posgrado"));
+				columns.put("programa", rs.getString("programa_interes"));
+				columns.put("periodoIngreso", rs.getString("periodo_ingreso"));
+				columns.put("fechaLimiteDocumentos", "No definida");
+			}
+
+			resultado.setSuccess(true);
+			rows.add(columns);
+			resultado.setData(rows);
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
+			errorLog += e.getMessage();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
+	
+	public Result getSolicitudPosgradosInfo(Map < String, Object > columns, String caseId, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Long caseidSolicitud = 0L;
+		String idbanner = "";
+		
+		try {
+			columns = new HashMap < String, Object > ();
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			List < Map < String, Object >> medios_enteraste = new ArrayList < Map < String, Object >> ();
+			List < Map < String, Object >> trabajos_actuales = new ArrayList < Map < String, Object >> ();
+			List < Map < String, Object >> trabajos_previos = new ArrayList < Map < String, Object >> ();
+			List < Map < String, Object >> historial_academico = new ArrayList < Map < String, Object >> ();
+			List < Map < String, Object >> idiomas = new ArrayList < Map < String, Object >> ();
+			List < Map < String, Object >> documentos = new ArrayList < Map < String, Object >> ();
+			rows = new ArrayList < Map < String, Object >> ();
+			closeCon = validarConexion();
+			
+			String SSA = "";
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA);
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				SSA = rs.getString("valor");
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_ESTATUS_SOLICITUD_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				columns.put("estatus_solicitud", rs.getString("estatus_solicitud"));
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_DATOS_PROGRAMA_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				columns.put("campus", rs.getString("campus"));
+				columns.put("grado", rs.getString("posgrado"));
+				columns.put("carrera", rs.getString("carrera"));
+				columns.put("periodo", rs.getString("periodo"));
+				columns.put("opcion_titulacion", rs.getBoolean("estudiara_programa_otra_un"));
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_MEDIOS_ENTERASTE_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			Map < String, Object > medio_enteraste = new HashMap < String, Object > ();
+			Boolean isSegundo = false;//Para poder generar la lista en dos columnas en lugar de una
+			
+			while (rs.next()) {
+				if(isSegundo == false) {
+					medio_enteraste = new HashMap < String, Object > ();
+					
+					medio_enteraste.put("medio_enteraste", rs.getString("medio_enteraste"));
+					medio_enteraste.put("especifique", rs.getString("especifique"));
+					medio_enteraste.put("seleccionado", rs.getBoolean("seleccionado"));
+					isSegundo = true;
+				} else {
+					medio_enteraste.put("medio_enteraste2", rs.getString("medio_enteraste"));
+					medio_enteraste.put("especifique2", rs.getString("especifique"));
+					medio_enteraste.put("seleccionado2", rs.getBoolean("seleccionado"));
+					
+					medios_enteraste.add(medio_enteraste);
+					isSegundo = false;
+				}
+			}
+			
+			JRBeanCollectionDataSource medios_enterasteDS = new JRBeanCollectionDataSource(medios_enteraste);
+			columns.put("medios_enteraste", medios_enterasteDS);
+			
+			pstm = con.prepareStatement(Statements.GET_DATOS_PERSONALES_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				String curp_pasaporte = rs.getString("curp");
+				columns.put("dp_nombre", rs.getString("nombre"));
+				columns.put("dp_apellido_paterno", rs.getString("apellido_paterno"));
+				columns.put("dp_apellido_materno", (rs.getString("apellido_materno") != null ? rs.getString("apellido_materno") : "N/A"));
+				columns.put("dp_sexo", rs.getString("sexo"));
+				columns.put("dp_nacionalidad", rs.getString("nacionalidad"));
+				columns.put("dp_estado_civil", rs.getString("estado_civil"));
+				columns.put("dp_curp_pasaporte", curp_pasaporte != null ? curp_pasaporte : rs.getString("pasaporte"));
+				columns.put("dp_religion", rs.getString("religion"));
+				columns.put("dp_fecha_nacimiento", rs.getString("fecha_nacimiento"));
+				columns.put("dp_pais_nacimiento", rs.getString("lugar_nacimiento_pais"));
+				columns.put("dp_ciudad_nacimiento", rs.getString("lugar_nacimiento_ciudad"));
+				columns.put("dp_id_banner", rs.getBoolean("alumno_anahuac") ? rs.getString("id_banner") : "N/A");
+				columns.put("dp_universidad", rs.getBoolean("alumno_anahuac") ? rs.getString("campus_alumno"): "N/A");
+				columns.put("dp_soy_alumno", rs.getBoolean("alumno_anahuac"));
+				columns.put("dp_estado_nacimiento", rs.getString("lugar_nacimiento_estado"));
+				columns.put("urlFoto", rs.getString("urlfoto") + SSA);
+			}
+
+			pstm = con.prepareStatement(Statements.GET_DATOS_CONTACTO_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				columns.put("dc_calle", rs.getString("calle"));
+				columns.put("dc_numero_exterior", rs.getString("numero_ext"));
+				columns.put("dc_numero_interior", rs.getString("numero_int"));
+				columns.put("dc_pais", rs.getString("pais"));
+				columns.put("dc_cp", rs.getString("cp"));
+				columns.put("dc_estado", rs.getString("estado"));
+				columns.put("dc_municipio", rs.getString("municipio"));
+				columns.put("dc_ciudad", rs.getString("ciudad"));
+				columns.put("dc_colonia", rs.getString("colonia"));
+				columns.put("dc_telefono_cel", rs.getString("telefono_celular"));
+				columns.put("dc_telefono_casa", rs.getString("telefono_casa"));
+				columns.put("dc_correo", rs.getString("cnem_correo_electronico"));
+				columns.put("dc_cnem_parentesco", rs.getString("parentesco"));
+				columns.put("dc_cnem_nombre", rs.getString("cnem_nombre"));
+				columns.put("dc_cnem_apellido_paterno", rs.getString("cnem_apellido_paterno"));
+				columns.put("dc_cnem_apellido_materno", (rs.getString("cnem_apellido_materno") != null ? rs.getString("cnem_apellido_materno") : "N/A"));
+				columns.put("dc_cnem_telefono_celular", rs.getString("cnem_telefono_celular"));
+				columns.put("dc_cnem_correo_electronico", rs.getString("cnem_correo_electronico"));
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_DATOS_RV_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				columns.put("rv_id_banner", rs.getString("id_banner_validacion"));
+				columns.put("fecha_envio_solicitud", rs.getString("fecha_envio_solicitud"));
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_CONFIGURACIONES_POSGRADOS);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				if(rs.getString("clave").equals("formulario_solicitud_consentimiento")) {
+					columns.put("consentimiento", rs.getString("valor"));
+				} else if (rs.getString("clave").equals("formulario_solicitud_manifiesto")) {
+					columns.put("manifiesto", rs.getString("valor"));
+				}
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_DATOS_EXP_LABORAL_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				columns.put("dl_trabajas_actualmente", rs.getString("trabajas_actualmente"));
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_TRABAJOS_BY_CASEID_AND_ISACTUAL);
+			pstm.setLong(1, Long.valueOf(caseId));
+			pstm.setBoolean(2, true);
+			
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > trabajo = new HashMap < String, Object > ();
+			
+			while (rs.next()) {
+				trabajo = new HashMap < String, Object > ();
+				trabajo.put("descripcion_responsabilidades", rs.getString("desc_responsabilidad"));
+				trabajo.put("fecha_inicio", rs.getString("fecha_inicio"));
+				trabajo.put("reporta_a", rs.getString("reporta_a"));
+				trabajo.put("telefono_empresa", rs.getString("telefono_empresa"));
+				trabajo.put("extension", rs.getString("ext_telefono_empresa"));
+				trabajo.put("giro", rs.getString("giro_empresa"));
+				trabajo.put("tipo_empresa", rs.getString("tipo_empresa"));
+				trabajo.put("puesto", rs.getString("puesto"));
+				trabajo.put("nombre_empresa", rs.getString("nombre_empresa"));
+				trabajo.put("tipo_empleado", rs.getString("tipo_empleado"));
+				
+				trabajos_actuales.add(trabajo);
+			} 
+			
+			if(trabajos_actuales.empty) {
+				trabajo = new HashMap < String, Object > ();
+				trabajo.put("descripcion_responsabilidades", "N/A");
+				trabajo.put("fecha_inicio", "N/A");
+				trabajo.put("reporta_a", "N/A");
+				trabajo.put("telefono_empresa", "N/A");
+				trabajo.put("extension", "N/A");
+				trabajo.put("giro", "N/A");
+				trabajo.put("tipo_empresa", "N/A");
+				trabajo.put("puesto", "N/A");
+				trabajo.put("nombre_empresa", "N/A");
+				trabajo.put("tipo_empleado", "N/A");
+				
+				trabajos_actuales.add(trabajo);
+			}
+			
+			JRBeanCollectionDataSource trabajos_actualesDS = new JRBeanCollectionDataSource(trabajos_actuales);
+			columns.put("dl_trabajos_actuales", trabajos_actualesDS);
+			
+			pstm = con.prepareStatement(Statements.GET_TRABAJOS_BY_CASEID_AND_ISACTUAL);
+			pstm.setLong(1, Long.valueOf(caseId));
+			pstm.setBoolean(2, false);
+			
+			rs = pstm.executeQuery();
+			
+			trabajo = new HashMap < String, Object > ();
+			
+			while (rs.next()) {
+				trabajo = new HashMap < String, Object > ();
+				trabajo.put("descripcion_responsabilidades", rs.getString("desc_responsabilidad"));
+				trabajo.put("fecha_inicio", rs.getString("fecha_inicio"));
+				trabajo.put("reporta_a", rs.getString("reporta_a"));
+				trabajo.put("telefono_empresa", rs.getString("telefono_empresa"));
+				trabajo.put("extension", rs.getString("ext_telefono_empresa"));
+				trabajo.put("giro", rs.getString("giro_empresa"));
+				trabajo.put("tipo_empresa", rs.getString("tipo_empresa"));
+				trabajo.put("puesto", rs.getString("puesto"));
+				trabajo.put("nombre_empresa", rs.getString("nombre_empresa"));
+				trabajo.put("tipo_empleado", rs.getString("tipo_empleado"));
+				
+				trabajos_previos.add(trabajo);
+			}
+			
+			if(trabajos_previos.empty) {
+				trabajo = new HashMap < String, Object > ();
+				trabajo.put("descripcion_responsabilidades", "N/A");
+				trabajo.put("fecha_inicio", "N/A");
+				trabajo.put("reporta_a", "N/A");
+				trabajo.put("telefono_empresa", "N/A");
+				trabajo.put("extension", "N/A");
+				trabajo.put("giro", "N/A");
+				trabajo.put("tipo_empresa", "N/A");
+				trabajo.put("puesto", "N/A");
+				trabajo.put("nombre_empresa", "N/A");
+				trabajo.put("tipo_empleado", "N/A");
+				
+				trabajos_previos.add(trabajo);
+			}
+			
+			JRBeanCollectionDataSource trabajos_previosDS = new JRBeanCollectionDataSource(trabajos_previos);
+			columns.put("dl_trabajos_previos", trabajos_previosDS);
+			
+			
+			pstm = con.prepareStatement(Statements.GET_DATOS_INFO_ACADEMICA_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > historial = new HashMap < String, Object > ();
+			
+			while (rs.next()) {
+				historial = new HashMap < String, Object > ();
+				historial.put("grado", rs.getString("grado"));
+				historial.put("carrera", rs.getString("programa"));
+				historial.put("escuela", rs.getString("institucion"));
+				historial.put("fecha_inicio", rs.getString("fecha_inicio"));
+				historial.put("fecha_termino", rs.getString("fecha_termino"));
+				historial.put("promedio", rs.getString("promedio"));
+				historial.put("titulo", rs.getString("titulo"));
+				historial.put("pais", rs.getString("pais"));
+				
+				historial_academico.add(historial);
+			}
+			
+			JRBeanCollectionDataSource historial_academicoDS = new JRBeanCollectionDataSource(historial_academico);
+			columns.put("da_historial_academico", historial_academicoDS);
+			
+			
+			pstm = con.prepareStatement(Statements.GET_DATOS_INFO_IDIOMAS_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > idioma = new HashMap < String, Object > ();
+			
+			while (rs.next()) {
+				idioma = new HashMap < String, Object > ();
+				idioma.put("idioma", rs.getString("idioma"));
+				idioma.put("habla", rs.getString("habla"));
+				idioma.put("escribe", rs.getString("escribe"));
+				idioma.put("traduce", rs.getString("traduce"));
+				
+				idiomas.add(idioma);
+			} 
+			
+			if(idiomas.empty) {
+				idioma = new HashMap < String, Object > ();
+				idioma.put("idioma", "N/A");
+				idioma.put("habla", "N/A");
+				idioma.put("escribe", "N/A");
+				idioma.put("traduce", "N/A");
+				
+				idiomas.add(idioma);
+			}
+			
+			JRBeanCollectionDataSource idiomasDS = new JRBeanCollectionDataSource(idiomas);
+			columns.put("da_idiomas", idiomasDS);
+			
+			resultado.setSuccess(true);
+			rows.add(columns);
+			resultado.setData(rows);
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
+			errorLog += e.getMessage();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result pdfFileSolicitudPosgrado(String caseid, RestAPIContext context) {
+		Result resultado = new Result();
+		InputStream targetStream;
+		Boolean streamOpen = false;
+		String log = "";
+		
+		try {
+			Result dataResult = new Result();
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			
+			String plantilla = prop.getProperty("jasperSolicitudPosgrados");
+			inputStream.close();
+			
+			byte [] file = Base64.getDecoder().decode(plantilla)
+			targetStream = new ByteArrayInputStream(file);
+			streamOpen = true;
+			JasperReport jasperReport = JasperCompileManager.compileReport(targetStream)
+
+			JRDataSource dataSource = new JREmptyDataSource();
+			
+			Map < String, Object > columns = new HashMap < String, Object > ();
+			
+			Result solicitudPosgradosInfo = getSolicitudPosgradosInfo(columns, caseid, context); 
+			
+			log += "1 | "
+			columns = (Map < String, Object >) solicitudPosgradosInfo.getData().get(0);
+			log += columns.toString()
+			
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, columns, dataSource);
+			log += "2 | "
+			byte[] encode = Base64.getEncoder().encode(JasperExportManager.exportReportToPdf(jasperPrint));
+			log += "3 | "
+			String result = new String(encode);
+			
+			List < Object > lstResultado = new ArrayList < Object > ();
+			lstResultado.add(result);
+			lstResultado.add(log);
+			log += "4 | "
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+			resultado.setError_info(log)
+			
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(log)
+		}finally {
+			if(streamOpen) {
+				targetStream.close();
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result pngCartaPosgrados(String caseid, RestAPIContext context) {
+		Result resultado = new Result();
+		InputStream targetStream;
+		Boolean streamOpen = false;
+		String errorLog = "";
+		Boolean closeCon = false;
+		
+		try {
+			errorLog += "Entre al metodo ";
+			def jsonSlurper = new JsonSlurper();
+			Result dataResult = new Result();
+			List<List < Object >> lstParams;
+			String estatusSolicitud = "";
+			String jasperParameterName = "";
+			
+			// Verificar caso valido
+			if (!caseid) {
+				throw new Exception('El parametro "caseid" no debe ir vacío');
+			}
+			
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_ESTATUS_SOLICITUD);
+			pstm.setLong(1, Long.valueOf(caseid));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				estatusSolicitud = rs.getString("estatus_solicitud")
+			}
+			else {
+				throw new Exception("No se encontraron registros para el caseid proporcionado. caseid: " + caseid);
+			}
+			
+			if (estatusSolicitud == "solicitud_admitida") jasperParameterName = "jasperCartaPosgradosAdmisionImagen";
+			else {
+				throw new Exception("Estatus de solicitud no esperado: " + estatusSolicitud + ". Se espera solicitud_admitida");
+			}
+
+			// Obtener parametros para jasper
+			Result solicitud = getSolicitudPosgrados(caseid, context);
+			List<?> info = solicitud.getData();
+			Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+			
+			if(info != null){
+				if(info.size() < 1) {
+					throw new Exception("400 Bad Request Usuario no encontrado");
+				} else {
+					columns = (Map < String, Object >) info.get(0);
+				}
+			} else {
+				throw new Exception("Algo falló al consultar los parametros para la carta de posgrados");
+			}
+			
+			// Generar carta
+			String comentarios = "";
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			
+			String plantilla = prop.getProperty(jasperParameterName);
+			inputStream.close();
+			byte [] file = Base64.getDecoder().decode(plantilla);
+			targetStream = new ByteArrayInputStream(file);
+			streamOpen = true;
+			JasperReport jasperReport = JasperCompileManager.compileReport(targetStream);
+			JRDataSource dataSource = new JREmptyDataSource();
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, columns, dataSource);
+			
+			// Exportar la imagen
+			byte[] encode = Base64.getEncoder().encode(getImageBytes(exportToGraphics2D(jasperPrint)));
+			
+			String result = new String(encode);
+			List < Object > lstResultado = new ArrayList < Object > ();
+			lstResultado.add(result)
+			lstResultado.add(errorLog)
+						
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+			resultado.setError_info(errorLog);
+			
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
+			errorLog += e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+		}finally {
+			if(streamOpen) {
+				targetStream.close();
+			}
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
+	private BufferedImage exportToGraphics2D(JasperPrint jasperPrint) {
+	    JRGraphics2DExporter exporter = new JRGraphics2DExporter();
+	
+	    // Crear un objeto BufferedImage para almacenar la salida
+	    BufferedImage bufferedImage = new BufferedImage(940, 1220, BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D graphics2D = bufferedImage.createGraphics();
+		
+	    exporter.setParameter(JRGraphics2DExporterParameter.JASPER_PRINT, jasperPrint);
+	    exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, graphics2D);
+	
+	    exporter.exportReport();
+	
+	    return bufferedImage;
+	}
+
+    private byte[] getImageBytes(BufferedImage bufferedImage) {
+	    // Crear un flujo de salida de bytes
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	
+	    // Convertir la imagen a bytes
+	    try {
+	        ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	
+	    // Obtener el array de bytes del flujo de salida
+	    return byteArrayOutputStream.toByteArray();
 	}
 }

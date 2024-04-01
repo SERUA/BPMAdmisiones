@@ -83,7 +83,6 @@ class UsuariosDAO {
 	public Result postRegistrarUsuario(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Result resultadoN = new Result();
-		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
 		List < String > lstResultado = new ArrayList < String > ();
 		Long userLogged = 0L;
 		Long caseId = 0L;
@@ -104,16 +103,13 @@ class UsuariosDAO {
 			String username = "";
 			String password = "";
 			
-			/*-------------------------------------------------------------*/
 			LoadParametros objLoad = new LoadParametros();
 			PropertiesEntity objProperties = objLoad.getParametros();
 			username = objProperties.getUsuario();
 			password = objProperties.getPassword();
-			/*-------------------------------------------------------------*/
-
+			
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-			error_log = error_log + " | ";
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
 			// Datos de la cuenta del Usuario
 			UserCreator creator = new UserCreator(object.nombreusuario, object.password);
@@ -121,119 +117,97 @@ class UsuariosDAO {
 			ContactDataCreator proContactDataCreator = new ContactDataCreator().setEmail(object.nombreusuario);
 			creator.setProfessionalContactData(proContactDataCreator);
 			//inicializa la cuenta con la cual tendras permisos para registrar el usuario
-			apiClient.login(username, password)
-			error_log = error_log + " | "+apiClient.login(username, password);
-			error_log = error_log + " | apiClient.login(username, password)";
-			
+			apiClient.login(username, password);
 			closeCon = validarConexion();
-			
-			    try {
-			        con.setAutoCommit(false);
-			        pstm = con.prepareStatement(Statements.UPDATE_IDIOMA_REGISTRO_BY_USERNAME);
-			        pstm.setString(1, object.idioma);
-			        pstm.setString(2, object.nombreusuario);
-			
-			        resultReq = pstm.executeUpdate();
-			        con.commit();
-					
-			        success = true;
-					if(resultReq > 0) {
-						error_log = resultReq + " Exito! query update_idioma_registro_by_username_1"
-						//error_log = resultReq + " Exito! query update_idioma_registro_by_username_1"
-					} else {
-						error_log = resultReq + " Error! query update_idioma_registro_by_username_1"
-					}
-			        
-			    } catch (Exception e) {
-					con.rollback();
-			        if (success == false) {
-			            try {
-			                con.setAutoCommit(false);
-			                pstm = con.prepareStatement(Statements.UPDATE_TABLE_CATREGISTRO);
-			                resultReqA = pstm.executeUpdate();
-			                con.commit();
+		
+		    try {
+		        con.setAutoCommit(false);
+		        pstm = con.prepareStatement(Statements.UPDATE_IDIOMA_REGISTRO_BY_USERNAME);
+		        pstm.setString(1, object.idioma);
+		        pstm.setString(2, object.nombreusuario);
+		
+		        resultReq = pstm.executeUpdate();
+		        con.commit();
+				
+		        success = true;
+				if(resultReq > 0) {
+					error_log = resultReq + " Exito! query update_idioma_registro_by_username_1"
+					//error_log = resultReq + " Exito! query update_idioma_registro_by_username_1"
+				} else {
+					error_log = resultReq + " Error! query update_idioma_registro_by_username_1"
+				}
+		        
+		    } catch (Exception e) {
+				con.rollback();
+		        if (success == false) {
+		            try {
+		                con.setAutoCommit(false);
+		                pstm = con.prepareStatement(Statements.UPDATE_TABLE_CATREGISTRO);
+		                resultReqA = pstm.executeUpdate();
+		                con.commit();
 
-			                if (resultReqA > 0) {
-			                    con.setAutoCommit(false);
-			                    pstm = con.prepareStatement(Statements.UPDATE_IDIOMA_REGISTRO_BY_USERNAME);
-			                    pstm.setString(1, parameterIdioma);
-			                    pstm.setString(2, object.nombreusuario);
-			
-			                    resultReq = pstm.executeUpdate();
-			                    con.commit();
-								if(resultReq > 0) {
-									error_log = resultReq + " Exito! query update_idioma_registro_by_username_2"
-								} else {
-									error_log = resultReq + " Error! query update_idioma_registro_by_username_2"
-								}
-			                    
-			                } else {
-								error_log = resultReqA + " Error! query update_table_registro"
+		                if (resultReqA > 0) {
+		                    con.setAutoCommit(false);
+		                    pstm = con.prepareStatement(Statements.UPDATE_IDIOMA_REGISTRO_BY_USERNAME);
+		                    pstm.setString(1, parameterIdioma);
+		                    pstm.setString(2, object.nombreusuario);
+		
+		                    resultReq = pstm.executeUpdate();
+		                    con.commit();
+							if(resultReq > 0) {
+								error_log = resultReq + " Exito! query update_idioma_registro_by_username_2"
+							} else {
+								error_log = resultReq + " Error! query update_idioma_registro_by_username_2"
 							}
-			            } catch (Exception e1) {
-			                con.rollback();
-			                error_log = "Error catch_1: " + e + " error query1: " + resultReq + " error query2: " + resultReqA;
-			            }
-			        }
-
-			    }
+		                    
+		                } else {
+							error_log = resultReqA + " Error! query update_table_registro"
+						}
+		            } catch (Exception e1) {
+		                con.rollback();
+		                error_log = "Error catch_1: " + e + " error query1: " + resultReq + " error query2: " + resultReqA;
+		            }
+		        }
+		    }
 				
 			//Registro del usuario
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.createUser(creator);
-			error_log = error_log + " | final User user = identityAPI.createUser(creator);";
-	
-			apiClient.login(user.getUserName(), object.password)
-			final IdentityAPI identityAPI2 = apiClient.getIdentityAPI()
-			error_log = error_log + " | final IdentityAPI identityAPI2 = apiClient.getIdentityAPI()";
+			apiClient.login(user.getUserName(), object.password);
+			final IdentityAPI identityAPI2 = apiClient.getIdentityAPI();
 			UserMembership membership = identityAPI2.addUserMembership(user.getId(), identityAPI2.getGroupByPath("/ASPIRANTE").getId(), identityAPI2.getRoleByName("ASPIRANTE").getId())
-			error_log = error_log + " | UserMembership membership = identityAPI2.addUserMembership(user.getId(), identityAPI2.getGroupByPath(/ASPIRANTE).getId(), identityAPI2.getRoleByName(ASPIRANTE).getId())";
 			UserUpdater update_user = new UserUpdater();
 			update_user.setEnabled(false);
-			error_log = error_log + " | UserUpdater update_user = new UserUpdater();";
 			final User user_update = identityAPI.updateUser(user.getId(), update_user);
-			error_log = error_log + " | final User user_update= identityAPI.updateUser(user.getId(), update_user);";
 	
 			def str = jsonSlurper.parseText('{"campus": "' + object.campus + '","correo":"' + object.nombreusuario + '", "codigo": "registrar","isEnviar":false}');
-			error_log = error_log + " | def str = jsonSlurper.parseText";
-			error_log = error_log + " | " + str;
 	
 			NotificacionDAO nDAO = new NotificacionDAO();
 			resultadoN = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \""+object.campus+"\", \"correo\":\"" + object.nombreusuario + "\", \"codigo\": \"registrar\", \"isEnviar\":false }", context);
-			error_log = error_log + " | " + resultadoN.getError_info();
-			error_log = error_log + " | " + resultadoN.getError();
-	
 			String plantilla = resultadoN.getData().get(0);
-			error_log = error_log + " | String plantilla = resultadoN.getData().get(0);";
-			
-			error_log = error_log + " | if (inputStream != null) {";
 			plantilla = plantilla.replace("[href-confirmar]", objProperties.getUrlHost() + "/bonita/apps/login/activate/?correo=" + str.correo + "");
-			error_log = error_log + " | plantilla = plantilla.replace([href-confirmar], prop.getProperty";
 			MailGunDAO dao = new MailGunDAO();
 			resultado = dao.sendEmailPlantilla(str.correo, "Completar Registro", plantilla.replace("\\", ""), "", object.campus, context);
 			CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo();
-			catBitacoraCorreo.setCodigo("registrar")
-			catBitacoraCorreo.setDe(resultado.getAdditional_data().get(0))
-			catBitacoraCorreo.setMensaje("")
-			catBitacoraCorreo.setPara(str.correo)
-			catBitacoraCorreo.setCampus(object.campus)
+			catBitacoraCorreo.setCodigo("registrar");
+			catBitacoraCorreo.setDe(resultado.getAdditional_data().get(0));
+			catBitacoraCorreo.setMensaje("");
+			catBitacoraCorreo.setPara(str.correo);
+			catBitacoraCorreo.setCampus(object.campus);
 			
 			if(resultado.success) {
 				catBitacoraCorreo.setEstatus("Enviado a Mailgun")
 			}else {
 				catBitacoraCorreo.setEstatus("Fallido")
 			}
-			new NotificacionDAO().insertCatBitacoraCorreos(catBitacoraCorreo)
+			
+			new NotificacionDAO().insertCatBitacoraCorreos(catBitacoraCorreo);
 			error_log = error_log + " | resultado = dao.sendEmailPlantilla(str.correo,";
-			lstResultado.add(plantilla.replace("\\", ""))
-			error_log = error_log + " | lstResultado.add(plantilla.replace(";
+			lstResultado.add(plantilla.replace("\\", ""));
 			Result resultado2 = new Result();
 			resultado2 = updateNumeroContacto(object.nombreusuario,object.numeroContacto);
-			error_log = error_log + resultado2.getError();
 			resultado.setData(lstResultado);
-			error_log = error_log + " | resultado.setData(lstResultado);";
 			resultado.setSuccess(true);
-			resultado.setError_info(error_log)
 		} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();
 			resultado.setError_info(error_log)
@@ -241,186 +215,14 @@ class UsuariosDAO {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			e.printStackTrace();
-		}finally{
+		} finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
 		}
+		
 		return resultado;
 	}
-		
-	public Result postRecuperarPassword(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
-		
-		Result resultadoN = new Result();
-		Usuarios objUsuario= new Usuarios();
-		Result resultado = new Result();
-		
-		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
-		List<String> lstResultado = new ArrayList<String>();
-		Boolean closeCon = false;
-		
-		try {
-			Result dataResult = new Result();
-			List<Object> lstParams;
-			String username = "";
-			String password = "";
-						
-			/*-------------------------------------------------------------*/
-			LoadParametros objLoad = new LoadParametros();
-			PropertiesEntity objProperties = objLoad.getParametros();
-			username = objProperties.getUsuario();
-			password = objProperties.getPassword();
-			/*-------------------------------------------------------------*/
-			
-			def jsonSlurper = new JsonSlurper();
-			def object = jsonSlurper.parseText(jsonData);
-			
-			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
-			apiClient.login(username, password);
-			
-			IdentityAPI identityAPI = apiClient.getIdentityAPI()
-			final User user = identityAPI.getUserByUserName(object.nombreusuario);
-			dataResult = getUsuarioRegistrado(object.nombreusuario);
-			
-			if (dataResult.success) {
-				lstParams = dataResult.getData();
-			} else {
-				throw new Exception("No encontro campus");
-			}
-			//generacion del ramdon
-			String asciiUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			String asciiLowerCase = asciiUpperCase.toLowerCase();
-			String digits = "1234567890";
-			String asciiChars = asciiUpperCase + asciiLowerCase + digits ;
-			int length = 8;
-			String randomString = generateRandomString(length, asciiChars);
-			
-			UserUpdater update_user = new UserUpdater();
-			update_user.setPassword(randomString);
-			final User user_update= identityAPI.updateUser(user.getId(), update_user);
-			object.password = randomString;
-			def str = jsonSlurper.parseText('{"campus": "'+lstParams[0].grupobonita+'","correo":"'+object.nombreusuario+'", "codigo": "recuperar","isEnviar":false}');
-
-			NotificacionDAO nDAO = new NotificacionDAO();
-			 
-			resultadoN = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \""+lstParams[0].grupobonita+"\", \"correo\":\""+object.nombreusuario+"\", \"codigo\": \"recuperar\", \"isEnviar\":false }", context);
-			String plantilla = resultadoN.getData().get(0);
-			plantilla = plantilla.replace("[password]", object.password );
-			MailGunDAO dao = new MailGunDAO();
-			resultado = dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"",lstParams[0].grupobonita+"", context);
-			
-			dataResult = updatePassword(object.password,object.nombreusuario);
-			/*if (dataResult.success) {
-				
-			} else {
-				throw new Exception("no pudo guardar la contraseña, se cambio ");
-			}*/
-			lstResultado.add(plantilla);
-			resultado.setData(lstResultado);
-			resultado.setSuccess(true);
-			
-		} catch (Exception e) {
-			LOGGER.error "[ERROR] " + e.getMessage();
-			resultado.setSuccess(false);
-			resultado.setError(e.getMessage());
-			e.printStackTrace();
-		}
-		return resultado;
-	}
-	
-	public Result postRecuperarPasswordAdministrativo(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
-		
-		Result resultadoN = new Result();
-		Usuarios objUsuario= new Usuarios();
-		Result resultado = new Result();
-		Long userLogged = 0L;
-		String campus = "";
-		
-		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
-		List<String> lstResultado = new ArrayList<String>();
-		try {
-			Result dataResult = new Result();
-			List<Object> lstParams;
-			String username = "";
-			String password = "";
-			Properties prop = new Properties();
-			String propFileName = "configuration.properties";
-			InputStream inputStream;
-			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
-
-			if (inputStream != null) {
-				prop.load(inputStream);
-			} else {
-				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
-			}
-
-			/*-------------------------------------------------------------*/
-			LoadParametros objLoad = new LoadParametros();
-			PropertiesEntity objProperties = objLoad.getParametros();
-			username = objProperties.getUsuario();
-			password = objProperties.getPassword();
-			/*-------------------------------------------------------------*/
-			
-			def jsonSlurper = new JsonSlurper();
-			def object = jsonSlurper.parseText(jsonData);
-			
-			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
-			apiClient.login(username, password);
-			
-			IdentityAPI identityAPI = apiClient.getIdentityAPI()
-			final User user = identityAPI.getUserByUserName(object.nombreusuario);
-			
-			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
-			List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
-			
-			//userLogged = context.getApiSession().getUserId();
-			userLogged = user.getId();
-			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
-			for(UserMembership objUserMembership : lstUserMembership) {
-				if(campus.length() < 1 ) {
-					for(CatCampus rowGrupo : lstCatCampus) {
-						if(objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
-							campus = objUserMembership.getGroupName();
-							break;
-						}
-					}
-				}
-			}
-			//generacion del ramdon
-			String asciiUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			String asciiLowerCase = asciiUpperCase.toLowerCase();
-			String digits = "1234567890";
-			String asciiChars = asciiUpperCase + asciiLowerCase + digits;
-			int length = 8;
-			String randomString = generateRandomString(length, asciiChars);
-			
-			UserUpdater update_user = new UserUpdater();
-			update_user.setPassword(randomString);
-			final User user_update= identityAPI.updateUser(user.getId(), update_user);
-			object.password = randomString;
-			def str = jsonSlurper.parseText('{"campus": "'+campus+'","correo":"'+object.nombreusuario+'", "codigo": "recuperar","isEnviar":false}');
-			NotificacionDAO nDAO = new NotificacionDAO();
-			 
-			resultadoN = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \""+campus+"\", \"correo\":\""+object.nombreusuario+"\", \"codigo\": \"recuperar\", \"isEnviar\":false }", context);
-			String plantilla = resultadoN.getData().get(0);
-			plantilla = plantilla.replace("[password]", object.password );
-			plantilla = plantilla.replace("[NOMBRE]", (user.getFirstName()+" "+user.getLastName()) );
-			MailGunDAO dao = new MailGunDAO();
-			resultado = dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"",campus+"", context);
-			lstResultado.add(plantilla);
-			resultado.setData(lstResultado);
-			resultado.setSuccess(true);
-			
-		} catch (Exception e) {
-			LOGGER.error "[ERROR] " + e.getMessage();
-			resultado.setSuccess(false);
-			resultado.setError(e.getMessage());
-			
-			e.printStackTrace();
-		}
-		return resultado;
-	}
-	
 	
 	public Result postHabilitarUsaurio(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
 		Usuarios objUsuario= new Usuarios();
@@ -460,60 +262,6 @@ class UsuariosDAO {
 			
 			lstResultado.add(object.nombreusuario);
 			resultado.setData(lstResultado);
-			resultado.setSuccess(true);
-		} catch (Exception e) {
-			LOGGER.error "[ERROR] " + e.getMessage();
-			resultado.setSuccess(false);
-			resultado.setError(e.getMessage());
-			e.printStackTrace();
-		}
-		return resultado;
-	}
-	
-	public Result enviarTarea(String correo,RestAPIContext context) {
-		Result resultado = new Result();
-		List<CatRegistro> lstCatRegistro = new ArrayList<CatRegistro>();
-		CatRegistro objCatRegistro = new CatRegistro();
-		String errorLog ="";
-		Boolean closeCon = false;
-		try {
-			String username = "";
-			String password = "";
-			
-			/*-------------------------------------------------------------*/
-			LoadParametros objLoad = new LoadParametros();
-			PropertiesEntity objProperties = objLoad.getParametros();
-			username = objProperties.getUsuario();
-			password = objProperties.getPassword();
-			/*-------------------------------------------------------------*/
-			
-			/*def jsonSlurper = new JsonSlurper();
-			def object = jsonSlurper.parseText(jsonData);*/
-
-			errorLog = errorLog + "";
-			org.bonitasoft.engine.api.APIClient apiClient = new APIClient()//context.getApiClient();
-			apiClient.login(username, password)
-			
-			SearchOptionsBuilder searchBuilder = new SearchOptionsBuilder(0, 99999);
-			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.NAME, "Validar Cuenta");
-			
-			final SearchOptions searchOptions = searchBuilder.done();
-			SearchResult<HumanTaskInstance>  SearchHumanTaskInstanceSearch = apiClient.getProcessAPI().searchHumanTaskInstances(searchOptions);
-			List<HumanTaskInstance> lstHumanTaskInstanceSearch = SearchHumanTaskInstanceSearch.getResult();
-			def catRegistroDAO = context.apiClient.getDAO(CatRegistroDAO.class);
-			for(HumanTaskInstance objHumanTaskInstance : lstHumanTaskInstanceSearch) {
-				lstCatRegistro = catRegistroDAO.findByCaseId(objHumanTaskInstance.getRootContainerId(), 0, 1)
-				if(lstCatRegistro != null) {
-					if(lstCatRegistro.size() > 0) {
-						objCatRegistro = new CatRegistro();
-						objCatRegistro = lstCatRegistro.get(0);
-						if(objCatRegistro.getCorreoelectronico().equals(correo)) {
-							apiClient.getProcessAPI().assignUserTask(objHumanTaskInstance.getId(), context.getApiSession().getUserId());
-							apiClient.getProcessAPI().executeFlowNode(objHumanTaskInstance.getId());
-						}
-					}
-				}
-			}
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();

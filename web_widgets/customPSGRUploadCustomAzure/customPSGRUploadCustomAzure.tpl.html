@@ -1,0 +1,47 @@
+<div class="col-12">
+    <div class="">
+        <div ng-class="{'form-horizontal': properties.labelPosition === 'left' && !properties.labelHidden,'row': properties.labelPosition === 'top' && !properties.labelHidden || properties.labelHidden}">
+            <div class="form-group">
+                <div class="col-xs-12 text-center " style="height: 240px;">
+                    <img ng-if="!extension" class="miniatura-pic" src="assets/img/noimageavailable (1).png" style="max-width: 100%; max-height: 233px; height: auto; width: auto;">
+                    <img ng-if="extension !== '.pdf'" ng-click="openModalFile()" class="miniatura-pic" src="{{linkSource}}" style="max-width: 100%; max-height: 233px; height: auto; width: auto;">
+                    <img ng-if="extension === '.pdf'" ng-click="openModalFile()" class="miniatura-pic" src="assets/img/pdf.png" style="max-width: 100%; max-height: 233px; height: auto; width: auto;">
+                </div>
+                <div class="col-xs-{{ 12 - (!properties.labelHidden && properties.labelPosition === 'left' ? properties.labelWidth : 0) }}">
+                    <label
+                        ng-if="!properties.labelHidden"
+                        ng-bind-html="properties.label | uiTranslate">
+                    </label>
+                    <form action="{{ctrl.url}}" ng-upload="ctrl.uploadComplete(content)"
+                        ng-upload-loading="ctrl.startUploading()" error-catcher="ctrl.uploadError(error)"
+                        upload-options-enable-csrf upload-options-csrf-param="CSRFToken">
+                        <div class="input-group file-upload paddingpx">
+                            <input ng-disabled="!properties.editar" type="text" ng-focus="ctrl.preventFocus($event)"
+                                placeholder="{{properties.placeholder | uiTranslate}}" value="{{ctrl.filename}}"
+                                class="form-control">
+
+                            <button ng-show="properties.editar" type="button" ng-if="ctrl.filename"
+                                ng-click="ctrl.clear()" class="file-upload-clear">
+                                <i class="glyphicon glyphicon-remove-circle"></i>
+                                <span class="hide" translate>Close</span>
+                            </button>
+                            <span class="input-group-btn">
+                                <span class="btn"
+                                    ng-class="{'btn-default disabled':$isUploading, 'btn-primary':!$isUploading}">
+                                    <input ng-disabled="!properties.editar" class="file-upload-input"
+                                        ng-class="{'file-upload-input--disabled':$isUploading}" name="{{ctrl.name}}"
+                                        type="file" ng-required="properties.required" ng-model="ctrl.filemodel"
+                                        accept="image/jpg, image/jpeg, image/png, application/pdf" />
+                                    <i class="glyphicon"
+                                        ng-class="{'glyphicon-cloud-upload':$isUploading, 'glyphicon-paperclip':!$isUploading}"></i>
+                                </span>
+                            </span>
+                        </div>
+                    </form>
+                    <div ng-messages="$form[ctrl.name].$dirty && $form[ctrl.name].$error "
+                        ng-messages-include="forms-generic-errors.html" role="alert"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

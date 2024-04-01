@@ -1,0 +1,46 @@
+<div class="table-responsive">
+    <table class="table"
+        ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+        <thead>
+            <tr>
+                <th class="text-left">Grado / Programa / Institución educativa</th>
+                <th class="text-left">Fecha de inicio / Fecha de término</th>
+                <th class="text-left">Promedio / Titulado</th>
+                <th class="text-left">País</th>
+                <th class="text-left" ng-if="properties.editar">Acciones</th>
+            </tr>
+        </thead>
+        <tbody ng-if="properties.content">
+            <tr ng-repeat="row in properties.content track by $index" style="text-align: center !important;">
+                <td class="text-left">
+                    {{row.grado_estudio.descripcion}}<br>
+                    <b>{{row.programa}}</b><br>
+                    {{row.institucion}}
+                </td>
+                <td class="text-left">   
+                    {{row.fecha_inicio | date:'dd/MM/yyyy'}}<br>
+                    {{row.fecha_termino | date:'dd/MM/yyyy'}}<br>
+                </td>
+                <td class="text-left">
+                    {{row.promedio}}<br>
+                    <b>{{row.titulo ? "Sí": "No"}}</b>
+                </td>
+                <td class="text-left">
+                    {{row.pais.descripcion}}
+                </td>
+                <td class="text-left" ng-if="properties.editar">
+                    <button class="btn btn-link" ng-click="ver(row)" >
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </button>
+                    <button class="btn btn-link" ng-click="editar(row, $index)" >
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                    <button class="btn btn-link" ng-click="removeItem(row)" >
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
