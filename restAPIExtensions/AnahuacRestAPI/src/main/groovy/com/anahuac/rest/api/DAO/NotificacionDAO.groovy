@@ -1594,14 +1594,20 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						} 
 						
 						if(rs.getString("fechalimitepropuesta") != null) {
+							errorlog += " | 2.1.1";
 							SimpleDateFormat dfLimite = new SimpleDateFormat("yyyy-MM-dd");
 							SimpleDateFormat dfLimiteSalida = new SimpleDateFormat("dd/MM/yyyy");
+							errorlog += " | 2.1.2";
 							try {
 						        Date fechaSinFormato = dfLimite.parse(rs.getString("fechalimitepropuesta"));
 						        plantilla = plantilla.replace("[FECHALIMITE-PROPUESTA]", dfLimiteSalida.format(fechaSinFormato));
 						    } catch (ParseException e) {
+								errorlog += " | 2.1.3";
 						        e.printStackTrace();
 						    }
+						} else {
+							errorlog += " | 2.1.4";
+							plantilla = plantilla.replace("[FECHALIMITE-PROPUESTA]", "NO DATA");
 						}
 						
 						errorlog += " | 3";
