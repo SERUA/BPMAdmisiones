@@ -667,6 +667,8 @@ class SecurityFilter {
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"ADMINISTRADOR")
 				if(allow){break;}
+				allow=bonitaRolFilter(context,"Config Campus SDAE")
+				if(allow){break;}
 			break;
 			case "updateSDAEGestionEscolar":
 				allow=bonitaRolFilter(context,"TI SERUA")
@@ -681,26 +683,31 @@ class SecurityFilter {
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"ADMINISTRADOR")
 				if(allow){break;}
+				allow=bonitaRolFilter(context,"Config Campus SDAE")
+				if(allow){break;}
 			break;
 			case "updateSDAECreditoGE":
 				allow=bonitaRolFilter(context,"TI SERUA")
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"ADMINISTRADOR")
 				if(allow){break;}
-				allow=bonitaRolFilter(context,"TICAMPUS")
+				allow=bonitaRolFilter(context,"Config Campus SDAE")
 				if(allow){break;}
-				
 			break;
 			case "insertUpdateConfigCampus":
 				allow=bonitaRolFilter(context,"TI SERUA")
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"ADMINISTRADOR")
 				if(allow){break;}
+				allow=bonitaRolFilter(context,"Config Campus SDAE")
+				if(allow){break;}
 			break;
 			case "insertUpdateConfigPagoEstudioSocEco":
 				allow=bonitaRolFilter(context,"TI SERUA")
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Config Campus SDAE")
 				if(allow){break;}
 			break;
 			case "deleteCatTipoApoyo":
