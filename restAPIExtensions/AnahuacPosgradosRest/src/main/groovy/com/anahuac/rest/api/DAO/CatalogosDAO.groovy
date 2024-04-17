@@ -3103,6 +3103,8 @@ class CatalogosDAO {
 			        data.add(row)
 			    }
 			}
+			
+			Collections.sort(data, { a, b -> a.descripcion <=> b.descripcion })
 	
 			resultado.setData(data)
 			resultado.setSuccess(true)

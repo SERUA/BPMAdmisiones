@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRCatManejoDocumentos",
   "name" : "PSGRCatManejoDocumentos",
-  "lastUpdate" : 1705360762326,
+  "lastUpdate" : 1713227133948,
   "rows" : [
     [
       {
@@ -1332,7 +1332,14 @@
         "    }",
         "}",
         "",
-        "return resultado;"
+        "const sortByField = (fieldName) => (a, b) => {",
+        "    if (a[fieldName] < b[fieldName]) return -1;",
+        "    if (a[fieldName] > b[fieldName]) return 1;",
+        "    return 0;",
+        "};",
+        "",
+        "return resultado.slice().sort(sortByField(\"descripcion\"));",
+        "// return resultado;"
       ],
       "exposed" : false
     },

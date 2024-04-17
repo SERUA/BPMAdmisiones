@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1711416404211,
+  "lastUpdate" : 1713227198010,
   "rows" : [
     [
       {
@@ -7148,7 +7148,14 @@
         "    }",
         "}",
         "",
-        "return resultado;"
+        "const sortByField = (fieldName) => (a, b) => {",
+        "    if (a[fieldName] < b[fieldName]) return -1;",
+        "    if (a[fieldName] > b[fieldName]) return 1;",
+        "    return 0;",
+        "};",
+        "",
+        "return resultado.slice().sort(sortByField(\"descripcion\"));",
+        "// return resultado;"
       ],
       "exposed" : false
     },
