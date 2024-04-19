@@ -2778,7 +2778,10 @@ class UsuariosDAO {
 				
 				if (rs.next()) {
 					errorLog += "|5 ";
-					if(rs.getBoolean("reagendado") != true && rs.getBoolean("correct_date_temp") != true) {
+					if(rs.getBoolean("finalizada")) {
+						errorLog += "|5.0 ";
+						throw new Exception("examen_finalizado");
+					} else if(rs.getBoolean("reagendado") != true && rs.getBoolean("correct_date_temp") != true) {
 						errorLog += "|5.1 ";
 						throw new Exception("no_sesion_asignada");
 					} else if(rs.getBoolean("reagendado") == false) {
