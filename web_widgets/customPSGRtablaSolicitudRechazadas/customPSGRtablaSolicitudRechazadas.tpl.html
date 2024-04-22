@@ -115,7 +115,8 @@
                         {{row.promedio}}
                     </td>
                     <td>
-                        <p ng-bind-html="row.mensaje_admin_escolar"></p>
+                        <p ng-if="row.mensaje_admin_escolar" ng-bind-html="row.mensaje_admin_escolar"></p>
+                        <p ng-if="!row.mensaje_admin_escolar" style="color: #a7a7a7;">Sin comentarios</p>
                     </td>
                     <!--
                     <td>

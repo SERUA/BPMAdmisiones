@@ -133,6 +133,14 @@
                     </td>
                     <td ng-if="properties.tieneResultado">
                         <b>{{row.estatus_solicitud}}</b>
+                        <div class="tag" ng-if="row.is_segunda_oportunidad === 't'" style="background-color: #ff5900; color: white;">
+                            <span class="glyphicon glyphicon-repeat icon" aria-hidden="true"></span>
+                            Segunda oportunidad
+                        </div>
+                        <div class="tag" ng-if="row.is_transferido === 't'" style="background-color: #233c63; color: white;">
+                            <span class="glyphicon glyphicon-transfer icon" aria-hidden="true"></span>
+                            Transferido
+                        </div>
                     </td>
                     <!--
                     <td>

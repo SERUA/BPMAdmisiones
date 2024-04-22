@@ -812,4 +812,301 @@ class DocumentosTextosDAO {
 		return resultado;
 	}
 	
+	public Result getExcelFileGeneralProceso(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+	    String errorLog = "";
+	
+	    try {
+	        def jsonSlurper = new JsonSlurper();
+	        def object = jsonSlurper.parseText(jsonData);
+	
+	        Result dataResult = new SolicitudDeAdmisionDAO().selectSolicitudesAdmision(jsonData, context);
+	
+	        int rowCount = 0;
+	        List<Object> lstParams;
+	        String type = "ReporteSesiones";
+	        XSSFWorkbook workbook = new XSSFWorkbook();
+	        XSSFSheet sheet = workbook.createSheet(type);
+	        CellStyle style = workbook.createCellStyle();
+	        org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+	        font.setBold(true);
+	        style.setFont(font);
+	
+	        if (dataResult.success) {
+	            lstParams = dataResult.getData();
+	        } else {
+	            throw new Exception("No encontró datos");
+	        }
+	
+	        Row titleRow = sheet.createRow(++rowCount);
+	        Cell cellReporteLabel = titleRow.createCell(0);
+	        cellReporteLabel.setCellValue("Reporte:");
+	        cellReporteLabel.setCellStyle(style);
+	
+	        Cell cellReporteValor = titleRow.createCell(1);
+	        cellReporteValor.setCellValue("Solicitud de admisión posgrado");
+	
+	        Cell cellUsuarioLabel = titleRow.createCell(2);
+	        cellUsuarioLabel.setCellValue("Usuario:");
+	        cellUsuarioLabel.setCellStyle(style);
+	
+	        Cell cellUsuarioValor = titleRow.createCell(3);
+	        cellUsuarioValor.setCellValue(object.usuario);
+	
+	        Calendar cal = Calendar.getInstance();
+	        cal.add(Calendar.HOUR_OF_DAY, -7);
+	        Date date = cal.getTime();
+	        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+	        String fechaActual = formatter.format(date);
+	
+	        Cell cellFechaLabel = titleRow.createCell(4);
+	        cellFechaLabel.setCellValue("Fecha:");
+	        cellFechaLabel.setCellStyle(style);
+	
+	        Cell cellFechaValor = titleRow.createCell(5);
+	        cellFechaValor.setCellValue(fechaActual);
+	        Row espacio = sheet.createRow(++rowCount);
+	        Row headersRow = sheet.createRow(++rowCount);
+	
+	        Cell header2 = headersRow.createCell(0);
+	        header2.setCellValue("ID BPM");
+	        header2.setCellStyle(style);
+			Cell header3 = headersRow.createCell(1);
+			header3.setCellValue("ID BANNER");
+			header3.setCellStyle(style);
+	        Cell header4 = headersRow.createCell(2);
+	        header4.setCellValue("Campus de interés");
+	        header4.setCellStyle(style);
+	        Cell header5 = headersRow.createCell(3);
+	        header5.setCellValue("Grado");
+	        header5.setCellStyle(style);
+	        Cell header6 = headersRow.createCell(4);
+	        header6.setCellValue("Programa");
+	        header6.setCellStyle(style);
+	        Cell header7 = headersRow.createCell(5);
+	        header7.setCellValue("Período");
+	        header7.setCellStyle(style);
+	        Cell header8 = headersRow.createCell(6);
+	        header8.setCellValue("Estatus");
+	        header8.setCellStyle(style);
+	        Cell header9 = headersRow.createCell(7);
+	        header9.setCellValue("Fecha de registro");
+	        header9.setCellStyle(style);
+			Cell header10 = headersRow.createCell(8);
+			header10.setCellValue("Última modificación");
+			header10.setCellStyle(style);
+			Cell header11 = headersRow.createCell(9);
+			header11.setCellValue("Fecha de dictamen");
+			header11.setCellStyle(style);
+	        Cell header12 = headersRow.createCell(10);
+	        header12.setCellValue("Nombre(s)");
+	        header12.setCellStyle(style);
+	        Cell header13 = headersRow.createCell(11);
+	        header13.setCellValue("Apellido paterno");
+	        header13.setCellStyle(style);
+	        Cell header14 = headersRow.createCell(12);
+	        header14.setCellValue("Apellido materno");
+	        header14.setCellStyle(style);
+			Cell header15 = headersRow.createCell(13);
+			header15.setCellValue("Sexo");
+			header15.setCellStyle(style);
+			Cell header16 = headersRow.createCell(14);
+			header16.setCellValue("Nacionalidad");
+			header16.setCellStyle(style);
+			Cell header17 = headersRow.createCell(15);
+			header17.setCellValue("Estado civil");
+			header17.setCellStyle(style);
+			Cell header18 = headersRow.createCell(16);
+			header18.setCellValue("Fecha de nacimiento");
+			header18.setCellStyle(style);
+			Cell header19 = headersRow.createCell(17);
+			header19.setCellValue("País de nacimiento");
+			header19.setCellStyle(style);
+			Cell header20 = headersRow.createCell(18);
+			header20.setCellValue("Estado de nacimiento");
+			header20.setCellStyle(style);
+			Cell header21 = headersRow.createCell(19);
+			header21.setCellValue("Ciudad de nacimiento");
+			header21.setCellStyle(style);
+			Cell header22 = headersRow.createCell(20);
+			header22.setCellValue("Egresado Anáhuac");
+			header22.setCellStyle(style);
+			Cell header23 = headersRow.createCell(21);
+			header23.setCellValue("Campus de egreso");
+			header23.setCellStyle(style);
+			Cell header24 = headersRow.createCell(22);
+			header24.setCellValue("Otros idiomas");
+			header24.setCellStyle(style);
+			Cell header25 = headersRow.createCell(23);
+			header25.setCellValue("Trabaja actualmente");
+			header25.setCellStyle(style);
+			Cell header26 = headersRow.createCell(24);
+			header26.setCellValue("Trabajo previo");
+			header26.setCellStyle(style);
+			
+	
+	        DateFormat dfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			DateFormat dformat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	
+	        for (int i = 0; i < lstParams.size(); ++i) {
+	            Row row = sheet.createRow(++rowCount);
+				
+				
+				
+				/*
+				 * lstParams.get(i).correo_electronico
+				 * 
+				 * 
+				 * */
+				
+	            Cell cell2 = row.createCell(0);
+	            cell2.setCellValue(lstParams.get(i).caseid);
+				
+				Cell cell3 = row.createCell(1);
+				cell3.setCellValue(lstParams.get(i).id_banner_validacion ? lstParams.get(i).id_banner_validacion : "Sin ID Banner");
+	            
+	            Cell cell4 = row.createCell(2);
+	            cell4.setCellValue(lstParams.get(i).campus);
+	            Cell cell5 = row.createCell(3);
+	            cell5.setCellValue(lstParams.get(i).posgrado ? lstParams.get(i).posgrado : "Sin grado académico");
+	            Cell cell6 = row.createCell(4);
+	            cell6.setCellValue(lstParams.get(i).programa ? lstParams.get(i).programa : "Sin grado programa");
+	            Cell cell7 = row.createCell(5);
+	            cell7.setCellValue(lstParams.get(i).periodo ? lstParams.get(i).periodo : "Sin período");
+	            Cell cell8 = row.createCell(6);
+	            cell8.setCellValue(lstParams.get(i).estatus_solicitud);
+				
+				String fechaRegistroString = lstParams.get(i).fecha_registro;
+				if (fechaRegistroString != null) {
+					try {
+						Date fechaRegistro = dfEntrada.parse(fechaRegistroString);
+						String fechaFormateada = dformat.format(fechaRegistro);
+						Cell cell9 = row.createCell(7);
+						cell9.setCellValue(fechaFormateada);
+					} catch (ParseException e) {
+						Cell cell9 = row.createCell(7);
+						cell9.setCellValue("Error en formato de fecha");
+					}
+				} else {
+					Cell cell9 = row.createCell(7);
+					cell9.setCellValue("Sin fecha registro");
+				}
+				
+				String fechaUltimaModificacionString = lstParams.get(i).fecha_ultima_modificacion;
+				if (fechaUltimaModificacionString != null) {
+					try {
+						Date fechaUltimaModificacion = dfEntrada.parse(fechaUltimaModificacionString);
+						String fechaFormateadaModificacion = dformat.format(fechaUltimaModificacion);
+						Cell cell10 = row.createCell(8);
+						cell10.setCellValue(fechaFormateadaModificacion);
+					} catch (ParseException e) {
+						Cell cell10 = row.createCell(8);
+						cell10.setCellValue("Error en formato de fecha");
+					}
+				} else {
+					Cell cell10 = row.createCell(8);
+					cell10.setCellValue("Sin fecha última modificación");
+				}
+				
+				String fechaDictamenString = lstParams.get(i).fecha_dictamen;
+				if (fechaDictamenString != null) {
+					try {
+						Date fechaDictamen = dfEntrada.parse(fechaDictamenString);
+						String fechaFormateadaDictamen = dformat.format(fechaDictamen);
+						Cell cell11 = row.createCell(9);
+						cell11.setCellValue(fechaFormateadaDictamen);
+					} catch (ParseException e) {
+						Cell cell11 = row.createCell(9);
+						cell11.setCellValue("Error en formato de fecha");
+					}
+				} else {
+					Cell cell11 = row.createCell(9);
+					cell11.setCellValue("Sin fecha de dictamen");
+				}
+
+				// renombrar variables?
+				Cell cell11 = row.createCell(10);
+	            cell11.setCellValue(lstParams.get(i).nombre ? lstParams.get(i).nombre : "Sin nombre");
+				
+				Cell cell12 = row.createCell(11);
+				cell12.setCellValue(lstParams.get(i).apellido_paterno ? lstParams.get(i).apellido_paterno : "Sin apellido paterno");
+
+				Cell cell13 = row.createCell(12);
+				cell13.setCellValue(lstParams.get(i).apellido_materno ? lstParams.get(i).apellido_materno : "Sin apellido materno");
+				
+				Cell cell14 = row.createCell(13);
+				cell14.setCellValue(lstParams.get(i).sexo ? lstParams.get(i).sexo : "Sin sexo");
+				
+				Cell cell15 = row.createCell(14);
+				cell15.setCellValue(lstParams.get(i).nacionalidad ? lstParams.get(i).nacionalidad : "Sin nacionalidad");
+				
+				Cell cell16 = row.createCell(15);
+				cell16.setCellValue(lstParams.get(i).estado_civil ? lstParams.get(i).estado_civil : "Sin estado civil"); // Estado civil
+				
+				String fechaNacimientoString = lstParams.get(i).fecha_nacimiento;
+				if (fechaNacimientoString != null) {
+					try {
+						DateFormat dfEntradaDateOnly = new SimpleDateFormat("yyyy-MM-dd");
+						DateFormat dformatDateOnly = new SimpleDateFormat("dd/MM/yyyy");
+						
+						Date fechaNacimiento = dfEntradaDateOnly.parse(fechaNacimientoString);
+						String fechaNacimientoFormateada = dformatDateOnly.format(fechaNacimiento);
+						Cell cell17 = row.createCell(16);
+						cell17.setCellValue(fechaNacimientoFormateada);
+					} catch (ParseException e) {
+						Cell cell17 = row.createCell(16);
+						cell17.setCellValue("Error en formato de fecha");
+					}
+				} else {
+					Cell cell17 = row.createCell(16);
+					cell17.setCellValue("Sin fecha de nacimiento");
+				}
+				
+				Cell cell18 = row.createCell(17);
+				cell18.setCellValue(lstParams.get(i).lugar_nacimiento_pais ? lstParams.get(i).lugar_nacimiento_pais : "Sin país");
+				
+				Cell cell19 = row.createCell(18);
+				cell19.setCellValue(lstParams.get(i).lugar_nacimiento_estado ? lstParams.get(i).lugar_nacimiento_estado : "Sin estado");
+				
+				Cell cell20 = row.createCell(19);
+				cell20.setCellValue(lstParams.get(i).lugar_nacimiento_ciudad ? lstParams.get(i).lugar_nacimiento_ciudad : "Sin ciudad");
+				
+				Cell cell21 = row.createCell(20);
+				cell21.setCellValue(lstParams.get(i).alumno_anahuac && lstParams.get(i).alumno_anahuac == "t" ? "Sí" : "No");
+				
+				Cell cell22 = row.createCell(21);
+				cell22.setCellValue(lstParams.get(i).campus_de_egreso ? lstParams.get(i).campus_de_egreso : "Sin campus de egreso"); // Campus de egreso
+				
+				Cell cell23 = row.createCell(22);
+				cell23.setCellValue(lstParams.get(i).tiene_otros_idiomas && lstParams.get(i).tiene_otros_idiomas == "t" ? "Sí" : "No"); // Otros idiomas
+				
+				Cell cell24 = row.createCell(23);
+				cell24.setCellValue(lstParams.get(i).trabaja_actualmente ? lstParams.get(i).trabaja_actualmente : "Sin respuesta"); // Trabaja actualmente
+				
+				Cell cell25 = row.createCell(24);
+				cell25.setCellValue(lstParams.get(i).trabajo_previamente && lstParams.get(i).trabajo_previamente == "t" ? "Sí" : "No"); // Trabajo previo
+
+	        }
+	
+	        for (int i = 0; i <= 25; ++i) {
+	            sheet.autoSizeColumn(i);
+	        }
+	
+	        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	        workbook.write(outputStream);
+	        List<Object> lstResultado = new ArrayList<Object>();
+	        lstResultado.add(Base64.getEncoder().encodeToString(outputStream.toByteArray()));
+	        resultado.setError_info(errorLog);
+	        resultado.setSuccess(true);
+	        resultado.setData(lstResultado);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        resultado.setSuccess(false);
+	        resultado.setError(e.getMessage());
+	        resultado.setError_info(errorLog);
+	    }
+	
+	    return resultado;
+	}
+	
 }

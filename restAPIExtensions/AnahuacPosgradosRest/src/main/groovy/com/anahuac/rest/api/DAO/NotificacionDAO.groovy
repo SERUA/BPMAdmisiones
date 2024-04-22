@@ -1150,7 +1150,6 @@ class NotificacionDAO {
 				pstm.setString(20, object.urlImgFooter);
 				pstm.setString(21, object.urlImgHeader);
 				pstm.setLong(22, Long.valueOf(object.persistenceId));
-				
 			} else {
 				pstm = con.prepareStatement(Statements.INSERT_CAT_NOTIFICACIONES_SDAE);
 				pstm.setString(1, object.angulo_imagen_footer);
@@ -1170,7 +1169,7 @@ class NotificacionDAO {
 				pstm.setString(15, object.enlaceTwitter);
 				pstm.setString(16, object.nombre_imagen_footer);
 				pstm.setString(17, object.angulo_imagen_footer);
-				pstm.setString(18, object.tipoCorreo);
+				pstm.setString(18, object.tipo_correo);
 				pstm.setString(19, object.titulo);
 				pstm.setString(20, object.urlImgFooter);
 				pstm.setString(21, object.urlImgHeader);

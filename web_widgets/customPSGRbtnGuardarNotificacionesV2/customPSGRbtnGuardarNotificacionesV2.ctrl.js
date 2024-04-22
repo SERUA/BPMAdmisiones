@@ -8,9 +8,10 @@ function PbButtonCtrl($scope, $http, modalService, $window) {
 
     $scope.generateObjContrato = function() {
         var dataToSend = {...$scope.properties.selectedData}
-        debugger;
+        
         doRequest("POST", "/API/extension/posgradosRest?url=updateCatNotificacionesAlt", null, dataToSend, function(response) {
             // $window.location.assign("/portal/resource/app/administrativo/notificaciones/content/?app=administrativo");
+            debugger;
             $window.location.reload();
         });
         
@@ -42,7 +43,6 @@ function PbButtonCtrl($scope, $http, modalService, $window) {
 
 
     $scope.sendData = function() {
-        debugger;
         if ($scope.loading == false) {
             $("#loading").modal("show");
             $scope.loading = true;

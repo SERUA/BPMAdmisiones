@@ -56,6 +56,25 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             });
     }
 
+    // Scope functions
+
+    $scope.isSolicitudVencida = function(fecha_registro) {
+        try {
+            const registroDate = new Date(fecha_registro);
+            const fechaVencimiento = new Date();
+            fechaVencimiento.setFullYear(fechaVencimiento.getFullYear() - 1);
+            //fechaVencimiento.setDate(fechaVencimiento.getDate() - 30);
+            
+            if (fecha_registro && registroDate < fechaVencimiento) {
+                return true;
+            }
+            return false;
+        }
+        catch (e) {
+            return false;
+        }
+    }
+
     // Utils
 
     function getCatCampus() {

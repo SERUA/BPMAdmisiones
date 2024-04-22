@@ -117,9 +117,20 @@
                     </td>
                     <td>
                         <b>{{row.estatus_solicitud}}</b><br>
-                        <!--{{row.aceptado}}<br>-->
-                        <!--<b ng-if="row.periodovencido === 't'" class="text-danger blink_me">Período vencido</b>-->
-                        <!--<b ng-if="row.transferidoadmisiones === 't'" class="text-danger blink_me" >Transferido</b>-->
+                       <div class="tag" ng-if="row.is_segunda_oportunidad === 't'" style="background-color: #ff5900; color: white;">
+                            <span class="glyphicon glyphicon-repeat icon" aria-hidden="true"></span>
+                            Segunda oportunidad
+                        </div>
+                        <div class="tag" ng-if="row.is_transferido === 't'" style="background-color: #233c63; color: white;">
+                            <span class="glyphicon glyphicon-transfer icon" aria-hidden="true"></span>
+                            Transferido
+                        </div>
+                        <div class="tag" ng-if="isSolicitudVencida(row.fecha_registro)" style="background-color: #e94242; color: white;">
+                            <div class="blink_me">
+                                <span class="glyphicon glyphicon-time icon" aria-hidden="true"></span>
+                                Solicitud vencida
+                            </div>
+                        </div>
                     </td>
                   
                     <td>

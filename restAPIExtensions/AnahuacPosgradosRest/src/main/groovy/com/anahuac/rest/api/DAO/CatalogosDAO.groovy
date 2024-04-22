@@ -2512,11 +2512,85 @@ class CatalogosDAO {
 			CatGestionEscolar row = new CatGestionEscolar();
 			List < CatGestionEscolar > rows = new ArrayList < CatGestionEscolar > ();
 			closeCon = validarConexion();
+			boolean aplicarFiltroPeriodos = false;
+			def filtroPeriodosValor = null; 
 
 			where = "WHERE GE.is_eliminado = false AND campus.eliminado = false AND GE.campus = '" + object.campus + "'" + " AND GE.posgrado_pid = " + object.posgrado_pid
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				def booleanos = filtro.get("valor");
 				switch (filtro.get("columna")) {
+
+					case "GRADO ACADÉMICO":
+						where += " AND LOWER(posgrado.descripcion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;		
+					case "CLAVE":
+						where += " AND LOWER(GE.CLAVE) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;	
+					case "NOMBRE A MOSTRAR":
+						where += " AND LOWER(GE.nombre) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "FRECUENCIA":
+						where += " AND LOWER(GE.tipo_licenciatura) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PERIODOS":
+						// El filtro de PERIODOS se hace mas adelante mediante programación
+						aplicarFiltroPeriodos = true;
+						filtroPeriodosValor = filtro.get("valor");
+						break;
+					case "IDIOMA":
+						where += " AND LOWER(GE.idioma) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "USUARIO CREACIÓN":
+						where += " AND LOWER(GE.usuario_creacion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "FECHA DE CREACIÓN":
+						where += " AND LOWER(to_char(GE.fecha_creacion::timestamp, 'DD-MM-YYYY HH24:MI:SS'))";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						
+						// --- No utilizados?
+						/*
 					case "NOMBRE LICENCIATURA":
 						where += " AND LOWER(GE.nombre) ";
 						if (filtro.get("operador").equals("Igual a")) {
@@ -2526,15 +2600,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "CLAVE":
-						where += " AND LOWER(GE.CLAVE) ";
-						if (filtro.get("operador").equals("Igual a")) {
-							where += "=LOWER('[valor]')"
-						} else {
-							where += "LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
+					
 					case "LIGA":
 						where += " AND LOWER(GE.enlace) ";
 						if (filtro.get("operador").equals("Igual a")) {
@@ -2625,7 +2691,7 @@ class CatalogosDAO {
 						errorLog += " Que valor tienen: " + booleanos.toString().equals("Si") + " "
 						where = where.replace("[valor]", (booleanos.toString().equals("Si") ? "true" : booleanos.toString().equals("Sí") ? "true" : "false"))
 						break;
-						/* case "CAMPUS":
+						 case "CAMPUS":
 							 campus +=" AND LOWER(campus.DESCRIPCION) ";
 							 if(filtro.get("operador").equals("Igual a")) {
 								 campus+="=LOWER('[valor]')"
@@ -2637,47 +2703,29 @@ class CatalogosDAO {
 				}
 			}
 			switch (object.orderby) {
-				case "NOMBRE LICENCIATURA":
-					orderby += "GE.nombre";
-					break;
-				case "LIGA":
-					orderby += "GE.enlace";
+				case "ORDEN":
+					orderby += "GE.orden";
 					break;
 				case "CLAVE":
 					orderby += "GE.clave";
 					break;
-				case "DESCRIPCION DE CARRERA":
-					orderby += "GE.descripcion";
+				case "NOMBRE A MOSTRAR":
+					orderby += "GE.nombre";
 					break;
-				case "INSCRIPCIÓN ENERO":
-					orderby += "GE.inscripcion_enero::Integer";
-					break;
-				case "INSCRIPCIÓN AGOSTO":
-					orderby += "GE.inscripcion_agosto::Integer";
-					break;
-				case "INSCRIPCIÓN MAYO":
-					orderby += "GE.inscripcion_mayo::Integer";
-					break;
-				case "INSCRIPCIÓN SEPTIEMBRE":
-					orderby += "GE.inscripcion_septiembre::Integer";
-					break;
-				case "PERSISTENCEVERSION":
-					orderby += "GE.PERSISTENCEVERSION";
-					break;
-				case "CAMPUS":
-					orderby += "campus.descripcion";
-					break;
-				case "TIPO LICENCIATURA":
+				case "FRECUENCIA":
 					orderby += "GE.tipo_licenciatura";
 					break;
-				case "PROPEDÉUTICO":
-					orderby += "GE.propedeutico";
+				case "IDIOMA":
+					orderby += "GE.idioma";
 					break;
-				case "PROGRAMA PARCIAL":
-					orderby += "GE.programa_parcial";
+				case "USUARIO CREACIÓN":
+					orderby += "GE.usuario_creacion";
+					break;
+				case "FECHA DE CREACIÓN":
+					orderby += "GE.fecha_creacion::timestamp";
 					break;
 				default:
-					orderby += "GE.nombre"
+					orderby += "GE.orden"
 					break;
 			}
 
@@ -2768,6 +2816,11 @@ class CatalogosDAO {
 				
 				programa.setPeriodos_disponible(periodos_disponible_value);
 			}
+			
+			// Filtro PERIODOS
+			if (aplicarFiltroPeriodos) {
+				rows = rows.findAll { it.getPeriodos_disponible()?.toLowerCase().contains(filtroPeriodosValor.toString().toLowerCase()) }
+			} 
 
 			resultado.setSuccess(true)
 			resultado.setError(errorLog)
@@ -2784,6 +2837,121 @@ class CatalogosDAO {
 			}
 		}
 		return resultado
+	}
+	
+	public Result getCatGestionEscolarByCampusMultiple(String campus_pids_string, String posgrado_pid_string, String posgrado_descripcion) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List<PSGRCatEstado> data = new ArrayList<>();
+		String where = "WHERE GE.is_eliminado = false"; // Aplicar filtro por defecto para registros no eliminados
+		String orderby = ""; // Ordenamiento por defecto
+		Boolean esPorDescripcion = false;
+	
+		try {
+			
+			// Validar inputs
+			if (campus_pids_string === null || campus_pids_string.equals("")) {
+				//throw new Exception('El campo "campus_pids" no debe ir vacío');
+				// Retornar sin información
+				resultado.setSuccess(true);
+				return resultado
+			} 
+			else if (posgrado_pid_string === null || posgrado_pid_string.equals("")) {
+				if (posgrado_descripcion === null || posgrado_descripcion.equals("")) {
+					//throw new Exception('El campo "posgrado_pid" y "posgrado_descripcion" no deben ir vacíos, se debe proporcionar al menos uno de los dos');
+				}
+				else {
+					esPorDescripcion = true;
+				}
+			}
+			
+			closeCon = validarConexion();
+			
+			// Conversión
+			def campus_pids = new ArrayList<Long>()
+			try {
+				def partes = campus_pids_string.split(',')
+				
+				partes.each { parte ->
+					campus_pids.add(Long.parseLong(parte))
+				}
+			}
+			catch (e) {
+				throw new Exception('El campo "campus_pids" debe ser una lista separada por comas. Valor recibido: ' + campus_pids_string + ". " + e.message);
+			}
+			
+			// Filtrar por campus
+			where += " AND GE.campus_referencia_pid IN (" + campus_pids.join(",") + ")";
+			
+			if (!esPorDescripcion) {
+				def posgrado_pid = 0L;
+				try {
+					posgrado_pid = Long.parseLong(posgrado_pid_string);
+				}
+				catch(e) {
+					throw new Exception('Falló algo al convertir el campo "posgrado_pid" a Long. Valor recibido: ' + posgrado_pid_string + ". " + e.message);
+				}
+				
+				where += " AND posgrado_pid = " + posgrado_pid;
+			}
+			else {
+				where += " AND posgrado.descripcion = '" + posgrado_descripcion + "'";
+			}
+
+			String consulta = StatementsCatalogos.GET_CATGESTIONESCOLAR_BY_CAMPUS_MULTIPLE.replace("[WHERE]", where);
+	
+			pstm = con.prepareStatement(consulta);
+			rs = pstm.executeQuery();
+			
+			CatGestionEscolar row = new CatGestionEscolar();
+			
+			while (rs.next()) {
+
+				row = new CatGestionEscolar()
+				row.setCampus(rs.getString("campus"))
+				row.setDescripcion(rs.getString("descripcion"))
+				row.setEnlace(rs.getString("enlace"))
+				row.setClave(rs.getString("clave"));
+				row.setInscripcion_agosto(rs.getString("inscripcion_agosto"))
+				row.setInscripcion_enero(rs.getString("inscripcion_enero"))
+				row.setIs_eliminado(rs.getBoolean("is_eliminado"))
+				row.setNombre(rs.getString("nombre"))
+				row.setPersistenceId(rs.getLong("persistenceId"))
+				row.setCampus_referencia_pid(rs.getLong("campus_referencia_pid"))
+				row.setPersistenceVersion(rs.getLong("persistenceVersion"))
+				row.setPrograma_parcial(rs.getBoolean("programa_parcial"))
+				row.setPropedeutico(rs.getBoolean("propedeutico"))
+				row.setUsuario_creacion(rs.getString("usuario_creacion"))
+				row.setTipo_licenciatura(rs.getString("tipo_licenciatura"))
+				row.setTipo_centro_estudio(rs.getString("tipo_centro_estudio"))
+				row.setInscripcion_mayo(rs.getString("inscripcion_mayo"))
+				row.setInscripcion_septiembre(rs.getString("inscripcion_septiembre"))
+				row.setUrl_img_licenciatura(rs.getString("url_img_licenciatura"))
+				row.setFecha_creacion(rs.getString("fecha_creacion"))
+				row.setUsuario_creacion(rs.getString("usuario_creacion"))
+				row.setIs_medicina(rs.getBoolean("is_medicina"))
+				row.setIdioma(rs.getString("idioma"))
+				row.setOrden(rs.getLong("orden"))
+				row.setPeriodo_pid(rs.getLong("periodo_pid"))
+				row.setPosgrado_pid(rs.getLong("posgrado_pid"))
+				row.setPeriodo(rs.getString("periodo"))
+				row.setPosgrado(rs.getString("posgrado"))
+
+				data.add(row)
+			}
+	
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getCatGestionEscolarByCampusMultiple] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
 	}
 	
 	public Result getLstPeriodosDisponibles(String programa_pid) {
@@ -2935,6 +3103,8 @@ class CatalogosDAO {
 			        data.add(row)
 			    }
 			}
+			
+			Collections.sort(data, { a, b -> a.descripcion <=> b.descripcion })
 	
 			resultado.setData(data)
 			resultado.setSuccess(true)
@@ -3570,6 +3740,74 @@ class CatalogosDAO {
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError("[getCatPosgrado] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result getCatPosgradoByCampusMultiple(String campus_pids_string) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List<PSGRCatEstado> data = new ArrayList<>();
+		String where = "WHERE is_eliminado = false"; // Aplicar filtro por defecto para registros no eliminados
+		String orderby = ""; // Ordenamiento por defecto
+		String errorLog = "";
+	
+		try {
+			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
+			//def jsonSlurper = new JsonSlurper();
+			//def object = jsonSlurper.parseText(jsonData);
+			
+			// Validar inputs
+			if (campus_pids_string === null || campus_pids_string.equals("")) {
+				//throw new Exception('El campo "campus_pids" no debe ir vacío');
+				// Retornar sin información
+				resultado.setSuccess(true);
+				return resultado
+			}
+			
+			// Conversión
+			def campus_pids = new ArrayList<Long>()
+			try {
+				def partes = campus_pids_string.split(',')
+				
+				partes.each { parte ->
+					campus_pids.add(Long.parseLong(parte))
+				}
+			}
+			catch (e) {
+				throw new Exception('El campo "campus_pids" debe ser una lista separada por comas. Valor recibido: ' + campus_pids_string + ". " + e.message);
+			}
+	
+			closeCon = validarConexion();
+			
+			// Filtrar por campus
+			where += " AND campus_pid IN (" + campus_pids.join(",") + ")"
+
+			String consulta = StatementsCatalogos.SELECT_CATPOSGRADO_DESCRIPCION_DISTINC.replace("[WHERE]", where);
+			errorLog = consulta;
+	
+			pstm = con.prepareStatement(consulta);
+			rs = pstm.executeQuery();
+	
+			while (rs.next()) {
+				PSGRCatEstado row = new PSGRCatEstado();
+				row.setDescripcion(rs.getString("descripcion"));
+	
+				data.add(row);
+			}
+				
+			resultado.setData(data);
+			
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			//resultado.setData([errorLog])
+			resultado.setSuccess(false);
+			resultado.setError("[getCatPosgradoDescripcionDistinct] " + e.getMessage());
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
@@ -7559,6 +7797,8 @@ class CatalogosDAO {
 			pstm.setString(6, object.tipo_de_archivo);
 			pstm.setLong(7, object.campus_pid.persistenceId);
 			pstm.setLong(8, object.posgrado_pid.persistenceId);
+			pstm.setInt(9, object.orden);
+			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
 			} else {
@@ -7604,7 +7844,8 @@ class CatalogosDAO {
 			pstm.setString(3, object.nombre_documento);
 			pstm.setBoolean(4, object.es_opcional);
 			pstm.setString(5, object.tipo_de_archivo);
-			pstm.setLong(6, object.persistenceId);
+			pstm.setInt(6, object.orden);
+			pstm.setLong(7, object.persistenceId);
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -7738,6 +7979,9 @@ class CatalogosDAO {
 				}
 			}
 			switch (object.orderby) {
+				case "ORDEN":
+					orderby += "GE.orden";
+				break;
 				case "CLAVE":
 					orderby += "GE.clave";
 					break;
@@ -7748,7 +7992,7 @@ class CatalogosDAO {
 					orderby += "GE.id_campus";
 					break;
 				default:
-					orderby += "GE.persistenceid"
+					orderby += "GE.orden"
 					break;
 			}
 
@@ -7787,7 +8031,7 @@ class CatalogosDAO {
 				row.setTipo_de_archivo(rs.getString("tipo_de_archivo"))
 				row.setCampus_pid(rs.getLong("campus_pid"))
 				row.setPersistenceId(rs.getLong("persistenceId"))
-				
+				row.setOrden(rs.getLong("orden"));
 				rows.add(row)
 			}
 			
@@ -8184,7 +8428,7 @@ class CatalogosDAO {
 		Boolean closeCon = false;
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		Map<String, Object> row = new HashMap<String, Object>();
-		String where = " WHERE is_eliminado = false", orderby = "";
+		String where = " WHERE is_eliminado = false", orderby = " ORDER BY ";
 		Integer total_rows = 0;
 		
 		try {
@@ -8192,14 +8436,104 @@ class CatalogosDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
-			pstm = con.prepareStatement(StatementsCatalogos.SELECT_COUNT_CATPERIODO.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+			String consultaCount = StatementsCatalogos.SELECT_COUNT_CATPERIODO;
+			String consulta = StatementsCatalogos.SELECT_CATPERIODO;
+
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {	
+				switch (filtro.get("columna")) {
+					case "CLAVE":
+						where += " AND LOWER(peri.clave) ";
+						if (filtro.get("operador").equals("Igual a")) where += "= LOWER('[valor]')"
+						else where += "LIKE LOWER('%[valor]%')"
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "DESCRIPCIÓN":
+						where += " AND LOWER(peri.descripcion) ";
+						if (filtro.get("operador").equals("Igual a")) where += "= LOWER('[valor]')"
+						else where += "LIKE LOWER('%[valor]%')"
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "SEMESTRAL":
+						where += " AND ((peri.is_semestral = TRUE AND 'sí' [COMPARACIÓN]) OR (peri.is_semestral = FALSE AND 'no' [COMPARACIÓN]))";
+						if (filtro.get("operador").equals("Igual a")) where = where.replace("[COMPARACIÓN]", "= LOWER('[valor]')")
+						else where = where.replace("[COMPARACIÓN]", "LIKE LOWER('%[valor]%')");
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "TRIMESTRAL":
+						where += " AND ((peri.is_trimestral = TRUE AND 'sí' [COMPARACIÓN]) OR (peri.is_trimestral = FALSE AND 'no' [COMPARACIÓN]))";
+						if (filtro.get("operador").equals("Igual a")) where = where.replace("[COMPARACIÓN]", "= LOWER('[valor]')")
+						else where = where.replace("[COMPARACIÓN]", "LIKE LOWER('%[valor]%')");
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "INICIO CAPTACIÓN":
+						where += " AND LOWER(to_char(peri.fecha_inicio::timestamp, 'DD-MM-YYYY')) ";
+						if (filtro.get("operador").equals("Igual a")) where += "= LOWER('[valor]')"
+						else where += "LIKE LOWER('%[valor]%')"
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "FIN CAPTACIÓN":
+						where += " AND LOWER(to_char(peri.fecha_fin::timestamp, 'DD-MM-YYYY')) ";
+						if (filtro.get("operador").equals("Igual a")) where += "= LOWER('[valor]')"
+						else where += "LIKE LOWER('%[valor]%')"
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "ACTIVO":
+						where += " AND ((peri.activo = TRUE AND 'sí' [COMPARACIÓN]) OR (peri.activo = FALSE AND 'no' [COMPARACIÓN]))";
+						if (filtro.get("operador").equals("Igual a")) where = where.replace("[COMPARACIÓN]", "= LOWER('[valor]')")
+						else where = where.replace("[COMPARACIÓN]", "LIKE LOWER('%[valor]%')");
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "USUARIO CREACIÓN":
+						where += " AND LOWER(peri.usuario_banner) ";
+						if (filtro.get("operador").equals("Igual a")) where += "= LOWER('[valor]')"
+						else where += "LIKE LOWER('%[valor]%')"
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+				}
+			}
+			switch (object.orderby) {
+				case "CLAVE":
+					orderby += "peri.clave";
+					break;
+				case "DESCRIPCIÓN":
+					orderby += "peri.descripcion";
+					break;
+				case "SEMESTRAL":
+					orderby += "peri.is_semestral";
+					break;
+				case "TRIMESTRAL":
+					orderby += "peri.is_trimestral";
+					break;
+				case "INICIO CAPTACIÓN":
+					orderby += "peri.fecha_inicio::timestamp";
+					break;
+				case "FIN CAPTACIÓN":
+					orderby += "peri.fecha_fin::timestamp";
+					break;
+				case "ACTIVO":
+					orderby += "peri.activo";
+					break;
+				case "USUARIO CREACIÓN":
+					orderby += "peri.usuario_banner";
+					break;
+				default:
+					orderby += "peri.fecha_creacion"
+					break;
+			}
+
+			orderby += " " + object.orientation;
+			
+			consulta = consulta.replace("[WHERE]", where);
+			consulta = consulta.replace("[ORDERBY]", orderby)
+
+			pstm = con.prepareStatement(consultaCount.replace("[WHERE]", where));
 			rs = pstm.executeQuery();
 			
 			if(rs.next()) {
 				total_rows = rs.getInt("total_rows");
 			}
 			
-			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATPERIODO.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+			pstm = con.prepareStatement(consulta)
 			rs = pstm.executeQuery();
 			
 //			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");

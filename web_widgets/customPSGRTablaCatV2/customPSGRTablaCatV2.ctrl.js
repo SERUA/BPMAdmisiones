@@ -98,7 +98,6 @@ function PbTableCtrl($scope, $http) {
         }
 
         $scope.properties.lstCatCampus = resultado;
-
         // Llamar a $scope.$watch después de actualizar lstCatCampus
         $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
             if (newValue !== undefined) {
@@ -132,7 +131,6 @@ function PbTableCtrl($scope, $http) {
             
             // Asignar los datos obtenidos a $scope.properties.lstCatCampus
             $scope.properties.lstCatCampus = response.data;
-        
             // Llamar a $scope.getCatalogo() al finalizar
             $scope.getCatalogo();
         

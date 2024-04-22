@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRCatManejoDocumentos",
   "name" : "PSGRCatManejoDocumentos",
-  "lastUpdate" : 1705360762326,
+  "lastUpdate" : 1713809954073,
   "rows" : [
     [
       {
@@ -480,6 +480,7 @@
                       "headers" : {
                         "type" : "constant",
                         "value" : [
+                          "Orden",
                           "Clave",
                           "Nombre",
                           "Descripción",
@@ -494,6 +495,7 @@
                       "columnsKey" : {
                         "type" : "constant",
                         "value" : [
+                          "orden",
                           "clave",
                           "nombre_documento",
                           "descripcion",
@@ -666,6 +668,82 @@
                             },
                             "label" : {
                               "type" : "interpolation",
+                              "value" : "Orden"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "selectedCat.orden"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "number"
+                            },
+                            "min" : {
+                              "type" : "constant",
+                              "value" : 1
+                            },
+                            "max" : {
+                              "type" : "constant"
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
+                            }
+                          },
+                          "reference" : "82cc512e-f281-4bea-a408-08ae828f6ec1",
+                          "hasValidationError" : false,
+                          "id" : "pbInput"
+                        },
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 6,
+                            "lg" : 6
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "readOnly" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
                               "value" : "Clave"
                             },
                             "labelPosition" : {
@@ -701,7 +779,9 @@
                           "reference" : "6791e12c-b848-48cc-b0b7-995a4ae8f03b",
                           "hasValidationError" : false,
                           "id" : "pbInput"
-                        },
+                        }
+                      ],
+                      [
                         {
                           "type" : "component",
                           "dimension" : {
@@ -776,9 +856,7 @@
                           "reference" : "457c060a-2b73-4952-bb50-a9fc1a0cfdee",
                           "hasValidationError" : false,
                           "id" : "pbInput"
-                        }
-                      ],
-                      [
+                        },
                         {
                           "type" : "component",
                           "dimension" : {
@@ -853,7 +931,9 @@
                           "reference" : "fb2a2e1a-c07d-45b2-a67c-9ccc5385c9c0",
                           "hasValidationError" : false,
                           "id" : "pbInput"
-                        },
+                        }
+                      ],
+                      [
                         {
                           "type" : "component",
                           "dimension" : {
@@ -921,16 +1001,14 @@
                           "reference" : "505ead3a-781a-4676-ad6c-d31a0b34eccf",
                           "hasValidationError" : false,
                           "id" : "pbSelect"
-                        }
-                      ],
-                      [
+                        },
                         {
                           "type" : "component",
                           "dimension" : {
                             "xs" : 12,
                             "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
+                            "md" : 6,
+                            "lg" : 6
                           },
                           "propertyValues" : {
                             "cssClasses" : {
@@ -1332,7 +1410,14 @@
         "    }",
         "}",
         "",
-        "return resultado;"
+        "const sortByField = (fieldName) => (a, b) => {",
+        "    if (a[fieldName] < b[fieldName]) return -1;",
+        "    if (a[fieldName] > b[fieldName]) return 1;",
+        "    return 0;",
+        "};",
+        "",
+        "return resultado.slice().sort(sortByField(\"descripcion\"));",
+        "// return resultado;"
       ],
       "exposed" : false
     },

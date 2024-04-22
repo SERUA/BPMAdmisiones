@@ -19,6 +19,7 @@ import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 
 import com.anahuac.posgrados.auxiliar.AUXISolAdmiRequisitoAdicionalDAO
+import com.anahuac.posgrados.bitacora.PSGRLogTransferencias
 import com.anahuac.posgrados.auxiliar.AUXISolAdmiRequisitoAdicional
 import com.anahuac.posgrados.catalog.PSGRCatCampus
 import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
@@ -305,11 +306,14 @@ class SolicitudDeAdmisionDAO {
 								where += " WHERE "
 							}
 							
-							where += " (LOWER(to_char(regi.fecha_registro::timestamp, 'DD/MM/YYYY HH24:MI')) ";
 							if (filtro.get("operador").equals("Igual a")) {
-								where += "=LOWER('[valor]')"
+								where += " (LOWER(to_char(regi.fecha_registro::timestamp, 'DD/MM/YYYY HH24:MI')) = LOWER('[valor]'))";
+							} else if (filtro.get("operador").equals("Mayor que")) {
+								where += "(regi.fecha_registro::timestamp > TO_DATE('[valor]', 'DD/MM/YYYY')) "
+							} else if (filtro.get("operador").equals("Menor que")) {
+								where += "(regi.fecha_registro::timestamp < TO_DATE('[valor]', 'DD/MM/YYYY')) "
 							} else {
-								where += "LIKE LOWER('%[valor]%'))"
+								where += " (LOWER(to_char(regi.fecha_registro::timestamp, 'DD/MM/YYYY HH24:MI')) LIKE LOWER('%[valor]%'))";
 							}
 	
 							where = where.replace("[valor]", filtro.get("valor"))
@@ -402,6 +406,24 @@ class SolicitudDeAdmisionDAO {
 							
 							break;
 						// 
+						case "CAMPUS_PIDS":
+							errorlog += "CAMPUS_PIDS"
+							def campus_pids_string = filtro.get("valor");
+							def campus_pids = new ArrayList<Long>()
+							try {
+								def partes = campus_pids_string.split(',')
+								
+								partes.each { parte ->
+									campus_pids.add(Long.parseLong(parte))
+								}
+							}
+							catch (e) {
+								throw new Exception('El valor del filtro "CAMPUS_PIDS" debe ser una lista separada por comas. Valor recibido: ' + campus_pids_string + ". " + e.message);
+							}
+							
+							// Filtrar por campus
+							where += " AND prog.campus_pid IN (" + campus_pids.join(",") + ") ";
+							break;
 						case "POSGRADO":
 							errorlog += "POSGRADO"
 							if (where.contains("WHERE")) {
@@ -422,6 +444,11 @@ class SolicitudDeAdmisionDAO {
 							where += " ( LOWER(gest.nombre) = LOWER('[valor]')) ";
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
+						case "PROGRAMA_PID":
+							errorlog += "PROGRAMA_PID"
+							where += " AND ( gest.persistenceId = [valor]) ";
+							where = where.replace("[valor]", filtro.get("valor").toString())
+							break;
 						case "PERIODO":
 							errorlog += "PERIODO"
 							if (where.contains("WHERE")) {
@@ -431,6 +458,11 @@ class SolicitudDeAdmisionDAO {
 							}
 							where += " ( LOWER(peri.descripcion) = LOWER('[valor]')) ";
 							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "PERIODO_PID":
+							errorlog += "PERIODO_PID"
+							where += " AND ( peri.persistenceId = [valor]) ";
+							where = where.replace("[valor]", filtro.get("valor").toString())
 							break;
 						default:
 							break;
@@ -1554,31 +1586,31 @@ class SolicitudDeAdmisionDAO {
 				rows.add(contrato);
 				resultado.setData(rows);
 				context.apiClient.processAPI.assignAndExecuteUserTask(context.apiClient.session.userId, tareaEjecutar.id,  contrato);
-				
-				//Bitácora de transferencias
-				Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
-				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-				String fechaHoraFormateada = formato.format(timestampActual);
-				
-				pstm = con.prepareStatement(Statements.INSERT_BITACORA_TRANSFERENCIA);
-				pstm.setLong(1, Long.parseLong(object.caseid));
-				pstm.setLong(2, campus);
-				pstm.setLong(3, Long.parseLong(object.campus_transferencia.persistenceId_string));
-				pstm.setLong(4, posgrado);
-				pstm.setLong(5, Long.parseLong(object.posgrado_transferencia.persistenceId_string));
-				pstm.setLong(6, carrera);
-				pstm.setLong(7, Long.parseLong(object.carrera_transferencia.persistenceId_string));
-				pstm.setLong(8, periodo);
-				pstm.setLong(9, Long.parseLong(object.periodo_transferencia.persistenceId_string));
-				pstm.setString(10, fechaHoraFormateada);
-				pstm.setString(11, context.apiSession.userName);
-				
-				if(pstm.executeUpdate() < 1) {
-					throw new Exception("No se ha podido actualizar el registro, intente de nuevo mas tarde");
-				}
-				
-				//Fin bitácora transferencias
 			}
+			
+			//Bitácora de transferencias
+			Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			String fechaHoraFormateada = formato.format(timestampActual);
+			
+			pstm = con.prepareStatement(Statements.INSERT_BITACORA_TRANSFERENCIA);
+			pstm.setLong(1, Long.parseLong(object.caseid));
+			pstm.setLong(2, campus);
+			pstm.setLong(3, Long.parseLong(object.campus_transferencia.persistenceId_string));
+			pstm.setLong(4, posgrado);
+			pstm.setLong(5, Long.parseLong(object.posgrado_transferencia.persistenceId_string));
+			pstm.setLong(6, carrera);
+			pstm.setLong(7, Long.parseLong(object.carrera_transferencia.persistenceId_string));
+			pstm.setLong(8, periodo);
+			pstm.setLong(9, Long.parseLong(object.periodo_transferencia.persistenceId_string));
+			pstm.setString(10, fechaHoraFormateada);
+			pstm.setString(11, context.apiSession.userName);
+			
+			if(pstm.executeUpdate() < 1) {
+				throw new Exception("No se ha podido actualizar el registro, intente de nuevo mas tarde");
+			}
+			
+			//Fin bitácora transferencias
 			
 			con.commit();
 			
@@ -1997,5 +2029,166 @@ class SolicitudDeAdmisionDAO {
 		
 		return resultado;
 	}
+	
+	public Result getCantidadDeSolicitudes(String campus_pids_string, String posgrado_pid_string, String posgrado_descripcion, String programa_pid_string, String periodo_pid_string, String fecha_inicio, String fecha_fin) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = "WHERE (regi.is_eliminado IS NULL OR regi.is_eliminado = FALSE)"; // Aplicar filtro por defecto para registros no eliminados
+		String orderby = ""; // Ordenamiento por defecto
+		Boolean esPorDescripcion = false;
+		
+		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
+		
+		try {
+			closeCon = validarConexion();
+			
+			// Validar inputs
+			if (campus_pids_string === null || campus_pids_string.equals("")) {
+				//throw new Exception('El campo "campus_pids" no debe ir vacío');
+				// Retornar sin información
+				resultado.setSuccess(true);
+				return resultado	
+			} 
+			else if (posgrado_pid_string === null || posgrado_pid_string.equals("")) {
+				if (!(posgrado_descripcion === null || posgrado_descripcion.equals(""))) {
+					esPorDescripcion = true;
+				}
+			}
+			
+			// Conversión
+			def campus_pids = new ArrayList<Long>()
+			def posgrado_pid = 0L;
+			def programa_pid = 0L;
+			def periodo_pid = 0L;
+
+			try {
+				def partes = campus_pids_string.split(',');
+				partes.each { parte -> campus_pids.add(Long.parseLong(parte))};
+			}
+			catch(e) {}
+			try {
+				if (!esPorDescripcion) posgrado_pid = Long.parseLong(posgrado_pid_string);
+			}
+			catch(e) {}
+			try {
+				programa_pid = Long.parseLong(programa_pid_string);
+			}
+			catch(e) {}
+			try {
+				periodo_pid = Long.parseLong(periodo_pid_string);
+			}
+			catch(e) {}
+			
+			
+			// Filtros
+			where += " AND prgm.campus_pid IN (" + campus_pids.join(",") + ")";
+			
+			if (posgrado_pid || posgrado_descripcion) {
+				if (esPorDescripcion) where += " AND posg.descripcion = '" + posgrado_descripcion + "'";
+				else where += " AND posg.persistenceid = " + posgrado_pid;
+			}
+
+			if (programa_pid) where += " AND prgm.programa_interes_pid = " + programa_pid;
+			
+			if (periodo_pid) where += " AND prgm.periodo_ingreso_pid = " + periodo_pid;
+			
+			if (fecha_inicio) where += "AND (regi.fecha_registro::timestamp > TO_DATE('" + fecha_inicio + "', 'DD/MM/YYYY'))";
+			
+			if (fecha_fin) where += "AND (regi.fecha_registro::timestamp < TO_DATE('" + fecha_fin + "', 'DD/MM/YYYY'))";
+
+			Map<String, Object> cantidades = new HashMap<String, Object>();
+			
+			// Consulta agrupadas por Estatus
+			String consultaByEstatus = Statements.GET_CANTIDAD_SOLICITUDES_BY_ESTATUS.replace("[WHERE]", where);
+			pstm = con.prepareStatement(consultaByEstatus);
+			rs = pstm.executeQuery();
+			
+			Map<String, Object> cantidadesByEstatus = new HashMap<String, Object>();
+			
+			Long enProcesoCount = 0;
+			Long enArchivoCount = 0;
+			Long admitidas = 0;
+			Long noAdmitidas = 0;
+			Long sumaByEstatus = 0;
+			while (rs.next()) {
+				
+				def estatus = rs.getString("estatus_solicitud");
+				def cantidad = rs.getLong("cantidad");
+				
+				if (estatus == "solicitud_admitida") {
+					admitidas = cantidad;
+				}
+				
+				else if (estatus == "solicitud_no_admitida") {
+					noAdmitidas = cantidad;
+				}
+				
+				else if (estatus == "solicitud_rechazada_admin" || estatus == "solicitud_archivada_area_academica" || estatus == "solicitud_archivada_reagendacion" || estatus == "solicitud_archivada_dictamen") {
+					enArchivoCount += cantidad;
+				}
+				
+				else {
+					enProcesoCount += cantidad;
+				}	
+				
+				sumaByEstatus += cantidad;	
+			}
+			
+			cantidadesByEstatus.put("admitidos", admitidas);
+			cantidadesByEstatus.put("noAdmitidos", noAdmitidas);
+			cantidadesByEstatus.put("archivados", enArchivoCount);
+			cantidadesByEstatus.put("enProceso", enProcesoCount);
+			cantidadesByEstatus.put("totales", sumaByEstatus);
+			
+			cantidades.put("byEstatus", cantidadesByEstatus)
+			
+			// Consulta agrupadas por Empezadas/Sin empezar (tienen posgrado o no)
+			String consultaByPosgrado = Statements.GET_CANTIDAD_SOLICITUDES_BY_POSGRADO.replace("[WHERE]", where);
+			pstm = con.prepareStatement(consultaByPosgrado);
+			rs = pstm.executeQuery();
+			
+			Map<String, Object> cantidadesByEmpezado = new HashMap<String, Object>();
+			
+			Long empezadas = 0;
+			Long sinEmpezar = 0;
+			Long sumaByPosgrado = 0;
+			while (rs.next()) {
+				
+				def posgrado = rs.getString("posgrado_pid");
+				def cantidad = rs.getLong("cantidad");
+				
+				if (posgrado == null) {
+					sinEmpezar = cantidad;
+				}
+				
+				else {
+					empezadas += cantidad;
+				}
+				
+				sumaByPosgrado += cantidad;
+			}
+			
+			cantidadesByEmpezado.put("empezadas", empezadas);
+			cantidadesByEmpezado.put("sinEmpezar", sinEmpezar);
+			cantidadesByEmpezado.put("totales", sumaByPosgrado);
+			
+			cantidades.put("byEmpezado", cantidadesByEmpezado)
+			
+			rows.add(cantidades);
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	
 	
 }
