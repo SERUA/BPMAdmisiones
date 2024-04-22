@@ -186,9 +186,9 @@ class StatementsCatalogos {
 	public static final String GET_CONFIGURACIONES = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRConfiguraciones as GE LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.id_campus [CAMPUS] [WHERE] [ORDERBY] [LIMITOFFSET]";
 	
 	//PSGRCatDocumentos
-	public static final String INSERT_CATDOCUMENTOS = "INSERT INTO PSGRCatManejoDocumentos (persistenceid, persistenceversion, clave, descripcion, nombre_documento, fecha_creacion_date, es_opcional, tipo_de_archivo, is_eliminado, campus_pid, posgrado_pid) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCatManejoDocumentos ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCatManejoDocumentos) end), 0, ?, ?, ?, ?, ?, ?, false, ?, ?)";
+	public static final String INSERT_CATDOCUMENTOS = "INSERT INTO PSGRCatManejoDocumentos (persistenceid, persistenceversion, clave, descripcion, nombre_documento, fecha_creacion_date, es_opcional, tipo_de_archivo, is_eliminado, campus_pid, posgrado_pid, orden) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCatManejoDocumentos ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCatManejoDocumentos) end), 0, ?, ?, ?, ?, ?, ?, false, ?, ?, ?)";
 	public static final String DELETE_CATDOCUMENTOS = "UPDATE PSGRCatManejoDocumentos SET is_eliminado = true WHERE persistenceid = ?";
-	public static final String UPDATE_CATDOCUMENTOS = "UPDATE PSGRCatManejoDocumentos SET clave = ?, descripcion = ?, nombre_documento = ?, es_opcional = ?, tipo_de_archivo = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATDOCUMENTOS = "UPDATE PSGRCatManejoDocumentos SET clave = ?, descripcion = ?, nombre_documento = ?, es_opcional = ?, tipo_de_archivo = ?, orden = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATDOCUMENTOS = "SELECT persistenceid, clave, valor,  id_campus FROM PSGRCatManejoDocumentos WHERE id_campus = ?";
 	public static final String GET_CATDOCUMENTOS = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRCatManejoDocumentos as GE  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.campus_pid [CAMPUS]  [WHERE] [ORDERBY] ";//[LIMITOFFSET]
 	

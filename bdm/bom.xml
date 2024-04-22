@@ -5246,10 +5246,11 @@
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPosgrado" fetchType="LAZY" name="posgrado" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="es_opcional" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="tipo_de_archivo" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries>
-                <query name="getCat" content="SELECT p&#13;&#10;FROM PSGRCatManejoDocumentos p&#13;&#10;LEFT JOIN p.campus c&#13;&#10;LEFT JOIN p.posgrado d&#13;&#10;WHERE p.is_eliminado = :is_eliminado AND c.persistenceId =: campus AND d.persistenceId =: posgrado&#13;&#10;ORDER BY p.descripcion ASC" returnType="java.util.List">
+                <query name="getCat" content="SELECT p&#13;&#10;FROM PSGRCatManejoDocumentos p&#13;&#10;LEFT JOIN p.campus c&#13;&#10;LEFT JOIN p.posgrado d&#13;&#10;WHERE p.is_eliminado = :is_eliminado AND c.persistenceId =: campus AND d.persistenceId =: posgrado&#13;&#10;ORDER BY  p.orden ASC" returnType="java.util.List">
                     <queryParameters>
                         <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
                         <queryParameter name="campus" className="java.lang.Long"/>

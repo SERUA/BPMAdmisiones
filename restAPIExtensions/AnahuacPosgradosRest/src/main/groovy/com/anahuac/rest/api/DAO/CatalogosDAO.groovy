@@ -7797,6 +7797,8 @@ class CatalogosDAO {
 			pstm.setString(6, object.tipo_de_archivo);
 			pstm.setLong(7, object.campus_pid.persistenceId);
 			pstm.setLong(8, object.posgrado_pid.persistenceId);
+			pstm.setInt(9, object.orden);
+			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
 			} else {
@@ -7842,7 +7844,8 @@ class CatalogosDAO {
 			pstm.setString(3, object.nombre_documento);
 			pstm.setBoolean(4, object.es_opcional);
 			pstm.setString(5, object.tipo_de_archivo);
-			pstm.setLong(6, object.persistenceId);
+			pstm.setInt(6, object.orden);
+			pstm.setLong(7, object.persistenceId);
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -7976,6 +7979,9 @@ class CatalogosDAO {
 				}
 			}
 			switch (object.orderby) {
+				case "ORDEN":
+					orderby += "GE.orden";
+				break;
 				case "CLAVE":
 					orderby += "GE.clave";
 					break;
@@ -7986,7 +7992,7 @@ class CatalogosDAO {
 					orderby += "GE.id_campus";
 					break;
 				default:
-					orderby += "GE.persistenceid"
+					orderby += "GE.orden"
 					break;
 			}
 
@@ -8025,7 +8031,7 @@ class CatalogosDAO {
 				row.setTipo_de_archivo(rs.getString("tipo_de_archivo"))
 				row.setCampus_pid(rs.getLong("campus_pid"))
 				row.setPersistenceId(rs.getLong("persistenceId"))
-				
+				row.setOrden(rs.getLong("orden"));
 				rows.add(row)
 			}
 			
