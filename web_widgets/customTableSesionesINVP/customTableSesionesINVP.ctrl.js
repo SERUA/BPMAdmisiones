@@ -703,10 +703,35 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
         $http.post(url, dataToSend).success(function (_data) {
             ocultarModal("modalReactivar");
-            swal("Ok", "El usuario ha sido reactivado", "success");
-            getAspirantesSesion($scope.selectedSesion.idSesion);
+            // swal("Ok", "El usuario ha sido reactivado", "success");
+            let url = "../API/extension/AnahuacINVPRestGet?url=desbloquearAspiranteDef&p=0&c=10&username=" + $scope.selectedAspirante.correoElectronico;
+    
+            $http.get(url).success(function(_data){
+                
+            }).error(function(_error){
+                
+            }).finally(function(){
+                desbloquearAspReact();
+                getAspirantesSesion($scope.selectedSesion.idSesion);
+                ocultarModal("modalReactivar");
+                swal("Ok", "El usuario ha sido reactivado", "success");
+                
+            });
+            
         }).error(function (_error) {
             swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
+        });
+    }
+
+    function desbloquearAspReact(){
+        let url = "../API/extension/AnahuacINVPRestAPI?url=bloquearAspirante&p=0&c=10&username=" + $scope.selectedAspirante.correoElectronico + "&bloquear=false&terminar=false";
+
+        $http.post(url).success(function(_data){
+            console.log("resbloqueado al reactivar")
+        }).error(function(_error){
+
+        }).finally(function(){
+            getAspirantesSesion($scope.selectedSesion.idSesion);
         });
     }
 
@@ -831,9 +856,22 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
             $http.post(url, $scope.configUsuario).success(function (_data) {
                 ocultarModal("modalReagen");
+                $scope.refreshAspirantes();
                 if ($scope.selectedSesion.estatus === "Concluida" && $scope.selectedAspirante.estatusINVP === "Por iniciar") {
                     swal("Ok", "Usuario reagendado", "success");
-                    $scope.refreshAspirantes();
+                    
+                    $http.post(url, dataToSend).success(function(_data){
+                        let url = "../API/extension/AnahuacINVPRestGet?url=desbloquearAspiranteDef&p=0&c=10&username=" + $scope.selectedAspirante.correoElectronico;
+                
+                        $http.get(url).success(function(_data){
+                            console.log("Desbloqueado con éxito");
+                        }).error(function(_error){
+                            console.log("Error al desbloquear")
+                        });
+                    }).error(function(_error){
+                        swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
+                    }); 
+                    
                 } else {
                     $scope.terminarAspirante();
                 }

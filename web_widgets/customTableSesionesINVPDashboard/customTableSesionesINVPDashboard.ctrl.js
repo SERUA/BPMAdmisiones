@@ -361,7 +361,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $http.post(url).success(function(_data){
             ocultarModal("modalTerminarTodos");
             swal("Ok", "La sesión ha terminado para todos los usuarios.", "success");
-            getAspirantesSesion($scope.selectedSesion.idSesion);
+            window.location.reload();
+            // getAspirantesSesion($scope.selectedSesion.idSesion);
         }).error(function(_error){
             swal("Algo ha fallado", "Ha ocurrido un error al terminar la sesión para todos los aspirantes en proceso. Intente de nuevo mas tarde", "error");
         });
@@ -804,7 +805,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         let url = "../API/extension/AnahuacINVPRestAPI?url=bloquearAspirante&p=0&c=10&username=" + $scope.selectedAspirante.correoElectronico + "&bloquear=false&terminar=false";
 
         $http.post(url).success(function(_data){
-            
+            console.log("resbloqueado al reactivar")
         }).error(function(_error){
 
         }).finally(function(){
@@ -982,7 +983,18 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 // $scope.terminarAspirante();
                 $scope.refreshAspirantes();
                 if($scope.selectedSesion.estatus === "Concluida" && $scope.selectedAspirante.estatusINVP === "Por iniciar"){
-                    swal("Ok", "Usuario reagendado", "success");
+                    swal("Ok", "Usuario reagendado", "success"); 
+                    $http.post(url, dataToSend).success(function(_data){
+                        let url = "../API/extension/AnahuacINVPRestGet?url=desbloquearAspiranteDef&p=0&c=10&username=" + $scope.selectedAspirante.correoElectronico;
+                
+                        $http.get(url).success(function(_data){
+                            console.log("Desbloqueado con éxito");
+                        }).error(function(_error){
+                            console.log("Error al desbloquear")
+                        });
+                    }).error(function(_error){
+                        swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
+                    }); 
                 } else {
                     $scope.terminarAspirante();
                 }
