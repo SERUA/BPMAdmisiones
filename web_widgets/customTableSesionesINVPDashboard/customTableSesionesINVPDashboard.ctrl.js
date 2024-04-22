@@ -361,7 +361,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $http.post(url).success(function(_data){
             ocultarModal("modalTerminarTodos");
             swal("Ok", "La sesión ha terminado para todos los usuarios.", "success");
-            getAspirantesSesion($scope.selectedSesion.idSesion);
+            window.location.reload();
+            // getAspirantesSesion($scope.selectedSesion.idSesion);
         }).error(function(_error){
             swal("Algo ha fallado", "Ha ocurrido un error al terminar la sesión para todos los aspirantes en proceso. Intente de nuevo mas tarde", "error");
         });

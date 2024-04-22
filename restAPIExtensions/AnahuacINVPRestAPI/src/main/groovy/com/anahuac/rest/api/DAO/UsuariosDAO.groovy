@@ -2343,7 +2343,7 @@ class UsuariosDAO {
 						
 						con.setAutoCommit(false);
 						pstm = con.prepareStatement("UPDATE IdiomaINVPUsuario SET usuariobloqueado = ? WHERE username = ?")
-						pstm.setBoolean(1, true);
+						pstm.setBoolean(1, false);
 						pstm.setString(2, row.getCorreoElectronico());
 						pstm.executeUpdate();
 						
@@ -2351,6 +2351,9 @@ class UsuariosDAO {
 						pstm.setBoolean(1, true);
 						pstm.setString(2, row.getCorreoElectronico());
 						
+						pstm = con.prepareStatement("DELETE FROM AspirantesBloqueados WHERE username = ?");
+						pstm.setString(1, row.getCorreoElectronico());
+						pstm.executeUpdate();
 						
 						if(pstm.executeUpdate() == 0) {
 							pstm = con.prepareStatement(Statements.INSERT_TERMINADO_EXAMEN);
@@ -2366,7 +2369,8 @@ class UsuariosDAO {
 			pstm = con.prepareStatement(Statements.INSERT_SESION_TERMINADA);
 			pstm.setLong(1, idesion);
 			pstm.executeUpdate();
-
+			
+			con.commit();
 			resultado.setData(rows);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
