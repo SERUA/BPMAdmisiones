@@ -4,6 +4,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.idiomaTodos = "";
     $scope.tabShown = "seguimiento";
     $scope.preguntas = true;
+    $scope.fechaActual = new Date().toISOString().split('T')[0];
     
     $scope.switchTab = function(_tab){
         $scope.tabShown = _tab;

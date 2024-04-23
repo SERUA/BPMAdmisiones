@@ -2351,15 +2351,16 @@ class UsuariosDAO {
 						pstm.setBoolean(1, true);
 						pstm.setString(2, row.getCorreoElectronico());
 						
-						pstm = con.prepareStatement("DELETE FROM AspirantesBloqueados WHERE username = ?");
-						pstm.setString(1, row.getCorreoElectronico());
-						pstm.executeUpdate();
 						
 						if(pstm.executeUpdate() == 0) {
 							pstm = con.prepareStatement(Statements.INSERT_TERMINADO_EXAMEN);
 							pstm.setString(1, row.getCorreoElectronico());
 							pstm.setBoolean(2, true);
 						}
+						
+						pstm = con.prepareStatement("DELETE FROM AspirantesBloqueados WHERE username = ?");
+						pstm.setString(1, row.getCorreoElectronico());
+						pstm.executeUpdate();
 						
 						break;
 					}
@@ -2370,7 +2371,6 @@ class UsuariosDAO {
 			pstm.setLong(1, idesion);
 			pstm.executeUpdate();
 			
-			con.commit();
 			resultado.setData(rows);
 			resultado.setSuccess(true);
 		} catch (Exception e) {

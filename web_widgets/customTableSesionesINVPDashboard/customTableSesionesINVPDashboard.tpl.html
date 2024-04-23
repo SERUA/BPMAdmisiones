@@ -525,7 +525,8 @@
             <div class="row">
                 <div class="col-xs-12"> 
                     <label>Fecha:</label>
-                    <input ng-model="aplicacion" class="form-control" ng-min="fecha"  ng-max="fechaFutura" type="date" ng-change="setValue(aplicacion, 'aplicacion')">
+                    <input ng-model="aplicacion" class="form-control" min="{{fechaActual}}" max="{{fechaActual}}" type="date" ng-change="setValue(aplicacion, 'aplicacion')">
+                    <!-- <input ng-model="aplicacion" class="form-control" ng-min="fecha"  ng-max="fechaFutura" type="date" ng-change="setValue(aplicacion, 'aplicacion')"> -->
                 </div>
                 <!-- <div class="col-xs-3"> 
                     <label>Hora inicio:</label>
@@ -566,7 +567,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-xs-12"> 
-                        Fecha: <label>{{selectedAspirante.tempfecha}}</label>
+                        Fecha: <label>{{selectedAspirante.tempfecha | date:'dd/MM/yyyy'}}</label>
                     </div>
                     <!-- <div class="col-xs-6"> 
                         Hr. Inicio:<label>{{selectedAspirante.tempentrada}}</label>
