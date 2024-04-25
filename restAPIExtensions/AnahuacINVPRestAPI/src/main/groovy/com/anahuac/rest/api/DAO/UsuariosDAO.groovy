@@ -1607,11 +1607,6 @@ class UsuariosDAO {
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			try {
-				con.rollback();
-			} catch(Exception ex) {
-				ex.printStackTrace();
-			}
 		} finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
@@ -2751,7 +2746,10 @@ class UsuariosDAO {
 			if (rs.next()) {
 				if(rs.getBoolean("reagendado") != true) {
 					errorLog += "|2 ";
-					if(rs.getBoolean("correct_date") == false) {
+					if(rs.getBoolean("finalizada") == true) {
+						errorLog += "|2.3 ";
+						throw new Exception("examen_finalizado");
+					} else if(rs.getBoolean("correct_date") == false) {
 						errorLog += "|2.1 ";
 						throw new Exception("fecha_incorrecta");
 					} 
@@ -2759,10 +2757,6 @@ class UsuariosDAO {
 //						errorLog += "|2.2 ";
 //						throw new Exception("examen_no_iniciado");
 //					} 
-					else if(rs.getBoolean("finalizada") == true) {
-						errorLog += "|2.3 ";
-						throw new Exception("examen_finalizado");
-					}
 				} else {
 					errorLog += "|3 ";
 					if(rs.getBoolean("reagendado") != true) {

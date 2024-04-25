@@ -143,9 +143,6 @@ class LoginSesionesDAO {
 			if(!checkBloqueado.isSuccess()) {
 				throw new Exception(checkBloqueado.getError());
 			} else {
-				if(Boolean.valueOf(checkBloqueado.data.get(0)) == true) {
-					throw new Exception("usuario_bloqueado");
-				}
 				
 				Result resultSesion = new UsuariosDAO().checkEstatusExamen(object.username);
 				
@@ -154,6 +151,9 @@ class LoginSesionesDAO {
 					throw new Exception(resultSesion.getError());
 				}
 				
+				if(Boolean.valueOf(checkBloqueado.data.get(0)) == true) {
+					throw new Exception("usuario_bloqueado");
+				}
 //				Result resultBloquear = new UsuariosDAO().bloquearAspiranteDef(object.username);
 //				if(!resultBloquear.isSuccess()) {
 //					errorlog += " | 12 ";

@@ -8,15 +8,6 @@ function ($scope, modalService, $http) {
         modalService.open(modalId);
     }
     
-    // $scope.action = function(){
-    //     if($scope.properties.pageToken === "examen"){
-    //         $scope.properties.accionModal = "logout";
-    //         modalService.open($scope.properties.idModalLogout);
-    //     } else {
-    //         $scope.logout();
-    //     }
-    // };
-    
     $scope.action = function(){
         if($scope.properties.pageToken === "examen"){
             let url = "../API/extension/AnahuacINVPRestGet?url=getInfoRespuestas&p=0&c=10&username=" + $scope.properties.userData.user_name
@@ -167,7 +158,7 @@ function ($scope, modalService, $http) {
             // window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
         })
         .error(function(data, status) {
-           swal("Error", "No se pudo actualizar el estatus a terminado. Contacte a su aplicador.", "error")
+        //    swal("Error", "No se pudo actualizar el estatus a terminado. Contacte a su aplicador.", "error")
         })
         .finally(function() {
             updateterminadoGet();
@@ -185,7 +176,7 @@ function ($scope, modalService, $http) {
             window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
         })
         .error(function(data, status) {
-           swal("Error", "No se pudo actualizar el estatus a terminado. Contacte a su aplicador.", "error");
+        //    swal("Error", "No se pudo actualizar el estatus a terminado. Contacte a su aplicador.", "error");
         })
         .finally(function() {
             window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
