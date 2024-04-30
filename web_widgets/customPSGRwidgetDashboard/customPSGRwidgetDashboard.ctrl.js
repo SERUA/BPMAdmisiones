@@ -69,7 +69,7 @@ function($scope, $http, blockUI) {
         });
 
         doRequest("POST", "/bonita/API/extension/posgradosRest?url=selectSolicitudesAdmision&p=0&c=100", {}, {
-            "estatusSolicitud": "'solicitud_completada','modificaciones_realizadas','solicitud_reactivada'",
+            "estatusSolicitud": "'solicitud_completada','modificaciones_realizadas','solicitud_reactivada', 'solicitud_pase_lista_esperando_validacion'",
             "lstFiltro": [],
             "type": "aspirantes_proceso",
             "orderby": "",

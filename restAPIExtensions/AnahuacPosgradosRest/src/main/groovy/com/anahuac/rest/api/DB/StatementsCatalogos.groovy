@@ -205,5 +205,5 @@ class StatementsCatalogos {
 	public static final String SELECT_CATPERIODO = "SELECT * FROM PSGRCATPERIODO AS peri [WHERE] [ORDERBY]";
 	public static final String SELECT_COUNT_CATPERIODO = "SELECT COUNT(*) AS total_rows FROM PSGRCATPERIODO AS peri [WHERE]";
 	
-	public static final String GET_PROCESS_DEFINITION = "SELECT * FROM PROCESS_DEFINITION WHERE name = ? ORDER BY id DESC LIMIT 1";
+	public static final String GET_PROCESS_DEFINITION = "SELECT * FROM PROCESS_DEFINITION WHERE name =  ? AND activationstate = 'ENABLED' ORDER BY deploymentdate DESC LIMIT 1";
 }

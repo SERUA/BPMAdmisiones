@@ -31,7 +31,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     };
 
     function addCaseComment() {
-        debugger;
         const dataToSend = {
             content: JSON.stringify($scope.properties.caseUserCommentToSend),
             processInstanceId: $scope.properties.caseId,
@@ -193,12 +192,31 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
         return $http(req)
         .success((data)=>{
-            debugger;
             actualizarHubspot();
             console.log("Estatus actualizado");
-            // $scope.properties.dataFromSuccess = data;
-            // $scope.properties.dataFromError = undefined;
-            // $scope.properties.taskCompleted = true;
+        })
+        .error(()=>{
+            console.log("Estatus no actualizado");
+        })
+        .finally(function () {
+            localStorageService.delete($window.location.href);
+        });
+    }
+    
+    function actualizarHubspot() {
+        vm.busy = true;
+        let url = $scope.properties.urlHubspot.replace("[CASEID]", $scope.properties.caseId); 
+
+        var req = {
+            method: 'POST',
+            url: url
+        };
+
+        return $http(req)
+        .success((data)=>{
+            $scope.properties.dataFromSuccess = data;
+            $scope.properties.dataFromError = undefined;
+            $scope.properties.taskCompleted = true;
 
             // if ($scope.properties.targetUrlOnSuccess && method !== 'GET') {
             //     redirectIfNeeded();
@@ -216,44 +234,17 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             console.log("Estatus no actualizado");
         })
         .finally(function () {
-            localStorageService.delete($window.location.href);
-        });
-    }
-    
-    function actualizarHubspot() {
-        debugger;
-        vm.busy = true;
-        let url = $scope.properties.urlHubspot.replace("[CASEID]", $scope.properties.caseId); 
-
-        var req = {
-            method: 'POST',
-            url: url
-        };
-
-        return $http(req)
-        .success((data)=>{
-            debugger;
-            $scope.properties.dataFromSuccess = data;
-            $scope.properties.dataFromError = undefined;
             $scope.properties.taskCompleted = true;
-
-            if ($scope.properties.targetUrlOnSuccess && method !== 'GET') {
-                redirectIfNeeded();
-            }
+            localStorageService.delete($window.location.href);
+            vm.busy = false;
 
             closeModal($scope.properties.closeOnSuccess);
             if ($scope.properties.caseUserCommentToSend && $scope.properties.caseUserCommentToSend.mensaje !== null) {
                 addCaseComment();
+                // redirectIfNeeded();
             }
 
             vm.busy = false;
-            closeModal($scope.properties.closeOnSuccess);
-        })
-        .error(()=>{
-            console.log("Estatus no actualizado");
-        })
-        .finally(function () {
-            localStorageService.delete($window.location.href);
         });
     }
 
