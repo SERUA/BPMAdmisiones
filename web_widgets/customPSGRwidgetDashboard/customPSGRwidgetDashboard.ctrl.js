@@ -185,24 +185,28 @@ function($scope, $http, blockUI) {
     $scope.isSeruaPSG = false;
     $scope.isComite = false;
     $scope.isTicampus = false;
+    $scope.isChat = false;
+    $scope.isAdmisiones = false;
     
     function leerRoles(){
         for(let membership of $scope.lstMembership){
             if(membership.role_id.name === "ADMINISTRADOR" ){
                 $scope.isAdministrador = true;
-                console.log("$scope.isAdministrador: " + $scope.isAdministrador)
             }
             if(membership.role_id.name === "SERUA" || membership.role_id.name === "SERUA PSG" || membership.role_id.name === "TI SERUA"){
                 $scope.isSeruaPSG = true;
-                console.log("$scope.isSeruaPSG: " + $scope.isSeruaPSG)
             }
-            if(membership.role_id.name === "Comite PSG" || membership.role_id.name === "Admisiones PSG"){
+            if(membership.role_id.name === "Comite PSG" ){
                 $scope.isComite = true;
-                console.log("$scope.isComite: " + $scope.isComite)
+            }
+            if(membership.role_id.name === "Admisiones PSG" ){
+                $scope.isAdmisiones = true;
             }
             if(membership.role_id.name === "TI CAMPUS" || membership.role_id.name === "TI campus PSG"){
                 $scope.isTicampus = true;
-                console.log("$scope.isTicampus: " + $scope.isTicampus)
+            }
+            if(membership.role_id.name === "Chat PSG"){
+                $scope.isChat = true;
             }
         }
     }
@@ -210,19 +214,19 @@ function($scope, $http, blockUI) {
     $scope.isActivadoMenu = function(_opcion){
         let valido = false;
         if(_opcion === "iniciadas"){
-            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus ) {
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isChat || $scope.isAdmisiones) {
                 valido = true;
             }
         } else if(_opcion === "nuevas"){
-            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus) {
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isAdmisiones) {
                 valido = true;
             }
         } else if(_opcion === "pase_lista"){
-            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus || $scope.isComite) {
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isComite || $scope.isAdmisiones) {
                 valido = true;
             }
         } else if(_opcion === "archivadas"){
-            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus) {
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isAdmisiones) {
                 valido = true;
             }
         } else if(_opcion === "estadisticas"){
@@ -230,19 +234,19 @@ function($scope, $http, blockUI) {
                 valido = true;
             }   
         } else if(_opcion === "dictamen"){
-            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus || $scope.isComite) {
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isComite) {
                 valido = true;
             }
         } else if(_opcion === "admitidos"){
-            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus) {
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isComite) {
                 valido = true;
             }
         } else if(_opcion === "no_admitidos"){
-            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus) {
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isComite) {
                 valido = true;
             }
         } else if(_opcion === "transferencias"){
-            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus ) {
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isAdmisiones) {
                 valido = true;
             }
         }
