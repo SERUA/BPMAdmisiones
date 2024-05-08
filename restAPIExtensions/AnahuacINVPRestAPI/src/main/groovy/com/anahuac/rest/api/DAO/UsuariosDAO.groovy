@@ -2179,7 +2179,6 @@ class UsuariosDAO {
 			
 //			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
 //			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS_NO_PREGUNTAS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
-//			errorLog += consulta;
 			
 			pstm = con.prepareStatement(consulta);
 			pstm.setLong(1, Long.valueOf(idprueba));
@@ -2325,6 +2324,16 @@ class UsuariosDAO {
 				List<TaskInstance> tasks = processAPI.getAssignedHumanTaskInstances(user.getId(), 0, 100, DEFAULT);
 				TaskInstance taskToExecute = null;
 				
+				
+				pstm = con.prepareStatement("UPDATE IdiomaINVPUsuario SET usuariobloqueado = ? WHERE username = ?")
+				pstm.setBoolean(1, false);
+				pstm.setString(2, row.getCorreoElectronico());
+				pstm.executeUpdate();
+				
+				pstm = con.prepareStatement("DELETE FROM AspirantesBloqueados WHERE username = ?");
+				pstm.setString(1, row.getCorreoElectronico());
+				pstm.executeUpdate();
+				
 				for(TaskInstance task: tasks) {
 					if(task.name.equals("Examen INVP")) {
 						taskToExecute = task;
@@ -2336,7 +2345,7 @@ class UsuariosDAO {
 						contract.put("isTerminado", true);
 						processAPI.assignAndExecuteUserTask(user.getId(), taskToExecute.getId(), contract);
 						
-						con.setAutoCommit(false);
+//						con.setAutoCommit(false);
 						pstm = con.prepareStatement("UPDATE IdiomaINVPUsuario SET usuariobloqueado = ? WHERE username = ?")
 						pstm.setBoolean(1, false);
 						pstm.setString(2, row.getCorreoElectronico());
@@ -2345,7 +2354,6 @@ class UsuariosDAO {
 						pstm = con.prepareStatement("UPDATE INVPExamenTerminado SET terminado = ? WHERE username = ?");
 						pstm.setBoolean(1, true);
 						pstm.setString(2, row.getCorreoElectronico());
-						
 						
 						if(pstm.executeUpdate() == 0) {
 							pstm = con.prepareStatement(Statements.INSERT_TERMINADO_EXAMEN);
@@ -2361,6 +2369,7 @@ class UsuariosDAO {
 					}
 				}
 			}
+				
 			
 			pstm = con.prepareStatement(Statements.INSERT_SESION_TERMINADA);
 			pstm.setLong(1, idesion);

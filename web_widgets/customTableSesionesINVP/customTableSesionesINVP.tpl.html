@@ -360,7 +360,7 @@
                                 <span style="cursor:pointer" ng-click="setOrderByAsp('idioma')"> Idioma <i class="glyphicon" ng-class="(properties.dataToSendAsp.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSendAsp.orderby=='idioma'"></i></span>
                             </th>
                             
-                            <th> Acciones</th>     
+                            <!-- <th> Acciones</th>      -->
                         </tr>
                     </thead>
                     <tbody>
@@ -411,14 +411,14 @@
                                     ng-click="cambiarIdioma(row, 'idioma')" 
                                     class="btn" 
                                     ng-class=
-                                        "{'btn-default': (row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')), 
-                                        'btn-warning': !(row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')), 
+                                        "{'btn-default': ((row.resultadoEnviado && row.estatusINVP === 'Prueba finalizada') || selectedSesion.estatus === 'Concluida'), 
+                                        'btn-warning': !((row.resultadoEnviado && row.estatusINVP === 'Prueba finalizada') || selectedSesion.estatus === 'Concluida'), 
                                         'tooltips-info': !row.resultadoEnviado}" 
                                     data-tooltip="{{row.resultadoEnviado ? '' : 'Cambiar idioma'}}">
                                     <span>{{row.idioma}}</span>
                                 </button>
                             </td>    
-                            <td class="text-center ">
+                            <!-- <td class="text-center ">
                                 <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  
                                     ng-if="(row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'  && row.estatusINVP !== 'Por iniciar') && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger tooltips-info" data-tooltip="Terminar examen">
                                     <span class="glyphicon glyphicon-time"></span>
@@ -428,9 +428,6 @@
                                     ng-if="(row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada') && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success tooltips-info" data-tooltip="Reagendar">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
-                                <!-- <button ng-if="((selectedSesion.estatus === 'Concluida' && row.estatusINVP === 'Por iniciar') && selectedSesion.fechaValida) && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reagen')" class="btn btn-info tooltips-info" data-tooltip="Reagendar">
-                                    <span class="glyphicon glyphicon-time"></span>
-                                </button> -->
 
                                 <button ng-if="((selectedSesion.estatus === 'Concluida' && row.estatusINVP === 'Por iniciar') && row.caseidINVP === null ) && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reagen')" class="btn btn-info tooltips-info" data-tooltip="Reagendar">
                                     <span class="glyphicon glyphicon-time"></span>
@@ -446,7 +443,7 @@
                                 <button ng-if="row.estatusINVP === 'Examen re agendado' || (row.tempentrada !== null && row.estatusINVP === 'Por iniciar')" type="button" ng-click="setSelectedAspirante(row, 'ver')" class="btn btn-info tooltips-info" data-tooltip="Datos de la sesión">
                                     <span><b>?</b></span>
                                 </button>
-                            </td>
+                            </td> -->
                         </tr>
                     </tbody>
                 </table>

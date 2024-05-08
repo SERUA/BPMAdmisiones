@@ -116,18 +116,18 @@
                     </button>
                 </td>
                 <td class="text-center">
-                    <button ng-disabled="row.estatusINVP === 'Por iniciar' || row.estatusINVP === 'Prueba terminada'"
-                            ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada' && fechaMenorATresDias(row.tempfecha)"
-                            type="button"
-                            ng-click="setSelectedAspirante(row, 'terminar')"
-                            class="btn btn-danger"
-                            ng-class="{'tooltips-info': !isDisabled && row.estatusINVP !== 'Por iniciar' && row.estatusINVP !== 'Prueba terminada', '': isDisabled}"
-                            ng-attr-data-tooltip="{{!isDisabled ? 'Terminar examen' : ''}}">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </button>
-                    <button ng-if="(row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada') && !row.resultadoEnviado && fechaMenorATresDias(row.tempfecha)" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success tooltips-info" data-tooltip="Reagendar">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </button>
+                    <!--<button ng-disabled="row.estatusINVP === 'Por iniciar' || row.estatusINVP === 'Prueba terminada'"-->
+                    <!--        ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada' && fechaMenorATresDias(row.tempfecha)"-->
+                    <!--        type="button"-->
+                    <!--        ng-click="setSelectedAspirante(row, 'terminar')"-->
+                    <!--        class="btn btn-danger"-->
+                    <!--        ng-class="{'tooltips-info': !isDisabled && row.estatusINVP !== 'Por iniciar' && row.estatusINVP !== 'Prueba terminada', '': isDisabled}"-->
+                    <!--        ng-attr-data-tooltip="{{!isDisabled ? 'Terminar examen' : ''}}">-->
+                    <!--    <span class="glyphicon glyphicon-time"></span>-->
+                    <!--</button>-->
+                    <!--<button ng-if="(row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada') && !row.resultadoEnviado && fechaMenorATresDias(row.tempfecha)" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success tooltips-info" data-tooltip="Reagendar">-->
+                    <!--    <span class="glyphicon glyphicon-time"></span>-->
+                    <!--</button>-->
                     
                     <button ng-if="row.usuarioBloqueado && fechaMenorATresDias(row.tempfecha)"  type="button" ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-danger tooltips-info" data-tooltip="Desbloquear">
                         <span class="glyphicon glyphicon-lock"></span>

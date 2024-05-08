@@ -1204,20 +1204,27 @@ class LoginSesionesDAO {
 		Long resultReq = 0;
 
 		try {
+			errorlog += terminado.toString() + "  " + username;
+			errorlog += "|1";
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
 			pstm = con.prepareStatement(Statements.UPDATE_TERMINADO_EXAMEN_GET);
 			pstm.setBoolean(1, terminado);
 			pstm.setString(2, username);	
 			pstm.setString(3, username);
-			int rowsAffected = pstm.executeUpdate();
+			errorlog += "|2";
 			
+			
+			int rowsAffected = pstm.executeUpdate();
+			errorlog += "|3";
 			if(terminado && rowsAffected > 0) {
+				errorlog += "|4";
 				pstm = con.prepareStatement(Statements.UPDATE_REAGENDADO);
 				pstm.setBoolean(1, true);
 				pstm.setString(2, username);
 				
 				pstm.executeUpdate();
+				errorlog += "|5";
 			}
 			
 			con.commit();
@@ -1233,12 +1240,14 @@ class LoginSesionesDAO {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			errorlog = errorlog + " | " + e.getMessage();
-			resultado.setError_info(errorlog);
+			
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
 		}
+		
+		resultado.setError_info(errorlog);
 		return resultado
 	}
 	

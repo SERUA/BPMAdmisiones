@@ -130,7 +130,7 @@ class Statements {
 	
 	public static final String UPDATE_NUEVA_CONFIG_USUARIO = "UPDATE  InfoAspiranteTemporal SET fechaInicioSesion = ?, horaInicioSesion = ?, horaFinSesion = ?, toleranciaEntradaSesion = ?, toleranciaSalidaSesion = ?, idprueba = ?, reagendado = ? WHERE username = ?";
 	
-	public static final String UPDATE_REAGENDADO = "UPDATE  InfoAspiranteTemporal reagendado = ? WHERE username = ?";
+	public static final String UPDATE_REAGENDADO = "UPDATE  InfoAspiranteTemporal SET  reagendado = ? WHERE username = ?";
 	
 	public static final String UPDATE_TOLERANCIAS_USUARIO = "UPDATE  InfoAspiranteTemporal SET toleranciaEntradaSesion = ?, toleranciaSalidaSesion = ?, idprueba = ? WHERE username = ?";
 	
@@ -144,7 +144,7 @@ class Statements {
 	
 	public static final String UPDATE_INVP_TOLERANCIA_TEMPORALES_SESION = "UPDATE  InfoAspiranteTemporal SET toleranciaentradasesion = ?, toleranciasalidasesion = ? WHERE idprueba = ?";
 	
-	public static final String GET_USUARIOS_BY_IDSESION = "SELECT * FROM (SELECT DISTINCT(creg.caseid), invp.caseid AS caseidinvp, invp.estatus AS estatusinvp, creg.correoelectronico FROM CatRegistro  AS creg LEFT JOIN SesionAspirante AS seas ON  seas.username = creg.correoelectronico  LEFT JOIN Pruebas AS prue ON seas.sesiones_pid = prue.sesion_pid LEFT JOIN CatTipoPrueba AS ctpr ON ctpr.persistenceid = prue.cattipoprueba_pid INNER JOIN SolicitudDeAdmision  AS sdad ON sdad.caseid = creg.caseid LEFT JOIN INVPExamenTerminado AS extr ON extr.username = creg.correoelectronico INNER JOIN CatCampus AS ccam ON ccam.persistenceid = sdad.catcampusestudio_pid  LEFT JOIN DetalleSolicitud AS dets ON dets.caseid::BIGINT = sdad.caseid LEFT JOIN IdiomaINVPUsuario AS idio ON idio.username = sdad.correoelectronico LEFT JOIN InstanciaINVP AS invp ON invp.username =  creg.correoelectronico   LEFT JOIN InfoAspiranteTemporal AS temp ON temp.username = creg.correoelectronico LEFT JOIN Sesiones AS ses_temp ON temp.idprueba = ses_temp.persistenceid WHERE seas.sesiones_pid = ? OR temp.idprueba = ? ) As query WHERE estatusinvp = 'Examen iniciado' OR  estatusinvp = 'Examen reactivado'  OR  estatusinvp = 'Examen re agendado'";
+	public static final String GET_USUARIOS_BY_IDSESION = "SELECT * FROM (SELECT DISTINCT(creg.caseid), invp.caseid AS caseidinvp, invp.estatus AS estatusinvp, creg.correoelectronico FROM CatRegistro  AS creg LEFT JOIN SesionAspirante AS seas ON  seas.username = creg.correoelectronico  LEFT JOIN Pruebas AS prue ON seas.sesiones_pid = prue.sesion_pid LEFT JOIN CatTipoPrueba AS ctpr ON ctpr.persistenceid = prue.cattipoprueba_pid INNER JOIN SolicitudDeAdmision  AS sdad ON sdad.caseid = creg.caseid LEFT JOIN INVPExamenTerminado AS extr ON extr.username = creg.correoelectronico INNER JOIN CatCampus AS ccam ON ccam.persistenceid = sdad.catcampusestudio_pid  LEFT JOIN DetalleSolicitud AS dets ON dets.caseid::BIGINT = sdad.caseid LEFT JOIN IdiomaINVPUsuario AS idio ON idio.username = sdad.correoelectronico LEFT JOIN InstanciaINVP AS invp ON invp.username =  creg.correoelectronico   LEFT JOIN InfoAspiranteTemporal AS temp ON temp.username = creg.correoelectronico LEFT JOIN Sesiones AS ses_temp ON temp.idprueba = ses_temp.persistenceid WHERE seas.sesiones_pid = ? OR temp.idprueba = ? ) As query ";
 	
 	public static final String GET_SESION_TERMINADA_EXISTE = "SELECT COUNT(*) FROM SesionesFinalizadas WHERE idsesion = ?;"
 	

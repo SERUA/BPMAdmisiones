@@ -1008,6 +1008,10 @@ class SesionesDAO {
 			pstm.setString(1, correo);
 			pstm.executeUpdate();
 			
+			pstm = con.prepareStatement("DELETE FROM infoaspirantetemporal WHERE username = ? AND idprueba IS null");
+			pstm.setString(1, correo);
+			pstm.executeUpdate();
+			
 			con.commit();
 			rows.add(sesionAspirante)
 			resultado.setSuccess(true)

@@ -247,7 +247,13 @@ function($scope, $http) {
                     },
                     confirmButtonText: 'Continue'
                 }).then((result)=>{
-                    window.location.reload();
+                    // window.location.reload();
+                    if(data.error === "test_end"){
+                        window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/aspiranteinvp/termino/"
+                    } else {
+                        window.location.reload();
+                    }
+                    
                     // if(data === null ){
                     //     window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/" 
                     // } else if(data.error === "test_end"){
@@ -303,7 +309,13 @@ function($scope, $http) {
                     },
                     confirmButtonText: 'Continue'
                 }).then((result)=>{
-                    window.location.reload();
+                    // window.location.reload();
+                    
+                    if(data.error === "test_end"){
+                        window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/aspiranteinvp/termino/"
+                    } else {
+                        window.location.reload();
+                    }
                     // if(data === null ){
                     //     // window.close();
                     //     window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/" 
