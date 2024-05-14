@@ -95,6 +95,7 @@ function PbTableCtrl($scope, blockUI, $http) {
         }
         $scope.loadCatalog();
     }
+
     $scope.loadCatalog = function() {
         doRequest("GET", `/bonita/API/extension/posgradosRestGet?url=getUsuarios&p=${$scope.pagina}&c=${$scope.cont}&jsonData=${encodeURIComponent(JSON.stringify($scope.filtroToSend))}`, null, null, null, function(datos, extra) {
             $scope.content = datos.data;
@@ -103,6 +104,7 @@ function PbTableCtrl($scope, blockUI, $http) {
             $scope.roles = [];
 
             doRequest("GET", "/bonita/API/identity/role?p=0&c=100&o=displayName%20ASC", null, null, null, function(datos, extra) {
+                debugger;
                 for(let dato of datos ){
                     if(dato.name === "Admisiones PSG" || dato.name === "TI campus PSG" || dato.name === "Comite PSG"){
                         $scope.roles.push(dato);
@@ -110,12 +112,16 @@ function PbTableCtrl($scope, blockUI, $http) {
                 }
                 
                 doRequest("GET", "/API/identity/membership?p=0&c=100&f=user_id%3d" + $scope.properties.userid + "&d=role_id&d=group_id", null, null, null, function(datos, extra) {
-
+                    
                     var rolesMine = datos;
                     var isSerua = false;
+                    var isTiCampus = false;
                     for (let index0 = 0; index0 < rolesMine.length; index0++) {
                         if (rolesMine[index0].role_id.name == 'TI SERUA' || rolesMine[index0].role_id.name == 'ADMINISTRADOR' || rolesMine[index0].role_id.name == 'SERUA PSG' || rolesMine[index0].role_id.name == 'TI campus PSG') {
                             isSerua = true;
+                            if(rolesMine[index0].role_id.name == 'TI campus PSG'){
+                                isTiCampus = true;
+                            }
                         }
                     }
                     if (!isSerua) {
@@ -126,14 +132,29 @@ function PbTableCtrl($scope, blockUI, $http) {
                                 eliminado = false;
                             }
                             const element = $scope.roles[index];
+                            
                             if (element.name != 'PASE DE LISTA' && element.name != 'PSICOLOGO' && element.name != 'PSICOLOGO SUPERVISOR' && element.name != 'ADMISIONES') {
                                 $scope.roles.splice(index, 1);
                                 eliminado = true;
                                 index = 0;
                             }
                         }
+                    } else if (isTiCampus){
+                        var eliminado = false;
+                        for (let index = 0; index < $scope.roles.length; index++) {
+                            if (eliminado) {
+                                index = 0;
+                                eliminado = false;
+                            }
+                            const element = $scope.roles[index];
+                            debugger;
+                            if(element.name === 'TI campus PSG'){
+                                $scope.roles.splice(index, 1);
+                                eliminado = true;
+                                index = 0;
+                            }
+                        }
                     }
-
                 })
             })
 
@@ -451,6 +472,7 @@ function PbTableCtrl($scope, blockUI, $http) {
             $scope.cambiarPantalla('usuario')
         })
     }
+    
     $scope.actualizarUsuario = function() {
         Swal.fire({
             title: `¿Estás seguro que desea actualizar datos de usuario?`,
@@ -474,6 +496,7 @@ function PbTableCtrl($scope, blockUI, $http) {
         })
 
     }
+
     $scope.eliminarMembresia = function(row) {
         Swal.fire({
             title: `¿Estás seguro que desea eliminar rol de usuario?`,
