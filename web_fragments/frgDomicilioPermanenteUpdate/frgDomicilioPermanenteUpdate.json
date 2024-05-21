@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "frgDomicilioPermanenteUpdate",
   "name" : "frgDomicilioPermanenteUpdate",
-  "lastUpdate" : 1655746971272,
+  "lastUpdate" : 1716225273207,
   "rows" : [
     [
       {
@@ -1144,7 +1144,7 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "Teléfono:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+            "value" : "Teléfono fijo o de contacto que NO sea tu celular:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
           },
           "labelPosition" : {
             "type" : "constant",
@@ -1219,7 +1219,7 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "Teléfono:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+            "value" : "Teléfono fijo o de contacto que NO sea tu celular:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
           },
           "labelPosition" : {
             "type" : "constant",
@@ -1269,8 +1269,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "expression",
-            "value" : "catSolicitudDeAdmision.catPais.descripcion !== 'México'"
+            "type" : "constant",
+            "value" : true
           },
           "required" : {
             "type" : "constant",
@@ -1328,7 +1328,8 @@
         },
         "reference" : "2f43ca7d-36e1-49fb-8ade-336e954100e5",
         "hasValidationError" : false,
-        "id" : "customInputNumerico"
+        "id" : "customInputNumerico",
+        "description" : "Validación que existía para el \"oculto\": \n\ncatSolicitudDeAdmision.catPais.descripcion !== 'México'"
       },
       {
         "type" : "component",
@@ -1344,8 +1345,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "expression",
-            "value" : "catSolicitudDeAdmision.catPais.descripcion === 'México'"
+            "type" : "constant",
+            "value" : true
           },
           "required" : {
             "type" : "constant",
@@ -1403,7 +1404,8 @@
         },
         "reference" : "18694086-c7ad-45cd-8a92-a909a27fd77c",
         "hasValidationError" : false,
-        "id" : "customInputNumerico"
+        "id" : "customInputNumerico",
+        "description" : "Validación que existía para el \"oculto\": \n catSolicitudDeAdmision.catPais.descripcion === 'México'"
       }
     ]
   ],
