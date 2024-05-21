@@ -2,9 +2,9 @@
     <p>{{ properties.isTemporal ?  "Temporary ID" : "ID Banner"}}: <b>{{ properties.isTemporal ? properties.caseId : properties.idbanner}} </b> 
         / Name: <b>{{properties.nombre}} </b> 
         / Session: <b>{{properties.objetoSesion.nombre_sesion ? properties.objetoSesion.nombre_sesion : properties.objetoSesion.nombre_temp }}</b> 
-        / Date and time: 
-            <b ng-if="properties.objetoSesion.aplicacion">{{(properties.objetoSesion.aplicacion + " " + properties.objetoSesion.entrada) | date:'dd/MM/yyyy hh:mm'}}</b> 
-            <b ng-if="!properties.objetoSesion.aplicacion">{{(properties.objetoSesion.aplicacion_temp + " " + properties.objetoSesion.entrada_temp) | date:'dd/MM/yyyy hh:mm'}}</b> 
+        / Date: 
+            <b ng-if="properties.objetoSesion.aplicacion">{{(properties.objetoSesion.aplicacion) | date:'dd/MM/yyyy'}}</b> 
+            <b ng-if="!properties.objetoSesion.aplicacion">{{(properties.objetoSesion.aplicacion_temp) | date:'dd/MM/yyyy'}}</b> 
         <!-- / Time: 
             <b ng-if="properties.objetoSesion.entrada">{{properties.objetoSesion.entrada | date:'HH:mm'}}</b> 
             <b ng-if="!properties.objetoSesion.entrada">{{properties.objetoSesion.entrada_temp | date:'HH:mm'}}</b>  -->
@@ -16,9 +16,9 @@
     <p>{{ properties.isTemporal ?  "ID temporal" : "ID Banner"}}: <b>{{ properties.isTemporal ? properties.caseId : properties.idbanner}}</b> 
         / Nombre: <b>{{properties.nombre}} </b> 
         / Sesión: <b>{{properties.objetoSesion.nombre_sesion ? properties.objetoSesion.nombre_sesion : properties.objetoSesion.nombre_temp }}</b> 
-        / Fecha y hora: 
-            <b ng-if="properties.objetoSesion.aplicacion">{{(properties.objetoSesion.aplicacion + " " + properties.objetoSesion.entrada) | date:'dd/MM/yyyy'}}</b> 
-            <b ng-if="!properties.objetoSesion.aplicacion">{{(properties.objetoSesion.aplicacion_temp + " " + properties.objetoSesion.entrada_temp) | date:'dd/MM/yyyy'}}</b> 
+        / Fecha: 
+            <b ng-if="properties.objetoSesion.aplicacion">{{(properties.objetoSesion.aplicacion) | date:'dd/MM/yyyy'}}</b> 
+            <b ng-if="!properties.objetoSesion.aplicacion">{{(properties.objetoSesion.aplicacion_temp) | date:'dd/MM/yyyy'}}</b> 
         <!-- / Hora: 
             <b ng-if="properties.objetoSesion.entrada">{{properties.objetoSesion.entrada | date:'HH:mm'}}</b> 
             <b ng-if="!properties.objetoSesion.entrada">{{properties.objetoSesion.entrada_temp | date:'HH:mm'}}</b>  -->

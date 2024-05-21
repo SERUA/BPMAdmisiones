@@ -4,6 +4,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.idiomaTodos = "";
     $scope.tabShown = "seguimiento";
     $scope.preguntas = true;
+    // $scope.fechaActual = new Date().toISOString().split('T')[0];
+    $scope.fechaActual = new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString().split('T')[0];
     
     $scope.switchTab = function(_tab){
         $scope.tabShown = _tab;
@@ -342,17 +344,26 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
   
     $scope.terminarAspirante = function(){
-        let url = "../API/extension/AnahuacINVPRestAPI?url=bloquearAspirante&p=0&c=10&username=" 
-        +  $scope.selectedAspirante.correoElectronico + "&bloquear=" + $scope.selectedAspirante.bloqueado + "&terminar=" + !$scope.selectedAspirante.terminado;
+        getUserInfo($scope.selectedAspirante.correoElectronico, $scope.selectedAspirante.caseidINVP);
+        
+        // let url = "../API/extension/AnahuacINVPRestAPI?url=bloquearAspirante&p=0&c=10&username=" 
+        // +  $scope.selectedAspirante.correoElectronico + "&bloquear=" + $scope.selectedAspirante.bloqueado + "&terminar=" + !$scope.selectedAspirante.terminado;
 
-        $http.post(url).success(function(_data){
-            getUserInfo($scope.selectedAspirante.correoElectronico, $scope.selectedAspirante.caseidINVP);
-            // ocultarModal("modalTerminar");
-            // swal("Ok", "Usuario terminado", "success");
-            // getAspirantesSesion($scope.selectedSesion.idSesion);
-        }).error(function(_error){
+        // $http.post(url).success(function(_data){
+        //     getUserInfo($scope.selectedAspirante.correoElectronico, $scope.selectedAspirante.caseidINVP);
+        //     let url = "../API/extension/AnahuacINVPRestGet?url=desbloquearAspiranteDef&p=0&c=10&username=" + $scope.selectedAspirante.correoElectronico;
+    
+        //     $http.get(url).success(function(_data){
+        //         // desbloquearAspReact();
+        //     }).error(function(_error){
+                
+        //     }).finally(function(){
+        //         // desbloquearAspReact();
+        //         // getUserInfo($scope.selectedAspirante.correoElectronico, $scope.selectedAspirante.caseidINVP);
+        //     });
+        // }).error(function(_error){
 
-        });
+        // });
     }
 
     $scope.terminarAspiranteTodos = function(){
@@ -767,12 +778,22 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
         
         $http.post(url, dataToSend).success(function(_data){
+
             ocultarModal("modalTerminar");
             ocultarModal("modalTerminarTodos");
             swal("Ok", "Usuario terminado", "success");
             getAspirantesSesion($scope.selectedSesion.idSesion);
+            setExamenTerminado();
         }).error(function(_error){
             swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
+        });
+    }
+
+    function setExamenTerminado(){
+        let url = "../API/extension/AnahuacINVPRestGet?url=updateterminado&p=0&c=100&username=" + $scope.selectedAspirante.correoElectronico + "&terminado=true";
+        
+        $http.get(url).finally(function(){
+            console.log(examenTerminado)
         });
     }
 

@@ -1607,11 +1607,6 @@ class UsuariosDAO {
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			try {
-				con.rollback();
-			} catch(Exception ex) {
-				ex.printStackTrace();
-			}
 		} finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
@@ -2184,7 +2179,6 @@ class UsuariosDAO {
 			
 //			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
 //			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS_NO_PREGUNTAS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
-//			errorLog += consulta;
 			
 			pstm = con.prepareStatement(consulta);
 			pstm.setLong(1, Long.valueOf(idprueba));
@@ -2330,6 +2324,16 @@ class UsuariosDAO {
 				List<TaskInstance> tasks = processAPI.getAssignedHumanTaskInstances(user.getId(), 0, 100, DEFAULT);
 				TaskInstance taskToExecute = null;
 				
+				
+				pstm = con.prepareStatement("UPDATE IdiomaINVPUsuario SET usuariobloqueado = ? WHERE username = ?")
+				pstm.setBoolean(1, false);
+				pstm.setString(2, row.getCorreoElectronico());
+				pstm.executeUpdate();
+				
+				pstm = con.prepareStatement("DELETE FROM AspirantesBloqueados WHERE username = ?");
+				pstm.setString(1, row.getCorreoElectronico());
+				pstm.executeUpdate();
+				
 				for(TaskInstance task: tasks) {
 					if(task.name.equals("Examen INVP")) {
 						taskToExecute = task;
@@ -2341,7 +2345,7 @@ class UsuariosDAO {
 						contract.put("isTerminado", true);
 						processAPI.assignAndExecuteUserTask(user.getId(), taskToExecute.getId(), contract);
 						
-						con.setAutoCommit(false);
+//						con.setAutoCommit(false);
 						pstm = con.prepareStatement("UPDATE IdiomaINVPUsuario SET usuariobloqueado = ? WHERE username = ?")
 						pstm.setBoolean(1, false);
 						pstm.setString(2, row.getCorreoElectronico());
@@ -2351,26 +2355,26 @@ class UsuariosDAO {
 						pstm.setBoolean(1, true);
 						pstm.setString(2, row.getCorreoElectronico());
 						
-						pstm = con.prepareStatement("DELETE FROM AspirantesBloqueados WHERE username = ?");
-						pstm.setString(1, row.getCorreoElectronico());
-						pstm.executeUpdate();
-						
 						if(pstm.executeUpdate() == 0) {
 							pstm = con.prepareStatement(Statements.INSERT_TERMINADO_EXAMEN);
 							pstm.setString(1, row.getCorreoElectronico());
 							pstm.setBoolean(2, true);
 						}
 						
+						pstm = con.prepareStatement("DELETE FROM AspirantesBloqueados WHERE username = ?");
+						pstm.setString(1, row.getCorreoElectronico());
+						pstm.executeUpdate();
+						
 						break;
 					}
 				}
 			}
+				
 			
 			pstm = con.prepareStatement(Statements.INSERT_SESION_TERMINADA);
 			pstm.setLong(1, idesion);
 			pstm.executeUpdate();
 			
-			con.commit();
 			resultado.setData(rows);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
@@ -2751,7 +2755,10 @@ class UsuariosDAO {
 			if (rs.next()) {
 				if(rs.getBoolean("reagendado") != true) {
 					errorLog += "|2 ";
-					if(rs.getBoolean("correct_date") == false) {
+					if(rs.getBoolean("finalizada") == true) {
+						errorLog += "|2.3 ";
+						throw new Exception("examen_finalizado");
+					} else if(rs.getBoolean("correct_date") == false) {
 						errorLog += "|2.1 ";
 						throw new Exception("fecha_incorrecta");
 					} 
@@ -2759,10 +2766,6 @@ class UsuariosDAO {
 //						errorLog += "|2.2 ";
 //						throw new Exception("examen_no_iniciado");
 //					} 
-					else if(rs.getBoolean("finalizada") == true) {
-						errorLog += "|2.3 ";
-						throw new Exception("examen_finalizado");
-					}
 				} else {
 					errorLog += "|3 ";
 					if(rs.getBoolean("reagendado") != true) {

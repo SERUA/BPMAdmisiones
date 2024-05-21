@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "appModificarSolicitudDeAdmision",
   "name" : "appModificarSolicitudDeAdmision",
-  "lastUpdate" : 1700758493133,
+  "lastUpdate" : 1716317374198,
   "rows" : [
     [
       {
@@ -5575,8 +5575,8 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "getCatPagoExamen[0].deshabilitarPagoDeExamenDeAdmision"
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -23849,6 +23849,13 @@
         "{",
         "    \"isVencido\":false",
         "}"
+      ],
+      "exposed" : false
+    },
+    "getCatPagoExamen" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"getPagobyCampus [com.anahuac.catalogos.CatPagoDeExamenDeAdmision]\",\"businessObjectName\":\"CatPagoDeExamenDeAdmision\",\"query\":{\"name\":\"getPagobyCampus\",\"displayName\":\"getPagobyCampus\"},\"id\":\"com.anahuac.catalogos.CatPagoDeExamenDeAdmision\",\"filters\":[{\"name\":\"campus\",\"type\":\"STRING\",\"collection\":false,\"value\":\"{{ catSolicitudDeAdmision.catCampusEstudio.grupoBonita}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
       ],
       "exposed" : false
     }

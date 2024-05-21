@@ -4051,4 +4051,45 @@ class UsuariosDAO {
 		}
 		return resultado;
 	}
+	
+	public Result getUsuarioExiste(String correo) {
+		Usuarios objUsuario= new Usuarios();
+		Result resultado = new Result();
+		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
+		List<String> lstResultado = new ArrayList<String>();
+		NotificacionDAO nDAO = new NotificacionDAO();
+		
+		Boolean closeCon = false;
+		
+		try {
+			String username = "";
+			String password = "";
+			
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+			
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+			apiClient.login(username, password)
+			IdentityAPI identityAPI = apiClient.getIdentityAPI()
+			User user = identityAPI.getUserByUserName(correo);
+			
+			if(user == null) {
+				throw new Exception("user_not_found");
+			} else if(!user.isEnabled()) {
+				throw new Exception("user_disabled");
+			}
+			
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		return resultado;
+	}
 }

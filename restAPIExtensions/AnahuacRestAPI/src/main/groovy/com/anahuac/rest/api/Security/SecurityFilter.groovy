@@ -575,6 +575,13 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"TI SERUA");if(allow){break;}
 					allow=bonitaRolFilter(context,"ADMINISTRADOR");if(allow){break;}
 				break;
+				case "getUsuarioExiste":
+					allow=bonitaRolFilter(context,"GUEST")
+					if(allow){break;}
+					allow=true;//Para no bloquear acceso 
+					if(allow){break;}
+				break;
+				
 			}
 			
 			return allow;
