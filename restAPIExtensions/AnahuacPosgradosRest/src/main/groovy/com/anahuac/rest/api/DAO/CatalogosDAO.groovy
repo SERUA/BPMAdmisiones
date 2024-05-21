@@ -2745,6 +2745,17 @@ class CatalogosDAO {
 //			errorLog += " consulta= "
 //			errorLog += consulta
 //			errorLog += " where = " + where
+			
+			String consultaCount = StatementsCatalogos.GET_CATGESTIONESCOLAR_COUNT;
+			consultaCount = consultaCount.replace("[CAMPUS]", campus)
+			consultaCount = consultaCount.replace("[WHERE]", where);
+			pstm = con.prepareStatement(consultaCount);
+
+			rs = pstm.executeQuery();
+			if(rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("total_registros"));
+			}
+			
 			pstm = con.prepareStatement(consulta)
 			pstm.setInt(1, object.limit)
 			pstm.setInt(2, object.offset)

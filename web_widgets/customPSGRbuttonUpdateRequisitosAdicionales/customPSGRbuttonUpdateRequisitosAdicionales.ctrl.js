@@ -29,7 +29,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             }
         }
         else {
-            text = "Si confirmas esta operación se le solicitará al aspirante los requisitos adicionas seleccionados vía correo electrónico, y la solicitud quedará en espera de que sean marcados como cumplidos.";
+            text = "Si confirmas esta operación se le solicitará al aspirante los requisitos adicionales seleccionados vía correo electrónico, y la solicitud quedará en espera de que sean marcados como cumplidos.";
             title = "Solicitar";
             buttonText = "Solicitar";
         }
