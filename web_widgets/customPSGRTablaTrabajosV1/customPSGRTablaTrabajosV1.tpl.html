@@ -1,0 +1,51 @@
+<div class="table-responsive">
+    <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+        <thead>
+            <tr>
+                <th class="text-left">Nombre de la empresa / Giro de la empresa</th>
+                <th >Puesto / Tipo de empleado</th>
+                <th class="text-left">Teléfono / Extensión</th>
+                <th class="text-left">Reporta a</th>
+                <th class="text-left">Fecha de inicio</th>
+                <th class="text-left">Descripción de responsabilidades</th>
+                <th class="text-left" ng-if="properties.editar">Acciones</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr ng-repeat="row in properties.content" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
+                <td class="text-left">
+                    {{row.nombre_empresa}} <br> 
+                    {{row.giro_empresa.descripcion}}<br>
+                    <!--{{row.tipo_empresa.descripcion}}-->
+                </td>
+                <td class="text-left">
+                    {{row.puesto_trabajo.descripcion}}<br>
+                    {{row.tipo_empleado.descripcion}}
+                </td>
+                <td class="text-left">
+                    {{row.telefono_empresa}}<br>
+                    {{row.ext_telefono_empresa}}
+                </td>
+                <td class="text-left">{{row.reporta_a_puesto.descripcion}}</td>
+                <td class="text-left">{{row.fecha_inicio | date:'dd/MM/yyyy'}}</td>
+                <td class="text-left">{{row.desc_responsabilidad}}</td>
+                <td class="text-left" ng-if="properties.editar">
+                     <button class="btn btn-link" ng-click="ver(row)" >
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </button>
+                    <button class="btn btn-link" ng-click="editar(row, $index)" >
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                    <button class="btn btn-link" ng-click="removeItem(row)" >
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+            </tr>
+            <tr ng-if="!properties.content || properties.content.length === 0">
+                <td colspan="7" style="text-align: center;">
+                    No se encontraron registros para mostrar.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,67 @@
+<div class="table-responsive">
+    <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+        <thead>
+            <tr>
+                <!--<th ng-repeat="header in properties.headers">-->
+                <!--     <span ng-if="properties.allowHTML" ng-bind-html="header | uiTranslate"></span>-->
+                <!--  	 <span ng-if="!properties.allowHTML">{{ header | uiTranslate }}</span>-->
+                <!--</th>-->
+                <th>Idioma</th>
+                <th>Traduce (%)</th>
+                <th>Habla (%)</th>
+                <th>Escribe (%)</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr ng-repeat="row in properties.content">
+                <!--<td><input class="form-control" ng-model="row.idioma"></td>-->
+                <!--<td><input class="form-control" ng-model="row.traduce"></td>-->
+                <!--<td><input class="form-control" ng-model="row.habla"></td>-->
+                <!--<td><input class="form-control" ng-model="row.escribe"></td>-->
+                
+                <td>
+                    <input class="form-control" ng-model="row.idioma" maxlength="30"> 
+                </td>
+                <td>
+                    <select class="form-control" ng-model="row.traduce">
+                        <option class="form-control" value="">Selecciona una opción</option>
+                        <option value="50">50</option>
+                        <option value="60">60</option>
+                        <option value="70">70</option>
+                        <option value="80">80</option>
+                        <option value="90">90</option>
+                        <option value="100">100</option>
+                    </select>    
+                </td>
+                <td>
+                    <select class="form-control" ng-model="row.habla">
+                        <option class="form-control" value="">Selecciona una opción</option>
+                        <option value="50">50</option>
+                        <option value="60">60</option>
+                        <option value="70">70</option>
+                        <option value="80">80</option>
+                        <option value="90">90</option>
+                        <option value="100">100</option>
+                    </select>    
+                </td>
+                <td>
+                    <select class="form-control" ng-model="row.escribe">
+                        <option class="form-control" value="">Selecciona una opción</option>
+                        <option value="50">50</option>
+                        <option value="60">60</option>
+                        <option value="70">70</option>
+                        <option value="80">80</option>
+                        <option value="90">90</option>
+                        <option value="100">100</option>
+                    </select>    
+                </td>
+                <td ng-if="properties.editar">
+                    <button class="btn btn-link" ng-click="removeItem(row)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

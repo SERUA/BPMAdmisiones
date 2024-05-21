@@ -1,0 +1,122 @@
+<img src="assets/img/Posgrado Naranja@2x.png" class="logo-img-carta">
+<img src="assets/img/semicirculo_2.png" class="semicircle-img-carta">
+<img src="assets/img/semicirculo_2_horizontal.png" class="semicircle-img-carta-horizontal">
+<img src="assets/img/Correo@2x.png" class="icon-img-carta">
+<img src="assets/img/5.jpg" class="bg-full">
+
+<div class="col-xs-12 col-sm-7 result-container" ng-if="properties.estatusSolicitud ==='Admitida'">
+    <div class="col-xs-8 text-center">
+        <label>¡BIENVENIDO(A)!</label>
+        <label>Esta es tu carta de admisión</label>
+    </div>
+    <div class="col-xs-7 document-container-carta" id="carta">
+        <img id="imagen-carta" alt="Imagen PNG">
+    </div>
+    <button class="btn btn-primary" style="margin-bottom: 20px;" ng-click="downloadCarta()">
+        Descargar
+    </button>
+    
+    <!--<div class="col-xs-7 document-container-carta">-->
+    <!--    <div class="col-xs-12">-->
+    <!--        <img src="assets/img/Posgrado Naranja@2x.png" class="logo-img-carta-pdf">-->
+    <!--    </div>-->
+    <!--    <div class="col-xs-12 text-right" >-->
+    <!--        <label>[DIRECCIONCAMPUS]</label><br>-->
+    <!--        <label>[FECHA]</label>-->
+    <!--    </div>-->
+    <!--    <div class="col-xs-12 text-left">-->
+    <!--        Estimado Alumno:-->
+            
+    <!--        [TEXTO]-->
+    <!--    </div>-->
+    <!--    <div class="col-xs-12 text-center">-->
+    <!--        <label>[REMITENTE]</label><br>-->
+    <!--        <label>[PUESTO]</label>-->
+    <!--    </div>-->
+    <!--    <div class="col-xs-12 text-left">-->
+    <!--        <div class="col-xs-8 direcciones">-->
+    <!--            <div class="col-xs-12">-->
+    <!--                <label>[CAMPUS]</label>-->
+    <!--                <p>[DIRECCIONCAMPUS]</p>    -->
+    <!--            </div>-->
+    <!--            <div class="col-xs-12">-->
+    <!--                <label>[CAMPUS]</label>-->
+    <!--                <p>[DIRECCIONCAMPUS]</p>    -->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="col-xs-4">-->
+    <!--            Dirección de posgrado-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
+</div>
+
+<!-- No admisión -->
+<div class="col-xs-12 col-sm-7 no-result-container" ng-if="properties.estatusSolicitud ==='No admitida'">
+    <div class="col-xs-12 col-sm-10 text-justify message-container" style="font-size: 16px;">
+        <h3 class="text-center"><b>No admisión</b></h3><br>
+        <p>Estimado(a) <b>{{properties.dataSolicitud.nombreAspirante}}</b></p><br>
+        <p>Por este medio te informamos que el Comité de Admisiones de Posgrado de la universidad <b>{{properties.dataSolicitud.campus}}</b> ha evaluado tu solicitud de admisión, y la decisión fue de <b>no admisión</b> a la Red de Universidades Anáhuac.</p><br>
+        <p>Quedamos a tus órdenes.</p><br>
+        <p>Atentamente,</p>
+        <p class="color-orange"><b>Dirección de Posgrado</b></p><br>
+    </div>
+</div>
+
+<!-- Archivada -->
+<div class="col-xs-12 col-sm-7 no-result-container" ng-if="properties.estatusSolicitud ==='Archivada'">
+    <div class="col-xs-12 col-sm-10 text-justify message-container" style="font-size: 16px;">
+        <!--<h3 class="text-center"><b>No aceptación de solicitud</b></h3><br>-->
+        <p>Estimado(a) <b>{{properties.dataSolicitud.nombreAspirante}}</b></p><br>
+        <p>Por este medio te informamos que el departamento de Admisiones de Posgrado de la universidad <b>{{properties.dataSolicitud.campus}}</b> revisó la información enviada y <b>no será posible continuar</b> con tu solicitud para este programa.</p><br>
+        <p>Quedamos a tus órdenes.</p><br>
+        <p>Atentamente,</p>
+        <p class="color-orange"><b>Dirección de Posgrado</b></p><br>
+    </div>
+</div>
+
+<!-- No disponible -->
+<div class="col-xs-12 col-sm-7 no-result-container" ng-if="properties.estatusSolicitud ==='No disponible'">
+    <div class="col-xs-12 col-sm-10 text-center message-container">
+        <label>¡BIENVENIDO(A)!</label>
+        <h2><b>Estimado aspirante, el resultado de admisión aún no esta disponible.</b></h2>
+    </div>
+</div>
+
+<!-- No definido -->
+<div class="col-xs-12 col-sm-7 no-result-container" ng-if="!(properties.estatusSolicitud ==='Admitida' || properties.estatusSolicitud ==='No admitida' || properties.estatusSolicitud ==='Archivada' || properties.estatusSolicitud ==='No disponible')">
+    <div class="col-xs-12 col-sm-10 text-center message-container">
+        
+    </div>
+</div>
+
+<div class="bottom-banner">
+    <div class="col-xs-12 bottom-banner-content">
+        <div class="col-xs-12 col-sm-8 col-lg-6 col-xs-offset-0 col-lg-offset-3 bottom-banner-text" ng-if="properties.estatusSolicitud ==='Admitida'">
+            Compártela en tus redes sociales
+        </div>
+        <div class="col-xs-12 col-sm-8 col-lg-6 col-xs-offset-0 col-sm-offset-3 bottom-banner-text" ng-if="properties.estatusSolicitud !=='Admitida'"></div>
+        <div class="col-xs-12 col-sm-4 col-lg-3 button-red-social-container" ng-if="properties.estatusSolicitud ==='Admitida'">
+            <div>
+                <a href="https://www.facebook.com" target="_blank">
+                    <img src="widgets/customPSGRBackgroundImageCarta/assets/img/facebook.png" class="imagen-red-social"/>
+                </a>
+            </div>
+            <div>
+                <a href="https://www.linkedin.com/" target="_blank">
+                    <img src="widgets/customPSGRBackgroundImageCarta/assets/img/linkedin.png" class="imagen-red-social"/>
+                </a>
+            </div>
+            <div>
+                <a href="https://twitter.com/" target="_blank">
+                    <img src="widgets/customPSGRBackgroundImageCarta/assets/img/twitter.png" class="imagen-red-social"/>
+                </a>
+            </div>
+            <div>
+                <a href="https://www.instagram.com" target="_blank">
+                    <img src="widgets/customPSGRBackgroundImageCarta/assets/img/instagram.png" class="imagen-red-social"/>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

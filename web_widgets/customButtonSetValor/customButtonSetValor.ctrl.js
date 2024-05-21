@@ -5,7 +5,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     var vm = this;
 
     $scope.setVal = function() {
-        $scope.properties.variableDestino = angular.copy($scope.properties.variableAcopiar);
+        $scope.properties.variableDestino = "agregar"
         $scope.openCloseModal()
 
     };

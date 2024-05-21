@@ -104,6 +104,39 @@ class Index implements RestApiController {
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
 					}
+				} else if(url.equals("pdfCartaPosgrados") || url == "pdfCartaPosgrados") {
+					String caseid = request.getParameter "caseid"
+					result = new PDFDocumentDAO().pdfCartaPosgrados(caseid, context);
+					if(result.success) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
+					}
+				} else if (url.equals("getSolicitudPosgradosInfo") || url == "getSolicitudPosgradosInfo") {
+					String caseid = request.getParameter "caseid"
+					Map < String, Object > columns = new HashMap < String, Object > ();
+					result = new PDFDocumentDAO().getSolicitudPosgradosInfo(columns, caseid, context);
+					if(result.success) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
+					}
+				} else if (url.equals("pdfFileSolicitudPosgrado") || url == "pdfFileSolicitudPosgrado") {
+					String caseid = request.getParameter "caseid"
+					result = new PDFDocumentDAO().pdfFileSolicitudPosgrado(caseid, context);
+					if(result.success) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
+					}
+				} else if (url.equals("pngCartaPosgrados") || url == "pngCartaPosgrados") {
+					String caseid = request.getParameter "caseid"
+					result = new PDFDocumentDAO().pngCartaPosgrados(caseid, context);
+					if(result.success) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
+					}
 				}
 			}
 		} catch(Exception ex) {
@@ -173,6 +206,9 @@ class Index implements RestApiController {
 				|| it.roleName.equals("PSICOLOGO") 
 				|| it.roleName.equals("PSICOLOGO SUPERVISOR")
 				|| it.roleName.equals("Reporte SDAE")
+				// Roles de posgrado
+				|| it.roleName.equals("Comite PSG")
+				|| it.roleName.equals("SERUA PSG")
 			) {
 				valid=true
 			}

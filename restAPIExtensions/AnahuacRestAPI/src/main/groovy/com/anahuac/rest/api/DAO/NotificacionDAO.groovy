@@ -2644,7 +2644,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						rows.add(catBitacoraCorreo)
 					}
 					resultado.setSuccess(true)
-					
+					resultado.setError_info(errorlog);
 					resultado.setData(rows)
 					
 				} catch (Exception e) {

@@ -3,9 +3,9 @@ function ($scope, $log, widgetNameFactory, $http) {
     'use strict';
 
     this.name = widgetNameFactory.getName('pbInput');
-    if (!$scope.properties.isBound('value')) {
-        $log.error('the pbInput property named "value" need to be bound to a variable');
-    }
+    // if (!$scope.properties.isBound('value')) {
+    //     $log.error('the pbInput property named "value" need to be bound to a variable');
+    // }
 
     $scope.forceKeyPressUppercase = function (e) {
         var charInput = e.keyCode;

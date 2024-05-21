@@ -74,6 +74,7 @@ function PbSelectCtrl($scope, $parse, $log, widgetNameFactory, $timeout, $window
 
         if ($scope.properties.acciones) {
             if (codigo) {
+                debugger;
                 if (codigo === "10") {
 
                     $scope.properties.datosActualizar.isSemestral = true;
