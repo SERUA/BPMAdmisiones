@@ -28,6 +28,20 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         return angular.equals(row, $scope.properties.selectedRow);
     }
   
+    // Método principal para obtener los registros de la tabla.
+    function selectSolicitudes() {
+        if (!$scope.properties.dataToSend || !$scope.properties.dataToSend.lstFiltro) return;
+
+        const filters = $scope.properties.dataToSend.lstFiltro;
+
+        // Validar filtros obligatorios
+        if (!filters.some(filter => filter.columna === "CAMPUS")) return;
+        if (!filters.some(filter => filter.columna === "LICENCIATURA")) return;
+        if (!filters.some(filter => filter.columna === "PERIODO")) return;
+
+        doRequest("POST", $scope.properties.urlPost);
+    }
+
     function doRequest(method, url, params) {
         blockUI.start();
         var req = {
@@ -212,14 +226,14 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     $scope.lstCampus = [];
   
     $(function() {
-        doRequest("POST", $scope.properties.urlPost);
+        selectSolicitudes();
     })
   
   
     $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
         if (newValue !== undefined) {
             if ($scope.properties.campusSeleccionado !== undefined) {
-                doRequest("POST", $scope.properties.urlPost);
+                selectSolicitudes();
             }
         }
         console.log($scope.properties.dataToSend);
@@ -228,7 +242,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     $scope.$watch("properties.campusSeleccionado", function(newValue, oldValue) {
         if (newValue !== undefined) {
             if ($scope.properties.campusSeleccionado !== undefined) {
-                doRequest("POST", $scope.properties.urlPost);
+                selectSolicitudes();
             }
         }
         console.log($scope.properties.dataToSend);
@@ -241,7 +255,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             $scope.properties.dataToSend.orderby = order;
             $scope.properties.dataToSend.orientation = "ASC";
         }
-        doRequest("POST", $scope.properties.urlPost);
+        selectSolicitudes();
     }
     $scope.filterKeyPress = function(columna, press) {
         var aplicado = true;
@@ -260,7 +274,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             $scope.properties.dataToSend.lstFiltro.push(obj);
         }
   
-        doRequest("POST", $scope.properties.urlPost);
+        selectSolicitudes();
     }
   
     $scope.lstPaginado = [];
@@ -338,7 +352,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             }
         }
   
-        doRequest("POST", $scope.properties.urlPost);
+        selectSolicitudes();
     }
   
     $scope.getCampusByGrupo = function(campus) {
@@ -722,7 +736,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
   
         }
   
-        doRequest("POST", $scope.properties.urlPost);
+        selectSolicitudes();
     }
   
     $scope.getCatCampus = function() {
