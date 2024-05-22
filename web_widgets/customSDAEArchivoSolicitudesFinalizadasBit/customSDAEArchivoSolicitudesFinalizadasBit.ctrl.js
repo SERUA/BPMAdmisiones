@@ -574,22 +574,46 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
 
     function getPeriodos(_campus) {
+        const dataToSend = {
+            "lstFiltro": [],
+            "usuario": "",
+            "orderby": "",
+            "orientation": "ASC",
+            "limit": 999,
+            "offset": 0
+        }
+
         var req = {
-            method: "GET",
-            url: "/API/extension/AnahuacRestGet?url=getCatPeriodoActivo&p=0&c=10&tipo=Semestral",
-            data: angular.copy({ "assigned_id": $scope.properties.userId })
+            method: "POST",
+            url: "/API/extension/AnahuacRest?url=getCatPeriodo&p=0&c=999",
+            data: angular.copy(dataToSend)
         };
   
-        return $http(req).success(function(data, status) {
-            $scope.periodos  = data.data;
-            // window.open(url, '_blank');
-        })
-        .error(function(data, status) {
-            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
-        })
-        .finally(function() {
-
-        });
+        try {
+            return $http(req).success(function(data, status) {
+                // Filtro para no distinguir entre periodos de diferente tipo (semestral, anual, trimestral)
+                const periodos = [];
+                data.data.forEach((periodo) => {
+                    if (!periodos.some(periodoGuardado => periodoGuardado.descripcion === periodo.descripcion))
+                        periodos.push(periodo);
+                })
+    
+                // Ordenar por clave
+                periodos.sort((a, b) => b.clave?.localeCompare(a.clave));
+    
+                $scope.periodos = periodos;
+            })
+            .error(function(data, status) {
+                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+            })
+            .finally(function() {
+    
+            });
+        }
+        catch(e) {
+            console.error("Algo falló al recuperar el catálogo de periodos.");
+        }
+        
     }
 
 
