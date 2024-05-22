@@ -1,4 +1,4 @@
-function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService) {
+function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService, blockUI) {
 
     'use strict';
   
@@ -91,7 +91,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
      * @return {void}
      */
     function doRequest(method, url, params) {
-        $scope.showLoading();
+        // $scope.showLoading();
+        blockUI.start();
         vm.busy = true;
     
         let data = "redirect=false&username=" + $scope.properties.dataToSend.username + "&password=" + $scope.properties.dataToSend.password;
@@ -108,18 +109,19 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             $scope.properties.dataFromSuccess = data;
             $scope.properties.responseStatusCode = status;
             $scope.properties.dataFromError = undefined;
+            blockUI.stop();
             redirectIfNeeded();
         })
         .error(function(data, status) {
-            $scope.hideLoading();
-
+            blockUI.stop();
+            blockUI.start();
             $http.get("../API/extension/AnahuacRestGet?url=getUsuarioExiste&usuario=" + $scope.properties.dataToSend.username).success(function(){
                 Swal.fire({
                     title: '<strong>Atención</strong>',
                     icon: 'error',
                     html:'Correo electronico o Contraseña incorrecta.', showCloseButton: false
                 });
-
+                
                 $scope.errorLoginCount ++;
                 if($scope.errorLoginCount === 2){
                     $scope.renderCaptcha();
@@ -130,6 +132,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 $scope.properties.responseStatusCode = status;
                 $scope.properties.dataFromSuccess = undefined;
             }).error(function(_err){
+                blockUI.stop();
                 if(_err.error === "user_disabled"){
                     Swal.fire({
                         title: '<strong>Atención</strong>',
@@ -153,10 +156,13 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 $scope.properties.dataFromError = data;
                 $scope.properties.responseStatusCode = status;
                 $scope.properties.dataFromSuccess = undefined;
+            }).finally(function(){
+                vm.busy = false;
             });
         })
         .finally(function() {
-            $scope.hideLoading();
+            // $scope.hideLoading();
+            
             vm.busy = false;
         });
     }
