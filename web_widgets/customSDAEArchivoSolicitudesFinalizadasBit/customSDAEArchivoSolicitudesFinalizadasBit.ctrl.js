@@ -33,13 +33,19 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         if (!$scope.properties.dataToSend || !$scope.properties.dataToSend.lstFiltro) return;
 
         const filters = $scope.properties.dataToSend.lstFiltro;
-
+        
         // Validar filtros obligatorios
-        if (!filters.some(filter => filter.columna === "CAMPUS")) return;
-        if (!filters.some(filter => filter.columna === "LICENCIATURA")) return;
-        if (!filters.some(filter => filter.columna === "PERIODO")) return;
+        if ($scope.filtroCampus !== "Todos los campus") {
+            if (!filters.some(filter => filter.columna === "CAMPUS")){ limpiarRegistros(); return; }
+            if (!filters.some(filter => filter.columna === "LICENCIATURA") && !filters.some(filter => filter.columna === "PERIODO")) { limpiarRegistros(); return; }
+        }
 
         doRequest("POST", $scope.properties.urlPost);
+    }
+
+    function limpiarRegistros() {
+        $scope.properties.lstContenido = [];
+        $scope.sinCoincidencias = undefined;
     }
 
     function doRequest(method, url, params) {
@@ -53,6 +59,8 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
   
         return $http(req).success(function(data, status) {
             $scope.properties.lstContenido = data.data;
+            $scope.sinCoincidencias = data && data.data ? (data.data.length === 0 ? true : false) : undefined;
+            
             $scope.value = data.totalRegistros;
             $scope.loadPaginado();
             console.log(data.data)
@@ -63,6 +71,30 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         .finally(function() {
             blockUI.stop();
         });
+    }
+
+    // Quita de la lista de filtros el filtro especificado, si es que existe
+    function filterListRemove(columna) {
+        // Obteniendo la lista de filtros
+        const filterList = $scope.properties.dataToSend.lstFiltro;
+
+        const index = filterList.findIndex(filter => filter.columna === columna);
+        if (index !== -1) filterList.splice(index, 1);
+        
+        // Al actualizar el dataToSend.lstFiltro se ejecuta el lstFiltrosChanged y actualiza las variables de cada filtro.
+    }
+
+    function lstFiltrosChanged() {
+        if ($scope.properties.dataToSend.lstFiltro) {
+            const filterList = $scope.properties.dataToSend.lstFiltro;
+            // Eliminar filtros que fueron eliminados desde la lista de filtros
+            if ($scope.filtroPeriodo && !filterList.find(item => item.columna === "PERIODO")) {
+                $scope.filtroPeriodo = "";
+            }
+            if ($scope.filtroLicenciatura && !filterList.find(item => item.columna === "LICENCIATURA")) {
+                $scope.filtroLicenciatura = "";
+            }
+        }
     }
   
     $scope.verSolicitud = function(_rowData, _action) {
@@ -231,12 +263,15 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
   
   
     $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
+
+        // Actualizar lista de filtros
+        lstFiltrosChanged();
+
         if (newValue !== undefined) {
             if ($scope.properties.campusSeleccionado !== undefined) {
                 selectSolicitudes();
             }
         }
-        console.log($scope.properties.dataToSend);
     });
   
     $scope.$watch("properties.campusSeleccionado", function(newValue, oldValue) {
@@ -487,8 +522,8 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         if ($scope.filtroCampus != "Todos los campus") {
             $scope.licenciaturas = [];
             $scope.periodos = [];
-            $scope.filtroPeriodo = "";
-            $scope.filtroLicenciatura = "";
+            filterListRemove("PERIODO");
+            filterListRemove("LICENCIATURA");
             $scope.mostrarFiltros = true;
 
             var filter = {
