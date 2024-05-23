@@ -110,7 +110,8 @@
                     </td>
                     <td>
                         <b ng-if="row.porcentajeautorizadofinanciaimiento">{{row.porcentajeautorizadofinanciaimiento}}%</b>
-                        <b ng-if="!row.porcentajeautorizadofinanciaimiento">N/A</b>
+                        <p ng-if="!row.porcentajeautorizadofinanciaimiento && row.porcentajefinaautorizacion && row.porcentajefinaautorizacion !== '0'"><b>En trámite</b><br> ({{row.porcentajefinaautorizacion}}% propuesto)</p>
+                        <b ng-if="!row.porcentajeautorizadofinanciaimiento && (!row.porcentajefinaautorizacion || row.porcentajefinaautorizacion === '0')">N/A</b>
                     </td>
                     <!-- <td>
                         <b>{{!row.bannerInfo.pago_de_propedeutico ? "N/A" : row.bannerInfo.pago_de_propedeutico }}</b>

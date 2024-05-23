@@ -1182,6 +1182,10 @@ class SecurityFilter {
 		    if (allow) {
 		      break;
 		    }
+			allow=bonitaRolFilter(context,"Reporte SDAE")
+			if(allow) {
+				break;
+			}
 		    break;
 		  case "selectSolicitudesEnProceso":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
