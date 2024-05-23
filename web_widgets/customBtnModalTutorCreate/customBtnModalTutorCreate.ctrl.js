@@ -89,6 +89,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             swal("¡Giro empresa!", "Debes agregar el giro de la empresa del trabajo de tu tutor", "warning");
                         } else if ($scope.properties.tutor.catEscolaridad === null) {
                             swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu tutor", "warning");
+                        } else if (!$scope.properties.tutor.telefonoCelular) {
+                            swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                         } else if (!$scope.properties.tutor.isTutor) {
                             console.log("falta tutor");
                         } else if ($scope.properties.tutor.catPais === null) {
@@ -111,8 +113,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu tutor", "warning");
                         } else if ($scope.properties.tutor.telefono === "") {
                             swal("¡Teléfono!", "Debes agregar el teléfono de tu tutor", "warning");
-                        } else if (!$scope.properties.tutor.telefonoCelular) {
-                            swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                         } else {
                             $scope.properties.formInput.push($scope.properties.tutor);
                             if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
@@ -232,6 +232,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         }
                     } else if ($scope.properties.tutor.catEscolaridad === null) {
                         swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu tutor", "warning");
+                    } else if (!$scope.properties.tutor.telefonoCelular) {
+                        swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                     } else if (!$scope.properties.tutor.isTutor) {
                         console.log("falta tutor");
                     } else if ($scope.properties.tutor.catPais === null) {
@@ -254,8 +256,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu tutor", "warning");
                     } else if ($scope.properties.tutor.telefono === "") {
                         swal("¡Teléfono!", "Debes agregar el teléfono de tu tutor", "warning");
-                    } else if (!$scope.properties.tutor.telefonoCelular) {
-                        swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                     } else {
                         $scope.properties.formInput.push($scope.properties.tutor);
                         if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
@@ -384,6 +384,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         swal("¡Giro empresa!", "Debes agregar el giro de la empresa del trabajo de tu tutor", "warning");
                     } else if ($scope.properties.tutor.catEscolaridad === null) {
                         swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu tutor", "warning");
+                    } else if (!$scope.properties.tutor.telefonoCelular) {
+                        swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                     } else if (!$scope.properties.tutor.isTutor) {
                         console.log("falta tutor");
                     } else if ($scope.properties.tutor.catPais === null) {
@@ -406,8 +408,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu tutor", "warning");
                     } else if ($scope.properties.tutor.telefono === "") {
                         swal("¡Teléfono!", "Debes agregar el teléfono de tu tutor", "warning");
-                    } else if (!$scope.properties.tutor.telefonoCelular) {
-                        swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                     } else {
                         $scope.properties.formInput.push($scope.properties.tutor);
                         if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
@@ -527,6 +527,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     }
                 } else if ($scope.properties.tutor.catEscolaridad === null) {
                     swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu tutor", "warning");
+                } else if (!$scope.properties.tutor.telefonoCelular) {
+                    swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                 } else if (!$scope.properties.tutor.isTutor) {
                     console.log("falta tutor");
                 } else if ($scope.properties.tutor.catPais === null) {
@@ -549,8 +551,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu tutor", "warning");
                 } else if ($scope.properties.tutor.telefono === "") {
                     swal("¡Teléfono!", "Debes agregar el teléfono de tu tutor", "warning");
-                } else if (!$scope.properties.tutor.telefonoCelular) {
-                    swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                 } else {
                     $scope.properties.formInput.push($scope.properties.tutor);
                     if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
@@ -694,6 +694,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Puesto!", "Debes agregar el puesto de trabajo de tu tutor", "warning");
                             } else if ($scope.properties.tutor.catEscolaridad === null) {
                                 swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu tutor", "warning");
+                            } else if (!$scope.properties.tutor.telefonoCelular) {
+                                swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                             } else if (!$scope.properties.tutor.isTutor) {
                                 console.log("falta tutor");
                             } else if ($scope.properties.tutor.catPais === null) {
@@ -716,8 +718,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu tutor", "warning");
                             } else if ($scope.properties.tutor.telefono === "") {
                                 swal("¡Teléfono!", "Debes agregar el teléfono de tu tutor", "warning");
-                            } else if (!$scope.properties.tutor.telefonoCelular) {
-                                swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                             } else {
                                 $scope.properties.formInput.push($scope.properties.tutor);
                                 if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
@@ -837,6 +837,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             }
                         } else if ($scope.properties.tutor.catEscolaridad === null) {
                             swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu tutor", "warning");
+                        } else if (!$scope.properties.tutor.telefonoCelular) {
+                            swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                         } else if (!$scope.properties.tutor.isTutor) {
                             console.log("falta tutor");
                         } else if ($scope.properties.tutor.catPais === null) {
@@ -859,8 +861,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu tutor", "warning");
                         } else if ($scope.properties.tutor.telefono === "") {
                             swal("¡Teléfono!", "Debes agregar el teléfono de tu tutor", "warning");
-                        } else if (!$scope.properties.tutor.telefonoCelular) {
-                            swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                         } else {
                             $scope.properties.formInput.push($scope.properties.tutor);
                             if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
@@ -989,6 +989,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             swal("¡Puesto!", "Debes agregar el puesto de trabajo de tu tutor", "warning");
                         } else if ($scope.properties.tutor.catEscolaridad === null) {
                             swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu tutor", "warning");
+                        } else if (!$scope.properties.tutor.telefonoCelular) {
+                            swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                         } else if (!$scope.properties.tutor.isTutor) {
                             console.log("falta tutor");
                         } else if ($scope.properties.tutor.catPais === null) {
@@ -1011,8 +1013,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu tutor", "warning");
                         } else if ($scope.properties.tutor.telefono === "") {
                             swal("¡Teléfono!", "Debes agregar el teléfono de tu tutor", "warning");
-                        } else if (!$scope.properties.tutor.telefonoCelular) {
-                            swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                         } else {
                             $scope.properties.formInput.push($scope.properties.tutor);
                             if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
@@ -1132,6 +1132,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         }
                     } else if ($scope.properties.tutor.catEscolaridad === null) {
                         swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu tutor", "warning");
+                    } else if (!$scope.properties.tutor.telefonoCelular) {
+                        swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                     } else if (!$scope.properties.tutor.isTutor) {
                         console.log("falta tutor");
                     } else if ($scope.properties.tutor.catPais === null) {
@@ -1154,8 +1156,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu tutor", "warning");
                     } else if ($scope.properties.tutor.telefono === "") {
                         swal("¡Teléfono!", "Debes agregar el teléfono de tu tutor", "warning");
-                    } else if (!$scope.properties.tutor.telefonoCelular) {
-                        swal("¡Teléfono!", "Debes agregar el teléfono celular de tu tutor", "warning");
                     } else {
                         $scope.properties.formInput.push($scope.properties.tutor);
                         if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
