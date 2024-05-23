@@ -81,6 +81,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.madre.ciudad = $scope.properties.tutor[0].ciudad;
                             $scope.properties.madre.colonia = $scope.properties.tutor[0].colonia;
                             $scope.properties.madre.telefono = $scope.properties.tutor[0].telefono;
+                            $scope.properties.madre.telefonoCelular = $scope.properties.tutor[0].telefonoCelular;
                             $scope.properties.madre.codigoPostal = $scope.properties.tutor[0].codigoPostal;
                             $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor[0].delegacionMunicipio;
                             $scope.properties.madre.estadoExtranjero = $scope.properties.tutor[0].estadoExtranjero;
@@ -97,6 +98,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.padre.ciudad = $scope.properties.tutor.ciudad;
                             $scope.properties.padre.colonia = $scope.properties.tutor.colonia;
                             $scope.properties.padre.telefono = $scope.properties.tutor.telefono;
+                            $scope.properties.padre.telefono.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                             $scope.properties.padre.codigoPostal = $scope.properties.tutor.codigoPostal;
                             $scope.properties.padre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
                             $scope.properties.padre.estadoExtranjero = $scope.properties.tutor.estadoExtranjero;
@@ -110,6 +112,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.madre.ciudad = $scope.properties.tutor.ciudad;
                             $scope.properties.madre.colonia = $scope.properties.tutor.colonia;
                             $scope.properties.madre.telefono = $scope.properties.tutor.telefono;
+                            $scope.properties.madre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                             $scope.properties.madre.codigoPostal = $scope.properties.tutor.codigoPostal;
                             $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
                             $scope.properties.madre.estadoExtranjero = $scope.properties.tutor.estadoExtranjero;
@@ -446,6 +449,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu padre", "warning");
                                 } else if ($scope.properties.padre.telefono === "" || $scope.properties.padre.telefono === undefined) {
                                     swal("¡Teléfono!", "Debes agregar el teléfono de tu padre", "warning");
+                                } else if (!$scope.properties.padre.telefonoCelular) {
+                                    swal("¡Teléfono celular!", "Debes agregar el teléfono celular de tu padre", "warning");
                                 } else {
                                     if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
                                         $scope.properties.selectedIndex--;
@@ -483,6 +488,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu padre", "warning");
                                 } else if ($scope.properties.padre.telefono === "" || $scope.properties.padre.telefono === undefined) {
                                     swal("¡Teléfono!", "Debes agregar el teléfono de tu padre", "warning");
+                                } else if (!$scope.properties.padre.telefonoCelular) {
+                                    swal("¡Teléfono celular!", "Debes agregar el teléfono celular de tu padre", "warning");
                                 } else {
                                     if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
                                         $scope.properties.selectedIndex--;
@@ -532,6 +539,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu padre", "warning");
                             } else if ($scope.properties.padre.telefono === "" || $scope.properties.padre.telefono === undefined) {
                                 swal("¡Teléfono!", "Debes agregar el teléfono de tu padre", "warning");
+                            } else if (!$scope.properties.padre.telefonoCelular) {
+                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular de tu padre", "warning");
                             } else {
                                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
                                     $scope.properties.selectedIndex--;
@@ -569,6 +578,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu padre", "warning");
                             } else if ($scope.properties.padre.telefono === "" || $scope.properties.padre.telefono === undefined) {
                                 swal("¡Teléfono!", "Debes agregar el teléfono de tu padre", "warning");
+                            } else if (!$scope.properties.padre.telefonoCelular) {
+                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular de tu padre", "warning");
                             } else {
                                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
                                     $scope.properties.selectedIndex--;
@@ -653,6 +664,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu madre", "warning");
                                 } else if ($scope.properties.madre.telefono === "" || $scope.properties.madre.telefono === undefined) {
                                     swal("¡Teléfono!", "Debes agregar el teléfono de tu madre", "warning");
+                                } else if (!$scope.properties.madre.telefonoCelular) {
+                                    swal("¡Teléfono celular!", "Debes agregar el teléfono de tu madre", "warning");
                                 } else {
                                     if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
                                         $scope.properties.selectedIndex--;
@@ -690,6 +703,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu madre", "warning");
                                 } else if ($scope.properties.madre.telefono === "" || $scope.properties.madre.telefono === undefined) {
                                     swal("¡Teléfono!", "Debes agregar el teléfono de tu madre", "warning");
+                                } else if (!$scope.properties.madre.telefonoCelular) {
+                                    swal("¡Teléfono celular!", "Debes agregar el teléfono de tu madre", "warning");
                                 } else {
                                     if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
                                         $scope.properties.selectedIndex--;
@@ -739,6 +754,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu madre", "warning");
                             } else if ($scope.properties.madre.telefono === "" || $scope.properties.madre.telefono === undefined) {
                                 swal("¡Teléfono!", "Debes agregar el teléfono de tu madre", "warning");
+                            } else if (!$scope.properties.madre.telefonoCelular) {
+                                swal("¡Teléfono celular!", "Debes agregar el teléfono de tu madre", "warning");
                             } else {
                                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
                                     $scope.properties.selectedIndex--;
@@ -776,6 +793,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Número exterior!", "Debes agregar el número exterior del domicilio de tu madre", "warning");
                             } else if ($scope.properties.madre.telefono === "" || $scope.properties.madre.telefono === undefined) {
                                 swal("¡Teléfono!", "Debes agregar el teléfono de tu madre", "warning");
+                            } else if (!$scope.properties.madre.telefonoCelular) {
+                                swal("¡Teléfono celular!", "Debes agregar el teléfono de tu madre", "warning");
                             } else {
                                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
                                     $scope.properties.selectedIndex--;

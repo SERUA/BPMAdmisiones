@@ -1185,6 +1185,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                 } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                     swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                    swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                 } else {
                                     if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                         swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -1226,6 +1228,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                 } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                     swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                    swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                 } else {
                                     if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                         swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -1277,6 +1281,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                             } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                 swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                            } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                             } else {
                                 if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                     swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -1318,6 +1324,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                             } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                 swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                            } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                             } else {
                                 if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                     swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -1398,6 +1406,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Colonia!", "Debes agregar la colonia del domicilio del padre", "warning");
                             } else if ($scope.properties.padreInput.telefono === "" || $scope.properties.padreInput.telefono === undefined) {
                                 swal("¡Teléfono!", "Debes agregar el teléfono del padre", "warning");
+                            } else if (!$scope.properties.padreInput.telefonoCelular) {
+                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular del padre", "warning");
                             } else {
                                 ///Validar madre 1
                                 if ($scope.properties.madreInput.desconozcoDatosPadres) {
@@ -1461,6 +1471,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                                     swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                                 } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                                     swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                                } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                                    swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                                 } else {
                                                     if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                                         swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -1502,6 +1514,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                                     swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                                 } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                                     swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                                } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                                    swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                                 } else {
                                                     if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                                         swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -1553,6 +1567,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                                 swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                             } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                                 swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                            } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                             } else {
                                                 if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                                     swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -1594,6 +1610,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                                 swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                             } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                                 swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                            } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                             } else {
                                                 if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                                     swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -1650,6 +1668,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Colonia!", "Debes agregar la colonia del domicilio del padre", "warning");
                             } else if ($scope.properties.padreInput.telefono === "" || $scope.properties.padreInput.telefono === undefined) {
                                 swal("¡Teléfono!", "Debes agregar el teléfono del padre", "warning");
+                            } else if (!$scope.properties.padreInput.telefonoCelular) {
+                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular del padre", "warning");
                             } else {
                                 //VALIDAR MADRE 2
                                 if ($scope.properties.madreInput.desconozcoDatosPadres) {
@@ -1713,6 +1733,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                                     swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                                 } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                                     swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                                } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                                    swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                                 } else {
                                                     if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                                         swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -1754,6 +1776,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                                     swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                                 } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                                     swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                                } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                                    swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                                 } else {
                                                     if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                                         swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -1805,6 +1829,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                                 swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                             } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                                 swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                            } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                             } else {
                                                 if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                                     swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -1846,6 +1872,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                                 swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                             } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                                 swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                            } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                             } else {
                                                 if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                                     swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -1910,6 +1938,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         swal("¡Colonia!", "Debes agregar la colonia del domicilio del padre", "warning");
                     } else if ($scope.properties.padreInput.telefono === "" || $scope.properties.padreInput.telefono === undefined) {
                         swal("¡Teléfono!", "Debes agregar el teléfono del padre", "warning");
+                    } else if (!$scope.properties.padreInput.telefonoCelular) {
+                        swal("¡Teléfono celular!", "Debes agregar el teléfono celular del padre", "warning");
                     } else {
                         ///Validar madre  3
                         if ($scope.properties.madreInput.desconozcoDatosPadres) {
@@ -1973,6 +2003,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                             swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                         } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                             swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                        } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                            swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                         } else {
                                             if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                                 swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -2014,6 +2046,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                             swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                         } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                             swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                        } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                            swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                         } else {
                                             if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                                 swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -2065,6 +2099,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                         swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                     } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                         swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                    } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                        swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                     } else {
                                         if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                             swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -2106,6 +2142,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                         swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                     } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                         swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                    } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                        swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                     } else {
                                         if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                             swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -2162,6 +2200,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         swal("¡Colonia!", "Debes agregar la colonia del domicilio del padre", "warning");
                     } else if ($scope.properties.padreInput.telefono === "" || $scope.properties.padreInput.telefono === undefined) {
                         swal("¡Teléfono!", "Debes agregar el teléfono del padre", "warning");
+                    } else if (!$scope.properties.padreInput.telefonoCelular) {
+                        swal("¡Teléfono celular!", "Debes agregar el teléfono celular del padre", "warning");
                     } else {
                         //VALIDAR MADRE 4
                         if ($scope.properties.madreInput.desconozcoDatosPadres) {
@@ -2225,6 +2265,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                             swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                         } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                             swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                        } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                            swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                         } else {
                                             if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                                 swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -2266,6 +2308,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                             swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                         } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                             swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                        } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                            swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                         } else {
                                             if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                                 swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -2317,6 +2361,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                         swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                     } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                         swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                    } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                        swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                     } else {
                                         if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                             swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -2358,6 +2404,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                         swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                     } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                         swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                    } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                        swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                     } else {
                                         if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                             swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -2452,6 +2500,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                 } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                     swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                    swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                 } else {
                                     if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                         swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -2491,6 +2541,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                                 } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                     swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                                } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                    swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                                 } else {
                                     if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                         swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -2540,6 +2592,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                             } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                 swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                            } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                             } else {
                                 if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                     swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");
@@ -2579,6 +2633,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Colonia!", "Debes agregar la colonia del domicilio de la madre", "warning");
                             } else if ($scope.properties.madreInput.telefono === "" || $scope.properties.madreInput.telefono === undefined) {
                                 swal("¡Teléfono!", "Debes agregar el teléfono de la madre", "warning");
+                            } else if (!$scope.properties.madreInput.telefonoCelular) {
+                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular la madre", "warning");
                             } else {
                                 if ($scope.properties.contactoEmergenciaInput.length === 0) {
                                     swal("¡Contacto de emergencia!", "Debes agregar al menos un contacto de emergencia", "warning");

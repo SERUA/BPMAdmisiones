@@ -71,6 +71,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         $scope.properties.padre.ciudad = "";
                         $scope.properties.padre.colonia = "";
                         $scope.properties.padre.telefono = "";
+                        $scope.properties.padre.telefonoCelular = "";
                         $scope.properties.padre.codigoPostal = "";
                         $scope.properties.padre.viveContigo = false;
                         $scope.properties.padre.vive = null;
@@ -99,6 +100,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         $scope.properties.madre.ciudad = "";
                         $scope.properties.madre.colonia = "";
                         $scope.properties.madre.telefono = "";
+                        $scope.properties.padre.telefonoCelular = "";
                         $scope.properties.madre.codigoPostal = "";
                         $scope.properties.madre.viveContigo = false;
                         $scope.properties.madre.delegacionMunicipio = "";
@@ -128,6 +130,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         $scope.properties.padre.ciudad = $scope.properties.tutor.ciudad;
                         $scope.properties.padre.colonia = $scope.properties.tutor.colonia;
                         $scope.properties.padre.telefono = $scope.properties.tutor.telefono;
+                        $scope.properties.padre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                         $scope.properties.padre.codigoPostal = $scope.properties.tutor.codigoPostal;
                         $scope.properties.padre.viveContigo = $scope.properties.tutor.viveContigo;
                         $scope.properties.padre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -161,6 +164,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.madre.ciudad = "";
                             $scope.properties.madre.colonia = "";
                             $scope.properties.madre.telefono = "";
+                            $scope.properties.padre.telefonoCelular = "";
                             $scope.properties.madre.codigoPostal = "";
                             $scope.properties.madre.viveContigo = false;
                             $scope.properties.madre.delegacionMunicipio = "";
@@ -188,6 +192,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         $scope.properties.madre.ciudad = $scope.properties.tutor.ciudad;
                         $scope.properties.madre.colonia = $scope.properties.tutor.colonia;
                         $scope.properties.madre.telefono = $scope.properties.tutor.telefono;
+                        $scope.properties.madre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                         $scope.properties.madre.codigoPostal = $scope.properties.tutor.codigoPostal;
                         $scope.properties.madre.viveContigo = $scope.properties.tutor.viveContigo;
                         $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -219,6 +224,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.padre.ciudad = "";
                             $scope.properties.padre.colonia = "";
                             $scope.properties.padre.telefono = "";
+                            $scope.properties.padre.telefonoCelular = "";
                             $scope.properties.padre.codigoPostal = "";
                             $scope.properties.padre.viveContigo = false;
                             $scope.properties.padre.vive = null;
@@ -248,6 +254,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.padre.ciudad = "";
                             $scope.properties.padre.colonia = "";
                             $scope.properties.padre.telefono = "";
+                            $scope.properties.padre.telefonoCelular = "";
                             $scope.properties.padre.codigoPostal = "";
                             $scope.properties.padre.viveContigo = false;
                             $scope.properties.padre.vive = null;
@@ -284,6 +291,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.madre.ciudad = "";
                             $scope.properties.madre.colonia = "";
                             $scope.properties.madre.telefono = "";
+                            $scope.properties.madre.telefonoCelular = "";
                             $scope.properties.madre.codigoPostal = "";
                             $scope.properties.madre.viveContigo = false;
                             $scope.properties.madre.delegacionMunicipio = "";
@@ -362,6 +370,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 if ($scope.properties.tutor.telefono !== $scope.properties.jsonModificarTutor.telefono) {
                     $scope.properties.tutor.telefono = $scope.properties.jsonModificarTutor.telefono
                 }
+                if ($scope.properties.tutor.telefonoCelular !== $scope.properties.jsonModificarTutor.telefonoCelular) {
+                    $scope.properties.tutor.telefonoCelular = $scope.properties.jsonModificarTutor.telefonoCelular
+                }
                 if ($scope.properties.tutor.codigoPostal !== $scope.properties.jsonModificarTutor.codigoPostal) {
                     $scope.properties.tutor.codigoPostal = $scope.properties.jsonModificarTutor.codigoPostal
                 }
@@ -430,6 +441,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
                             } else if ($scope.properties.tutor.telefono === "") {
                                 swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                            } else if (!$scope.properties.tutor.telefonoCelular) {
+                                swal("¡Teléfono!", "Debes agregar el teléfono celular del tutor", "warning");
                             } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
                                 swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
                             } else {
@@ -454,6 +467,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     $scope.properties.padre.ciudad = $scope.properties.tutor.ciudad;
                                     $scope.properties.padre.colonia = $scope.properties.tutor.colonia;
                                     $scope.properties.padre.telefono = $scope.properties.tutor.telefono;
+                                    $scope.properties.padre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                                     $scope.properties.padre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                     $scope.properties.padre.viveContigo = $scope.properties.tutor.viveContigo;
                                     $scope.properties.padre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -485,6 +499,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     $scope.properties.madre.ciudad = $scope.properties.tutor.ciudad;
                                     $scope.properties.madre.colonia = $scope.properties.tutor.colonia;
                                     $scope.properties.madre.telefono = $scope.properties.tutor.telefono;
+                                    $scope.properties.madre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                                     $scope.properties.madre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                     $scope.properties.madre.viveContigo = $scope.properties.tutor.viveContigo;
                                     $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -537,6 +552,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     "ciudad": "",
                                     "colonia": "",
                                     "telefono": "",
+                                    "telefonoCelular": "",
                                     "codigoPostal": "",
                                     "viveContigo": false,
                                     "otroParentesco": "",
@@ -567,6 +583,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
                         } else if ($scope.properties.tutor.telefono === "") {
                             swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                        } else if (!$scope.properties.tutor.telefonoCelular) {
+                            swal("¡Teléfono!", "Debes agregar el teléfono celular del tutor", "warning");
                         } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
                             swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
                         } else {
@@ -591,6 +609,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 $scope.properties.padre.ciudad = $scope.properties.tutor.ciudad;
                                 $scope.properties.padre.colonia = $scope.properties.tutor.colonia;
                                 $scope.properties.padre.telefono = $scope.properties.tutor.telefono;
+                                $scope.properties.padre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                                 $scope.properties.padre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                 $scope.properties.padre.viveContigo = $scope.properties.tutor.viveContigo;
                                 $scope.properties.padre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -622,6 +641,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 $scope.properties.madre.ciudad = $scope.properties.tutor.ciudad;
                                 $scope.properties.madre.colonia = $scope.properties.tutor.colonia;
                                 $scope.properties.madre.telefono = $scope.properties.tutor.telefono;
+                                $scope.properties.madre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                                 $scope.properties.madre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                 $scope.properties.madre.viveContigo = $scope.properties.tutor.viveContigo;
                                 $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -674,6 +694,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 "ciudad": "",
                                 "colonia": "",
                                 "telefono": "",
+                                "telefonoCelular": "",
                                 "codigoPostal": "",
                                 "viveContigo": false,
                                 "otroParentesco": "",
@@ -713,6 +734,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
                         } else if ($scope.properties.tutor.telefono === "") {
                             swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                        } else if (!$scope.properties.tutor.telefonoCelular) {
+                            swal("¡Teléfono!", "Debes agregar el teléfono celular del tutor", "warning");
                         } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
                             swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
                         } else {
@@ -737,6 +760,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 $scope.properties.padre.ciudad = $scope.properties.tutor.ciudad;
                                 $scope.properties.padre.colonia = $scope.properties.tutor.colonia;
                                 $scope.properties.padre.telefono = $scope.properties.tutor.telefono;
+                                $scope.properties.padre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                                 $scope.properties.padre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                 $scope.properties.padre.viveContigo = $scope.properties.tutor.viveContigo;
                                 $scope.properties.padre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -768,6 +792,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 $scope.properties.madre.ciudad = $scope.properties.tutor.ciudad;
                                 $scope.properties.madre.colonia = $scope.properties.tutor.colonia;
                                 $scope.properties.madre.telefono = $scope.properties.tutor.telefono;
+                                $scope.properties.madre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                                 $scope.properties.madre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                 $scope.properties.madre.viveContigo = $scope.properties.tutor.viveContigo;
                                 $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -820,6 +845,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 "ciudad": "",
                                 "colonia": "",
                                 "telefono": "",
+                                "telefonoCelular": "",
                                 "codigoPostal": "",
                                 "viveContigo": false,
                                 "otroParentesco": "",
@@ -850,6 +876,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
                     } else if ($scope.properties.tutor.telefono === "") {
                         swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                    } else if (!$scope.properties.tutor.telefonoCelular) {
+                        swal("¡Teléfono!", "Debes agregar el teléfono celular del tutor", "warning");
                     } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
                         swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
                     } else {
@@ -874,6 +902,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.padre.ciudad = $scope.properties.tutor.ciudad;
                             $scope.properties.padre.colonia = $scope.properties.tutor.colonia;
                             $scope.properties.padre.telefono = $scope.properties.tutor.telefono;
+                            $scope.properties.padre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                             $scope.properties.padre.codigoPostal = $scope.properties.tutor.codigoPostal;
                             $scope.properties.padre.viveContigo = $scope.properties.tutor.viveContigo;
                             $scope.properties.padre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -905,6 +934,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.madre.ciudad = $scope.properties.tutor.ciudad;
                             $scope.properties.madre.colonia = $scope.properties.tutor.colonia;
                             $scope.properties.madre.telefono = $scope.properties.tutor.telefono;
+                            $scope.properties.madre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                             $scope.properties.madre.codigoPostal = $scope.properties.tutor.codigoPostal;
                             $scope.properties.madre.viveContigo = $scope.properties.tutor.viveContigo;
                             $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -957,6 +987,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             "ciudad": "",
                             "colonia": "",
                             "telefono": "",
+                            "telefonoCelular": "",
                             "codigoPostal": "",
                             "viveContigo": false,
                             "otroParentesco": "",
@@ -1011,6 +1042,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
                                 } else if ($scope.properties.tutor.telefono === "") {
                                     swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                                } else if (!$scope.properties.tutor.telefonoCelular) {
+                                    swal("¡Teléfono!", "Debes agregar el teléfono celular del tutor", "warning");
                                 } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
                                     swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
                                 } else {
@@ -1035,6 +1068,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                         $scope.properties.padre.ciudad = $scope.properties.tutor.ciudad;
                                         $scope.properties.padre.colonia = $scope.properties.tutor.colonia;
                                         $scope.properties.padre.telefono = $scope.properties.tutor.telefono;
+                                        $scope.properties.padre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                                         $scope.properties.padre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                         $scope.properties.padre.viveContigo = $scope.properties.tutor.viveContigo;
                                         $scope.properties.padre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -1066,6 +1100,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                         $scope.properties.madre.ciudad = $scope.properties.tutor.ciudad;
                                         $scope.properties.madre.colonia = $scope.properties.tutor.colonia;
                                         $scope.properties.madre.telefono = $scope.properties.tutor.telefono;
+                                        $scope.properties.madre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
+                                        $scope.properties.madre.Celular = $scope.properties.tutor.Celular;
                                         $scope.properties.madre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                         $scope.properties.madre.viveContigo = $scope.properties.tutor.viveContigo;
                                         $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -1118,6 +1154,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                         "ciudad": "",
                                         "colonia": "",
                                         "telefono": "",
+                                        "telefonoCelular": "",
                                         "codigoPostal": "",
                                         "viveContigo": false,
                                         "otroParentesco": "",
@@ -1148,6 +1185,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
                             } else if ($scope.properties.tutor.telefono === "") {
                                 swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                            } else if (!$scope.properties.tutor.telefonoCelular) {
+                                swal("¡Teléfono!", "Debes agregar el teléfono celular del tutor", "warning");
                             } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
                                 swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
                             } else {
@@ -1172,6 +1211,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     $scope.properties.padre.ciudad = $scope.properties.tutor.ciudad;
                                     $scope.properties.padre.colonia = $scope.properties.tutor.colonia;
                                     $scope.properties.padre.telefono = $scope.properties.tutor.telefono;
+                                    $scope.properties.padre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                                     $scope.properties.padre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                     $scope.properties.padre.viveContigo = $scope.properties.tutor.viveContigo;
                                     $scope.properties.padre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -1203,6 +1243,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     $scope.properties.madre.ciudad = $scope.properties.tutor.ciudad;
                                     $scope.properties.madre.colonia = $scope.properties.tutor.colonia;
                                     $scope.properties.madre.telefono = $scope.properties.tutor.telefono;
+                                    $scope.properties.madre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                                     $scope.properties.madre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                     $scope.properties.madre.viveContigo = $scope.properties.tutor.viveContigo;
                                     $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -1255,6 +1296,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     "ciudad": "",
                                     "colonia": "",
                                     "telefono": "",
+                                    "telefonoCelular": "",
                                     "codigoPostal": "",
                                     "viveContigo": false,
                                     "otroParentesco": "",
@@ -1294,6 +1336,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
                             } else if ($scope.properties.tutor.telefono === "") {
                                 swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                            } else if (!$scope.properties.tutor.telefonoCelular) {
+                                swal("¡Teléfono!", "Debes agregar el teléfono celular del tutor", "warning");
                             } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
                                 swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
                             } else {
@@ -1318,6 +1362,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     $scope.properties.padre.ciudad = $scope.properties.tutor.ciudad;
                                     $scope.properties.padre.colonia = $scope.properties.tutor.colonia;
                                     $scope.properties.padre.telefono = $scope.properties.tutor.telefono;
+                                    $scope.properties.padre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                                     $scope.properties.padre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                     $scope.properties.padre.viveContigo = $scope.properties.tutor.viveContigo;
                                     $scope.properties.padre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -1349,6 +1394,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     $scope.properties.madre.ciudad = $scope.properties.tutor.ciudad;
                                     $scope.properties.madre.colonia = $scope.properties.tutor.colonia;
                                     $scope.properties.madre.telefono = $scope.properties.tutor.telefono;
+                                    $scope.properties.madre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                                     $scope.properties.madre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                     $scope.properties.madre.viveContigo = $scope.properties.tutor.viveContigo;
                                     $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -1401,6 +1447,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     "ciudad": "",
                                     "colonia": "",
                                     "telefono": "",
+                                    "telefonoCelular": "",
                                     "codigoPostal": "",
                                     "viveContigo": false,
                                     "otroParentesco": "",
@@ -1431,6 +1478,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
                         } else if ($scope.properties.tutor.telefono === "") {
                             swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                        } else if (!$scope.properties.tutor.telefonoCelular) {
+                            swal("¡Teléfono!", "Debes agregar el teléfono celular del tutor", "warning");
                         } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
                             swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
                         } else {
@@ -1455,6 +1504,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 $scope.properties.padre.ciudad = $scope.properties.tutor.ciudad;
                                 $scope.properties.padre.colonia = $scope.properties.tutor.colonia;
                                 $scope.properties.padre.telefono = $scope.properties.tutor.telefono;
+                                $scope.properties.padre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                                 $scope.properties.padre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                 $scope.properties.padre.viveContigo = $scope.properties.tutor.viveContigo;
                                 $scope.properties.padre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -1486,6 +1536,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 $scope.properties.madre.ciudad = $scope.properties.tutor.ciudad;
                                 $scope.properties.madre.colonia = $scope.properties.tutor.colonia;
                                 $scope.properties.madre.telefono = $scope.properties.tutor.telefono;
+                                $scope.properties.madre.telefonoCelular = $scope.properties.tutor.telefonoCelular;
                                 $scope.properties.madre.codigoPostal = $scope.properties.tutor.codigoPostal;
                                 $scope.properties.madre.viveContigo = $scope.properties.tutor.viveContigo;
                                 $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
@@ -1538,6 +1589,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 "ciudad": "",
                                 "colonia": "",
                                 "telefono": "",
+                                "telefonoCelular": "",
                                 "codigoPostal": "",
                                 "viveContigo": false,
                                 "otroParentesco": "",
