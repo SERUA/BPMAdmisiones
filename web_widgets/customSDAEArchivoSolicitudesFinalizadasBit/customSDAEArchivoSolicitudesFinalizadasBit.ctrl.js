@@ -28,6 +28,26 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         return angular.equals(row, $scope.properties.selectedRow);
     }
   
+    // Método principal para obtener los registros de la tabla.
+    function selectSolicitudes() {
+        if (!$scope.properties.dataToSend || !$scope.properties.dataToSend.lstFiltro) return;
+
+        const filters = $scope.properties.dataToSend.lstFiltro;
+        
+        // Validar filtros obligatorios
+        if ($scope.filtroCampus !== "Todos los campus") {
+            if (!filters.some(filter => filter.columna === "CAMPUS")){ limpiarRegistros(); return; }
+            if (!filters.some(filter => filter.columna === "LICENCIATURA") && !filters.some(filter => filter.columna === "PERIODO")) { limpiarRegistros(); return; }
+        }
+
+        doRequest("POST", $scope.properties.urlPost);
+    }
+
+    function limpiarRegistros() {
+        $scope.properties.lstContenido = [];
+        $scope.sinCoincidencias = undefined;
+    }
+
     function doRequest(method, url, params) {
         blockUI.start();
         var req = {
@@ -39,6 +59,8 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
   
         return $http(req).success(function(data, status) {
             $scope.properties.lstContenido = data.data;
+            $scope.sinCoincidencias = data && data.data ? (data.data.length === 0 ? true : false) : undefined;
+            
             $scope.value = data.totalRegistros;
             $scope.loadPaginado();
             console.log(data.data)
@@ -49,6 +71,30 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         .finally(function() {
             blockUI.stop();
         });
+    }
+
+    // Quita de la lista de filtros el filtro especificado, si es que existe
+    function filterListRemove(columna) {
+        // Obteniendo la lista de filtros
+        const filterList = $scope.properties.dataToSend.lstFiltro;
+
+        const index = filterList.findIndex(filter => filter.columna === columna);
+        if (index !== -1) filterList.splice(index, 1);
+        
+        // Al actualizar el dataToSend.lstFiltro se ejecuta el lstFiltrosChanged y actualiza las variables de cada filtro.
+    }
+
+    function lstFiltrosChanged() {
+        if ($scope.properties.dataToSend.lstFiltro) {
+            const filterList = $scope.properties.dataToSend.lstFiltro;
+            // Eliminar filtros que fueron eliminados desde la lista de filtros
+            if ($scope.filtroPeriodo && !filterList.find(item => item.columna === "PERIODO")) {
+                $scope.filtroPeriodo = "";
+            }
+            if ($scope.filtroLicenciatura && !filterList.find(item => item.columna === "LICENCIATURA")) {
+                $scope.filtroLicenciatura = "";
+            }
+        }
     }
   
     $scope.verSolicitud = function(_rowData, _action) {
@@ -212,23 +258,26 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     $scope.lstCampus = [];
   
     $(function() {
-        doRequest("POST", $scope.properties.urlPost);
+        selectSolicitudes();
     })
   
   
     $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
+
+        // Actualizar lista de filtros
+        lstFiltrosChanged();
+
         if (newValue !== undefined) {
             if ($scope.properties.campusSeleccionado !== undefined) {
-                doRequest("POST", $scope.properties.urlPost);
+                selectSolicitudes();
             }
         }
-        console.log($scope.properties.dataToSend);
     });
   
     $scope.$watch("properties.campusSeleccionado", function(newValue, oldValue) {
         if (newValue !== undefined) {
             if ($scope.properties.campusSeleccionado !== undefined) {
-                doRequest("POST", $scope.properties.urlPost);
+                selectSolicitudes();
             }
         }
         console.log($scope.properties.dataToSend);
@@ -241,7 +290,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             $scope.properties.dataToSend.orderby = order;
             $scope.properties.dataToSend.orientation = "ASC";
         }
-        doRequest("POST", $scope.properties.urlPost);
+        selectSolicitudes();
     }
     $scope.filterKeyPress = function(columna, press) {
         var aplicado = true;
@@ -260,7 +309,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             $scope.properties.dataToSend.lstFiltro.push(obj);
         }
   
-        doRequest("POST", $scope.properties.urlPost);
+        selectSolicitudes();
     }
   
     $scope.lstPaginado = [];
@@ -338,7 +387,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             }
         }
   
-        doRequest("POST", $scope.properties.urlPost);
+        selectSolicitudes();
     }
   
     $scope.getCampusByGrupo = function(campus) {
@@ -473,8 +522,8 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         if ($scope.filtroCampus != "Todos los campus") {
             $scope.licenciaturas = [];
             $scope.periodos = [];
-            $scope.filtroPeriodo = "";
-            $scope.filtroLicenciatura = "";
+            filterListRemove("PERIODO");
+            filterListRemove("LICENCIATURA");
             $scope.mostrarFiltros = true;
 
             var filter = {
@@ -560,22 +609,46 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
 
     function getPeriodos(_campus) {
+        const dataToSend = {
+            "lstFiltro": [],
+            "usuario": "",
+            "orderby": "",
+            "orientation": "ASC",
+            "limit": 999,
+            "offset": 0
+        }
+
         var req = {
-            method: "GET",
-            url: "/API/extension/AnahuacRestGet?url=getCatPeriodoActivo&p=0&c=10&tipo=Semestral",
-            data: angular.copy({ "assigned_id": $scope.properties.userId })
+            method: "POST",
+            url: "/API/extension/AnahuacRest?url=getCatPeriodo&p=0&c=999",
+            data: angular.copy(dataToSend)
         };
   
-        return $http(req).success(function(data, status) {
-            $scope.periodos  = data.data;
-            // window.open(url, '_blank');
-        })
-        .error(function(data, status) {
-            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
-        })
-        .finally(function() {
-
-        });
+        try {
+            return $http(req).success(function(data, status) {
+                // Filtro para no distinguir entre periodos de diferente tipo (semestral, anual, trimestral)
+                const periodos = [];
+                data.data.forEach((periodo) => {
+                    if (!periodos.some(periodoGuardado => periodoGuardado.descripcion === periodo.descripcion))
+                        periodos.push(periodo);
+                })
+    
+                // Ordenar por clave
+                periodos.sort((a, b) => b.clave?.localeCompare(a.clave));
+    
+                $scope.periodos = periodos;
+            })
+            .error(function(data, status) {
+                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+            })
+            .finally(function() {
+    
+            });
+        }
+        catch(e) {
+            console.error("Algo falló al recuperar el catálogo de periodos.");
+        }
+        
     }
 
 
@@ -722,7 +795,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
   
         }
   
-        doRequest("POST", $scope.properties.urlPost);
+        selectSolicitudes();
     }
   
     $scope.getCatCampus = function() {

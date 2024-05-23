@@ -72,7 +72,7 @@
                         <input type="checkbox" ng-model="filtroFinanciamiento" ng-change="addFilterBecaFina()">
                     </td>
                     <!-- <td></td> -->
-                    <td></td>
+                    <td><input ng-model="dynamicInput['estatus']" class="form-control" ng-enter="filterKeyPress('ESTATUS',dynamicInput['estatus'])"></td>
                     <td></td>
                     <td></td>
     
@@ -153,6 +153,10 @@
                             </button>
                         </div>
                     </td>
+                </tr>
+                <tr ng-if="properties.lstContenido && properties.lstContenido.length === 0" class="text-center">
+                    <td ng-if="sinCoincidencias" colspan="12" style="padding: 15px 0;">No se encuentran coincidencias con el criterio de búsqueda</td>
+                    <td ng-if="sinCoincidencias === undefined && filtroCampus !== 'Todos los campus'" colspan="12" style="padding: 15px 0;">Es necesario especificar un <b>periodo</b> o un <b>programa</b> para realizar la búsqueda</td>
                 </tr>
             </tbody>
         </table>

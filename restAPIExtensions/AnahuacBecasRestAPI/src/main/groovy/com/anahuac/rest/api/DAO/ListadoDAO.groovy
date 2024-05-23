@@ -2941,31 +2941,34 @@ class ListadoDAO {
 			throw new Exception("No se encontraron datos en infoResult")
 		}
 	
-        
-
-        
-        String title = object.estatussolicitud;
         Row titleRow = sheet.createRow(++rowCount);
-        Cell cellReporte = titleRow.createCell(1);
+        Cell cellReporte = titleRow.createCell(0);
         cellReporte.setCellValue("Reporte:");
         cellReporte.setCellStyle(style);
-        Cell cellTitle = titleRow.createCell(2);
-        cellTitle.setCellValue(title);
+        Cell cellTitle = titleRow.createCell(1);
+        cellTitle.setCellValue("Apoyos educativos otorgados (Bitácora)");
 
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.HOUR_OF_DAY, -7);
-        Date date = cal.getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy  HH:mm:ss");
-        String sDate = formatter.format(date);
-
-        Row blank = sheet.createRow(++rowCount);
-        Cell cellusuario = blank.createCell(4);
+        Cell cellusuario = titleRow.createCell(2);
         cellusuario.setCellValue("Usuario:");
         cellusuario.setCellStyle(style);
-        Cell cellusuarioData = blank.createCell(5);
+        Cell cellusuarioData = titleRow.createCell(3);
         cellusuarioData.setCellValue(object.usuario);
+		
+		Calendar cal = Calendar.getInstance();
+		//cal.add(Calendar.HOUR_OF_DAY, -7);
+		Date date = cal.getTime();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy  HH:mm:ss");
+		String sDate = formatter.format(date);
+		
+		Cell cellFechaLabel = titleRow.createCell(4);
+		cellFechaLabel.setCellValue("Fecha:");
+		cellFechaLabel.setCellStyle(style);
+
+		Cell cellFechaValor = titleRow.createCell(5);
+		cellFechaValor.setCellValue(sDate);
         Row espacio = sheet.createRow(++rowCount);
         Row headersRow = sheet.createRow(++rowCount);
+		
         Cell header1 = headersRow.createCell(0);
         header1.setCellValue("ID Banner");
         header1.setCellStyle(style);
@@ -3006,27 +3009,30 @@ class ListadoDAO {
             Cell header13 = headersRow.createCell(12);
             header13.setCellValue("% de financiamiento autorizado");
             header13.setCellStyle(style);
-            Cell header14 = headersRow.createCell(13);
-            header14.setCellValue("Pago de propedéutico");
-            header14.setCellStyle(style);
+            // Cell header14 = headersRow.createCell(13);
+            // header14.setCellValue("Pago de propedéutico");
+            // header14.setCellStyle(style);
+            // Cell header15 = headersRow.createCell(14);
+            // header15.setCellValue("Admitido a Medicina");
+            // header15.setCellStyle(style);		
+			Cell header14 = headersRow.createCell(13);
+			header14.setCellValue("Estatus");
+			header14.setCellStyle(style);
             Cell header15 = headersRow.createCell(14);
-            header15.setCellValue("Admitido a Medicina");
+            header15.setCellValue("Pago de inscripción");
             header15.setCellStyle(style);
             Cell header16 = headersRow.createCell(15);
-            header16.setCellValue("Pago de inscripción");
+            header16.setCellValue("Carga de materias");
             header16.setCellStyle(style);
-            Cell header17 = headersRow.createCell(16);
-            header17.setCellValue("Carga de materias");
-            header17.setCellStyle(style);
+			Cell header17 = headersRow.createCell(16);
+			header17.setCellValue("Programa");
+			header17.setCellStyle(style);
 			Cell header18 = headersRow.createCell(17);
-			header18.setCellValue("Programa");
+			header18.setCellValue("Período inscrito");
 			header18.setCellStyle(style);
 			Cell header19 = headersRow.createCell(18);
-			header19.setCellValue("Período inscrito");
+			header19.setCellValue("Campus inscrito");
 			header19.setCellStyle(style);
-			Cell header20 = headersRow.createCell(19);
-			header20.setCellValue("Campus inscrito");
-			header20.setCellStyle(style);
         } else {
 			Cell header13 = headersRow.createCell(12);
 			header13.setCellValue("% de financiamiento pre-autorizado");
@@ -3037,27 +3043,30 @@ class ListadoDAO {
 			Cell header15 = headersRow.createCell(14);
 			header15.setCellValue("Estatus SDAE");
 			header15.setCellStyle(style);
+            // Cell header17 = headersRow.createCell(16);
+            // header17.setCellValue("Pago de propedéutico");
+            // header17.setCellStyle(style);
+            // Cell header18 = headersRow.createCell(17);
+            // header18.setCellValue("Admitido a Medicina");
+            // header18.setCellStyle(style);
+			Cell header16 = headersRow.createCell(15);
+			header16.setCellValue("Estatus");
+			header16.setCellStyle(style);
             Cell header17 = headersRow.createCell(16);
-            header17.setCellValue("Pago de propedéutico");
+            header17.setCellValue("Pago de inscripción");
             header17.setCellStyle(style);
             Cell header18 = headersRow.createCell(17);
-            header18.setCellValue("Admitido a Medicina");
+            header18.setCellValue("Carga de materias");
             header18.setCellStyle(style);
-            Cell header19 = headersRow.createCell(18);
-            header19.setCellValue("Pago de inscripción");
-            header19.setCellStyle(style);
-            Cell header20 = headersRow.createCell(19);
-            header20.setCellValue("Carga de materias");
-            header20.setCellStyle(style);
+			Cell header19 = headersRow.createCell(18);
+			header19.setCellValue("Programa");
+			header19.setCellStyle(style);
+			Cell header20 = headersRow.createCell(19);
+			header20.setCellValue("Período inscrito");
+			header20.setCellStyle(style);
 			Cell header21 = headersRow.createCell(20);
-			header21.setCellValue("Programa");
+			header21.setCellValue("Campus inscrito");
 			header21.setCellStyle(style);
-			Cell header22 = headersRow.createCell(21);
-			header22.setCellValue("Período inscrito");
-			header22.setCellStyle(style);
-			Cell header23 = headersRow.createCell(22);
-			header23.setCellValue("Campus inscrito");
-			header23.setCellStyle(style);
         }
 
         DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -3100,20 +3109,22 @@ class ListadoDAO {
 				} else {
 					cell13.setCellValue("N/A")
 				}
-                Cell cell14 = row.createCell(13);
-                cell14.setCellValue(lstParams[i].inscripcionPropedeutico == null ? "N/A" : lstParams[i].inscripcionPropedeutico);
+                // Cell cell14 = row.createCell(13);
+                // cell14.setCellValue(lstParams[i].inscripcionPropedeutico == null ? "N/A" : lstParams[i].inscripcionPropedeutico);
+                // Cell cell15 = row.createCell(14);
+                // cell15.setCellValue(lstParams[i].pasoPropedeutico == null ? "N/A" : lstParams[i].pasoPropedeutico);
+				Cell cell14 = row.createCell(13);
+				cell14.setCellValue(lstParams[i].estatussolicitud == null ? "N/A" : lstParams[i].estatussolicitud);
                 Cell cell15 = row.createCell(14);
-                cell15.setCellValue(lstParams[i].pasoPropedeutico == null ? "N/A" : lstParams[i].pasoPropedeutico);
+                cell15.setCellValue(lstParams[i].inscrito == null ? "N/A" : lstParams[i].inscrito);
                 Cell cell16 = row.createCell(15);
-                cell16.setCellValue(lstParams[i].inscrito == null ? "N/A" : lstParams[i].inscrito);
-                Cell cell17 = row.createCell(16);
-                cell17.setCellValue(lstParams[i].tomaMaterias == null ? "N/A" : lstParams[i].tomaMaterias);
+                cell16.setCellValue(lstParams[i].tomaMaterias == null ? "N/A" : lstParams[i].tomaMaterias);
+				Cell cell17 = row.createCell(16);
+				cell17.setCellValue(lstParams[i].programa == null ? "N/A" : lstParams[i].programa);
 				Cell cell18 = row.createCell(17);
-				cell18.setCellValue(lstParams[i].programa == null ? "N/A" : lstParams[i].programa);
+				cell18.setCellValue(lstParams[i].periodo == null ? "N/A" : lstParams[i].periodo);
 				Cell cell19 = row.createCell(18);
-				cell19.setCellValue(lstParams[i].periodo == null ? "N/A" : lstParams[i].periodo);
-				Cell cell20 = row.createCell(19);
-				cell20.setCellValue(lstParams[i].campus == null ? "N/A" : lstParams[i].campus);
+				cell19.setCellValue(lstParams[i].campus == null ? "N/A" : lstParams[i].campus);
             } else {
 				Cell cell13 = row.createCell(12);
 				cell13.setCellValue(lstParams[i].porcentajefinaautorizacion == null || lstParams[i].porcentajefinaautorizacion == 0 ? "N/A" : lstParams[i].porcentajefinaautorizacion);
@@ -3121,24 +3132,26 @@ class ListadoDAO {
 				cell14.setCellValue(lstParams[i].estatusfinanciamiento != null ? lstParams[i].estatusfinanciamiento : "N/A");
 				Cell cell15 = row.createCell(14);
 				cell15.setCellValue(lstParams[i].aceptado != null ? lstParams[i].aceptado : "N/A");
+                // Cell cell17 = row.createCell(16);
+                // cell17.setCellValue(lstParams[i].inscripcionPropedeutico == null ? "N/A" : lstParams[i].inscripcionPropedeutico);
+                // Cell cell18 = row.createCell(17);
+                // cell18.setCellValue(lstParams[i].pasoPropedeutico == null ? "N/A" : lstParams[i].pasoPropedeutico);
+				Cell cell16 = row.createCell(15);
+				cell16.setCellValue(lstParams[i].estatussolicitud == null ? "N/A" : lstParams[i].estatussolicitud);
                 Cell cell17 = row.createCell(16);
-                cell17.setCellValue(lstParams[i].inscripcionPropedeutico == null ? "N/A" : lstParams[i].inscripcionPropedeutico);
+                cell17.setCellValue(lstParams[i].inscrito == null ? "N/A" : lstParams[i].inscrito);
                 Cell cell18 = row.createCell(17);
-                cell18.setCellValue(lstParams[i].pasoPropedeutico == null ? "N/A" : lstParams[i].pasoPropedeutico);
-                Cell cell19 = row.createCell(18);
-                cell19.setCellValue(lstParams[i].inscrito == null ? "N/A" : lstParams[i].inscrito);
-                Cell cell20 = row.createCell(19);
-                cell20.setCellValue(lstParams[i].tomaMaterias == null ? "N/A" : lstParams[i].tomaMaterias);
+                cell18.setCellValue(lstParams[i].tomaMaterias == null ? "N/A" : lstParams[i].tomaMaterias);
+				Cell cell19 = row.createCell(18);
+				cell19.setCellValue(lstParams[i].programa == null ? "N/A" : lstParams[i].programa);
+				Cell cell20 = row.createCell(19);
+				cell20.setCellValue(lstParams[i].periodo == null ? "N/A" : lstParams[i].periodo);
 				Cell cell21 = row.createCell(20);
-				cell21.setCellValue(lstParams[i].programa == null ? "N/A" : lstParams[i].programa);
-				Cell cell22 = row.createCell(21);
-				cell22.setCellValue(lstParams[i].periodo == null ? "N/A" : lstParams[i].periodo);
-				Cell cell23 = row.createCell(22);
-				cell23.setCellValue(lstParams[i].campus == null ? "N/A" : lstParams[i].campus);
+				cell21.setCellValue(lstParams[i].campus == null ? "N/A" : lstParams[i].campus);
             }
         }
         
-        for (int i = 0; i <= rowCount + 13; ++i) {
+        for (int i = 0; i <= 20; ++i) {
             sheet.autoSizeColumn(i);
         }
         
