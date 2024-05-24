@@ -1276,10 +1276,10 @@ class ListadoDAO {
 					if (metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
 						String encoded = "";
 						boolean noAzure = false;
-						String urlFoto = rs.getString("urlfoto");
-						throw new Exception("El campo \"Clave\" no debe ir vacío" + urlFoto);
+						//String urlFoto = rs.getString("urlfoto");
+						//throw new Exception("El campo \"Clave\" no debe ir vacío" + urlFoto);
 						try {
-							
+							String urlFoto = rs.getString("urlfoto");
 							if (urlFoto != null && !urlFoto.isEmpty()) {
 								columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
 							} else {
