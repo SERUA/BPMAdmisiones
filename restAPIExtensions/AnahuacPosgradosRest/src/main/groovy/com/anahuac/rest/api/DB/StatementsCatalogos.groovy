@@ -36,6 +36,7 @@ class StatementsCatalogos {
 //	public static final String GET_CATGESTIONESCOLAR = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRCATGESTIONESCOLAR as GE  LEFT JOIN psgrcatcampus campus ON campus.grupo_bonita = GE.campus [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
 	
 	public static final String GET_CATGESTIONESCOLAR = "SELECT GE.*, posgrado.descripcion AS posgrado, periodo.descripcion AS periodo, campus.descripcion as nombreCampus FROM psgrcatgestionescolar as GE  LEFT JOIN psgrcatcampus campus ON campus.descripcion = GE.campus LEFT JOIN PSGRCatPosgrado posgrado ON posgrado.persistenceid = GE.posgrado_pid LEFT JOIN PSGRCatPeriodo periodo ON periodo.persistenceid = GE.periodo_pid [CAMPUS] [WHERE] [ORDERBY] [LIMITOFFSET]";
+	public static final String GET_CATGESTIONESCOLAR_COUNT = "SELECT COUNT(*) AS total_registros FROM psgrcatgestionescolar as GE  LEFT JOIN psgrcatcampus campus ON campus.descripcion = GE.campus LEFT JOIN PSGRCatPosgrado posgrado ON posgrado.persistenceid = GE.posgrado_pid LEFT JOIN PSGRCatPeriodo periodo ON periodo.persistenceid = GE.periodo_pid [CAMPUS] [WHERE] ";
 	public static final String GET_SIMPLE_CATGESTIONESCOLAR = "SELECT persistenceid, nombre, campus_referencia_pid, clave FROM PSGRCatGestionEscolar WHERE ((nombre = ? AND campus_referencia_pid = ?) OR (clave = ? AND campus_referencia_pid = ?)) AND is_eliminado = false"
 	public static final String GET_POSGRADO_BY_CLAVE = "SELECT persistenceid FROM PSGRCatPosgrado WHERE campus_pid = ? AND clave = ? AND is_eliminado = false"
 	public static final String GET_PERIODO_BY_CLAVE = "SELECT persistenceid FROM PSGRCatPeriodo WHERE clave = ? AND is_eliminado = false"
@@ -186,9 +187,9 @@ class StatementsCatalogos {
 	public static final String GET_CONFIGURACIONES = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRConfiguraciones as GE LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.id_campus [CAMPUS] [WHERE] [ORDERBY] [LIMITOFFSET]";
 	
 	//PSGRCatDocumentos
-	public static final String INSERT_CATDOCUMENTOS = "INSERT INTO PSGRCatManejoDocumentos (persistenceid, persistenceversion, clave, descripcion, nombre_documento, fecha_creacion_date, es_opcional, tipo_de_archivo, is_eliminado, campus_pid, posgrado_pid) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCatManejoDocumentos ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCatManejoDocumentos) end), 0, ?, ?, ?, ?, ?, ?, false, ?, ?)";
+	public static final String INSERT_CATDOCUMENTOS = "INSERT INTO PSGRCatManejoDocumentos (persistenceid, persistenceversion, clave, descripcion, nombre_documento, fecha_creacion_date, es_opcional, tipo_de_archivo, is_eliminado, campus_pid, posgrado_pid, orden) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCatManejoDocumentos ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCatManejoDocumentos) end), 0, ?, ?, ?, ?, ?, ?, false, ?, ?, ?)";
 	public static final String DELETE_CATDOCUMENTOS = "UPDATE PSGRCatManejoDocumentos SET is_eliminado = true WHERE persistenceid = ?";
-	public static final String UPDATE_CATDOCUMENTOS = "UPDATE PSGRCatManejoDocumentos SET clave = ?, descripcion = ?, nombre_documento = ?, es_opcional = ?, tipo_de_archivo = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATDOCUMENTOS = "UPDATE PSGRCatManejoDocumentos SET clave = ?, descripcion = ?, nombre_documento = ?, es_opcional = ?, tipo_de_archivo = ?, orden = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATDOCUMENTOS = "SELECT persistenceid, clave, valor,  id_campus FROM PSGRCatManejoDocumentos WHERE id_campus = ?";
 	public static final String GET_CATDOCUMENTOS = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRCatManejoDocumentos as GE  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.campus_pid [CAMPUS]  [WHERE] [ORDERBY] ";//[LIMITOFFSET]
 	
@@ -205,5 +206,5 @@ class StatementsCatalogos {
 	public static final String SELECT_CATPERIODO = "SELECT * FROM PSGRCATPERIODO AS peri [WHERE] [ORDERBY]";
 	public static final String SELECT_COUNT_CATPERIODO = "SELECT COUNT(*) AS total_rows FROM PSGRCATPERIODO AS peri [WHERE]";
 	
-	public static final String GET_PROCESS_DEFINITION = "SELECT * FROM PROCESS_DEFINITION WHERE name = ? ORDER BY id DESC LIMIT 1";
+	public static final String GET_PROCESS_DEFINITION = "SELECT * FROM PROCESS_DEFINITION WHERE name =  ? AND activationstate = 'ENABLED' ORDER BY deploymentdate DESC LIMIT 1";
 }

@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRmoduloUsuarios",
   "name" : "PSGRmoduloUsuarios",
-  "lastUpdate" : 1710964088981,
+  "lastUpdate" : 1715645563212,
   "rows" : [
     [
       {
@@ -529,10 +529,19 @@
         "        }\r",
         "    }\r",
         "}\r",
+        "\r",
         "if($data.lstCampusUsuario.length == 1){\r",
         "    $data.campus_selected = resultado[1];\r",
-        "}\r",
-        "return resultado;"
+        "    return resultado;\r",
+        "} else {\r",
+        "    const sortByField = (fieldName) => (a, b) => {\r",
+        "        if (a[fieldName] < b[fieldName]) return -1;\r",
+        "        if (a[fieldName] > b[fieldName]) return 1;\r",
+        "        return 0;\r",
+        "    };\r",
+        "\r",
+        "    return resultado.slice().sort(sortByField(\"descripcion\"));\r",
+        "}"
       ],
       "exposed" : false
     },

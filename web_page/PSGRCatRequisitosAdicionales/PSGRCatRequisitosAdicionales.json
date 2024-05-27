@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRCatRequisitosAdicionales",
   "name" : "PSGRCatRequisitosAdicionales",
-  "lastUpdate" : 1706835243083,
+  "lastUpdate" : 1713227015441,
   "rows" : [
     [
       {
@@ -1185,7 +1185,7 @@
     "cargar_catDatos" : {
       "type" : "expression",
       "value" : [
-        "debugger;",
+        "",
         "if($data.selectedCat.campus_pid === undefined || $data.selectedCat.campus_pid === null){",
         "    $data.mostrarTabla = \"mostrar\";",
         "}else{",
@@ -1197,7 +1197,7 @@
     "debugger" : {
       "type" : "expression",
       "value" : [
-        "debugger;",
+        "",
         "$data.navigationVar;",
         "$data.mostrarTabla;"
       ],
@@ -1266,7 +1266,14 @@
         "    }",
         "}",
         "",
-        "return resultado;"
+        "const sortByField = (fieldName) => (a, b) => {",
+        "    if (a[fieldName] < b[fieldName]) return -1;",
+        "    if (a[fieldName] > b[fieldName]) return 1;",
+        "    return 0;",
+        "};",
+        "",
+        "return resultado.slice().sort(sortByField(\"descripcion\"));",
+        "// return resultado;"
       ],
       "exposed" : false
     }

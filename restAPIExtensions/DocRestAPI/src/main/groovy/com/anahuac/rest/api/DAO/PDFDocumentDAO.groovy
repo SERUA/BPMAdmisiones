@@ -2026,7 +2026,7 @@ class PDFDocumentDAO {
 				trabajo.put("telefono_empresa", rs.getString("telefono_empresa"));
 				trabajo.put("extension", rs.getString("ext_telefono_empresa"));
 				trabajo.put("giro", rs.getString("giro_empresa"));
-				trabajo.put("tipo_empresa", rs.getString("tipo_empresa"));
+//				trabajo.put("tipo_empresa", rs.getString("tipo_empresa"));
 				trabajo.put("puesto", rs.getString("puesto"));
 				trabajo.put("nombre_empresa", rs.getString("nombre_empresa"));
 				trabajo.put("tipo_empleado", rs.getString("tipo_empleado"));
@@ -2069,7 +2069,7 @@ class PDFDocumentDAO {
 				trabajo.put("telefono_empresa", rs.getString("telefono_empresa"));
 				trabajo.put("extension", rs.getString("ext_telefono_empresa"));
 				trabajo.put("giro", rs.getString("giro_empresa"));
-				trabajo.put("tipo_empresa", rs.getString("tipo_empresa"));
+//				trabajo.put("tipo_empresa", rs.getString("tipo_empresa"));
 				trabajo.put("puesto", rs.getString("puesto"));
 				trabajo.put("nombre_empresa", rs.getString("nombre_empresa"));
 				trabajo.put("tipo_empleado", rs.getString("tipo_empleado"));
@@ -2202,6 +2202,8 @@ class PDFDocumentDAO {
 			Map < String, Object > columns = new HashMap < String, Object > ();
 			
 			Result solicitudPosgradosInfo = getSolicitudPosgradosInfo(columns, caseid, context); 
+			
+			log += solicitudPosgradosInfo.getError() + " || " + solicitudPosgradosInfo.getError_info(); 
 			
 			log += "1 | "
 			columns = (Map < String, Object >) solicitudPosgradosInfo.getData().get(0);

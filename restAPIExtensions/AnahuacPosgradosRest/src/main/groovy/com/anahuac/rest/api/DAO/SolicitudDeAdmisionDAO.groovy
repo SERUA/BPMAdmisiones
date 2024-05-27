@@ -1868,7 +1868,7 @@ class SolicitudDeAdmisionDAO {
 			
 			if(rs.next()) {
 				String estatus_actual = rs.getString("estatus_solicitud");
-				if(estatus_actual.equals("solicitud_completada") && estatus.equals("solicitud_lista_para_dictamen")) {
+				if((estatus_actual.equals("solicitud_completada") || estatus_actual.equals("modificaciones_realizadas") || estatus_actual.equals("solicitud_reactivada")) && estatus.equals("solicitud_lista_para_dictamen")) {
 					estatus = "solicitud_pase_lista_esperando_validacion";
 				}
 			} else {

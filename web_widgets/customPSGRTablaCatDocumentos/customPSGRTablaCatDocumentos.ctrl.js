@@ -13,8 +13,6 @@ function PbTableCtrl($scope, $http) {
     };
 
     this.selectRowEdit = function (event, row) {
-        debugger;
-        
         var propiedadesActuales = Object.keys($scope.properties.dataToFilter);
 
             if (this.isClickable()) {
@@ -42,14 +40,12 @@ function PbTableCtrl($scope, $http) {
     });
     
     $scope.$watchGroup(['properties.dataToFilter.campus_pid.persistenceId', 'properties.dataToFilter.posgrado_pid.persistenceId'], function(newValues, oldValues) {
-        debugger;
         if (newValues[0] !== oldValues[0] || newValues[1] !== oldValues[1]) {
             $scope.getCatalogo();
         }
     });
 
     $scope.getCatalogo = function () {
-        debugger;
         if ($scope.properties.dataToFilter.campus_pid !== null && $scope.properties.dataToFilter.campus_pid !== undefined &&
             $scope.properties.dataToFilter.posgrado_pid !== null && $scope.properties.dataToFilter.posgrado_pid !== undefined) {
         
@@ -91,7 +87,6 @@ function PbTableCtrl($scope, $http) {
     };
 
     this.handleTrashClick = function (row) {
-        debugger;
         var persistenceid = row.persistenceId;
         $scope.deleteCatalogo({ persistenceid: persistenceid })
             .then(function () {

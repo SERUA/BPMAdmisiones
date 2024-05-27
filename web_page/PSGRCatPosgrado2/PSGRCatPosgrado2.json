@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatPosgrado2",
   "name" : "PSGRCatPosgrado2",
-  "lastUpdate" : 1706663167901,
+  "lastUpdate" : 1713227073185,
   "rows" : [
     [
       {
@@ -2646,7 +2646,14 @@
         "    }",
         "}",
         "",
-        "return resultado;"
+        "const sortByField = (fieldName) => (a, b) => {",
+        "    if (a[fieldName] < b[fieldName]) return -1;",
+        "    if (a[fieldName] > b[fieldName]) return 1;",
+        "    return 0;",
+        "};",
+        "",
+        "return resultado.slice().sort(sortByField(\"descripcion\"));",
+        "// return resultado;"
       ],
       "exposed" : false
     },
