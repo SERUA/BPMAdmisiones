@@ -3,6 +3,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     $scope.action = function() {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if ($scope.properties.tabs === "Informacion Personal") {
+            debugger;
             if ($scope.properties.selectedIndex === 1) {
                 console.log("validar 1");
                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
@@ -45,18 +46,20 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     topFunction();
                     if ($scope.properties.tutor.length > 0) {
                         for (var i = 0; i < $scope.properties.tutor.length; i++) {
-                            if ($scope.properties.tutor[i].viveContigo) {}
-                            $scope.properties.tutor[i].calle = $scope.properties.catSolicitudDeAdmision.calle;
-                            $scope.properties.tutor[i].codigoPostal = $scope.properties.catSolicitudDeAdmision.codigoPostal;
-                            $scope.properties.tutor[i].catPais = $scope.properties.catSolicitudDeAdmision.catPais;
-                            $scope.properties.tutor[i].catEstado = $scope.properties.catSolicitudDeAdmision.catEstado;
-                            $scope.properties.tutor[i].ciudad = $scope.properties.catSolicitudDeAdmision.ciudad;
-                            $scope.properties.tutor[i].numeroExterior = $scope.properties.catSolicitudDeAdmision.numExterior;
-                            $scope.properties.tutor[i].numeroInterior = $scope.properties.catSolicitudDeAdmision.numInterior;
-                            $scope.properties.tutor[i].colonia = $scope.properties.catSolicitudDeAdmision.colonia;
-                            $scope.properties.tutor[i].telefono = $scope.properties.catSolicitudDeAdmision.telefono;
-                            $scope.properties.tutor[i].delegacionMunicipio = $scope.properties.catSolicitudDeAdmision.delegacionMunicipio;
-                            $scope.properties.tutor[i].estadoExtranjero = $scope.properties.catSolicitudDeAdmision.estadoExtranjero;
+                            debugger;
+                            if ($scope.properties.tutor[i].viveContigo) {
+                                $scope.properties.tutor[i].calle = $scope.properties.catSolicitudDeAdmision.calle;
+                                $scope.properties.tutor[i].codigoPostal = $scope.properties.catSolicitudDeAdmision.codigoPostal;
+                                $scope.properties.tutor[i].catPais = $scope.properties.catSolicitudDeAdmision.catPais;
+                                $scope.properties.tutor[i].catEstado = $scope.properties.catSolicitudDeAdmision.catEstado;
+                                $scope.properties.tutor[i].ciudad = $scope.properties.catSolicitudDeAdmision.ciudad;
+                                $scope.properties.tutor[i].numeroExterior = $scope.properties.catSolicitudDeAdmision.numExterior;
+                                $scope.properties.tutor[i].numeroInterior = $scope.properties.catSolicitudDeAdmision.numInterior;
+                                $scope.properties.tutor[i].colonia = $scope.properties.catSolicitudDeAdmision.colonia;
+                                $scope.properties.tutor[i].telefono = $scope.properties.catSolicitudDeAdmision.telefono;
+                                $scope.properties.tutor[i].delegacionMunicipio = $scope.properties.catSolicitudDeAdmision.delegacionMunicipio;
+                                $scope.properties.tutor[i].estadoExtranjero = $scope.properties.catSolicitudDeAdmision.estadoExtranjero;
+                            }
                         }
 
                         if ($scope.properties.padre.viveContigo) {

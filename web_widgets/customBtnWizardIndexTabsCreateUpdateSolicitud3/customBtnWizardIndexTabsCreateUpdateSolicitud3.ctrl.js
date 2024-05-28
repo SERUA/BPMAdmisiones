@@ -44,22 +44,24 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
                     topFunction();
                     if ($scope.properties.tutor.length > 0) {
+                        debugger;
                         for (var i = 0; i < $scope.properties.tutor.length; i++) {
-                            if ($scope.properties.tutor[i].viveContigo) {}
-                            $scope.properties.tutor[i].calle = $scope.properties.catSolicitudDeAdmision.calle;
-                            $scope.properties.tutor[i].codigoPostal = $scope.properties.catSolicitudDeAdmision.codigoPostal;
-                            $scope.properties.tutor[i].catPais = $scope.properties.catSolicitudDeAdmision.catPais;
-                            $scope.properties.tutor[i].catEstado = $scope.properties.catSolicitudDeAdmision.catEstado;
-                            $scope.properties.tutor[i].ciudad = $scope.properties.catSolicitudDeAdmision.ciudad;
-                            $scope.properties.tutor[i].numeroExterior = $scope.properties.catSolicitudDeAdmision.numExterior;
-                            $scope.properties.tutor[i].numeroInterior = $scope.properties.catSolicitudDeAdmision.numInterior;
-                            $scope.properties.tutor[i].colonia = $scope.properties.catSolicitudDeAdmision.colonia;
-                            $scope.properties.tutor[i].telefono = $scope.properties.catSolicitudDeAdmision.telefono;
-                            $scope.properties.tutor[i].delegacionMunicipio = $scope.properties.catSolicitudDeAdmision.delegacionMunicipio;
-                            $scope.properties.tutor[i].estadoExtranjero = $scope.properties.catSolicitudDeAdmision.estadoExtranjero;
+                            if ($scope.properties.tutor[i].viveContigo) {
+                                $scope.properties.tutor[i].calle = $scope.properties.catSolicitudDeAdmision.calle;
+                                $scope.properties.tutor[i].codigoPostal = $scope.properties.catSolicitudDeAdmision.codigoPostal;
+                                $scope.properties.tutor[i].catPais = $scope.properties.catSolicitudDeAdmision.catPais;
+                                $scope.properties.tutor[i].catEstado = $scope.properties.catSolicitudDeAdmision.catEstado;
+                                $scope.properties.tutor[i].ciudad = $scope.properties.catSolicitudDeAdmision.ciudad;
+                                $scope.properties.tutor[i].numeroExterior = $scope.properties.catSolicitudDeAdmision.numExterior;
+                                $scope.properties.tutor[i].numeroInterior = $scope.properties.catSolicitudDeAdmision.numInterior;
+                                $scope.properties.tutor[i].colonia = $scope.properties.catSolicitudDeAdmision.colonia;
+                                $scope.properties.tutor[i].telefono = $scope.properties.catSolicitudDeAdmision.telefono;
+                                $scope.properties.tutor[i].delegacionMunicipio = $scope.properties.catSolicitudDeAdmision.delegacionMunicipio;
+                                $scope.properties.tutor[i].estadoExtranjero = $scope.properties.catSolicitudDeAdmision.estadoExtranjero;
+                            }
                         }
 
-                        if ($scope.properties.padre.viveContigo) {
+                        if ($scope.properties.padre.viveContigo && $scope.properties.tutor[0].catParentezco.descripcion === "Padre") {
                             $scope.properties.padre.calle = $scope.properties.tutor[0].calle;
                             $scope.properties.padre.catPais = $scope.properties.tutor[0].catPais;
                             $scope.properties.padre.numeroExterior = $scope.properties.tutor[0].numeroExterior;
@@ -67,12 +69,17 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.padre.catEstado = $scope.properties.tutor[0].catEstado;
                             $scope.properties.padre.ciudad = $scope.properties.tutor[0].ciudad;
                             $scope.properties.padre.colonia = $scope.properties.tutor[0].colonia;
-                            $scope.properties.padre.telefono = $scope.properties.tutor[0].telefono;
+                            // $scope.properties.padre.telefono = $scope.properties.tutor[0].telefono;
+                            if($scope.properties.tutor[0].viveContigo){
+                                $scope.properties.padre.telefono = $scope.properties.tutor[0].telefono; 
+                            } else {
+                                $scope.properties.padre.telefono = $scope.properties.catSolicitudDeAdmision.telefono;
+                            }
                             $scope.properties.padre.codigoPostal = $scope.properties.tutor[0].codigoPostal;
                             $scope.properties.padre.delegacionMunicipio = $scope.properties.tutor[0].delegacionMunicipio;
                             $scope.properties.padre.estadoExtranjero = $scope.properties.tutor[0].estadoExtranjero;
                         }
-                        if ($scope.properties.madre.viveContigo) {
+                        if ($scope.properties.madre.viveContigo && $scope.properties.tutor[0].catParentezco.descripcion === "Madre") {
                             $scope.properties.madre.calle = $scope.properties.tutor[0].calle;
                             $scope.properties.madre.catPais = $scope.properties.tutor[0].catPais;
                             $scope.properties.madre.numeroExterior = $scope.properties.tutor[0].numeroExterior;
@@ -80,7 +87,12 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.madre.catEstado = $scope.properties.tutor[0].catEstado;
                             $scope.properties.madre.ciudad = $scope.properties.tutor[0].ciudad;
                             $scope.properties.madre.colonia = $scope.properties.tutor[0].colonia;
-                            $scope.properties.madre.telefono = $scope.properties.tutor[0].telefono;
+                            if($scope.properties.tutor[0].viveContigo){
+                                $scope.properties.madre.telefono = $scope.properties.tutor[0].telefono; 
+                            } else {
+                                $scope.properties.madre.telefono = $scope.properties.catSolicitudDeAdmision.telefono;
+                            }
+                            
                             $scope.properties.madre.codigoPostal = $scope.properties.tutor[0].codigoPostal;
                             $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor[0].delegacionMunicipio;
                             $scope.properties.madre.estadoExtranjero = $scope.properties.tutor[0].estadoExtranjero;
@@ -96,7 +108,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.padre.catEstado = $scope.properties.tutor.catEstado;
                             $scope.properties.padre.ciudad = $scope.properties.tutor.ciudad;
                             $scope.properties.padre.colonia = $scope.properties.tutor.colonia;
-                            $scope.properties.padre.telefono = $scope.properties.tutor.telefono;
+                            // $scope.properties.padre.telefono = $scope.properties.tutor.telefono;
+                            $scope.properties.padre.telefono = $scope.properties.catSolicitudDeAdmision.telefono;
                             $scope.properties.padre.codigoPostal = $scope.properties.tutor.codigoPostal;
                             $scope.properties.padre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
                             $scope.properties.padre.estadoExtranjero = $scope.properties.tutor.estadoExtranjero;
@@ -109,7 +122,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.madre.catEstado = $scope.properties.tutor.catEstado;
                             $scope.properties.madre.ciudad = $scope.properties.tutor.ciudad;
                             $scope.properties.madre.colonia = $scope.properties.tutor.colonia;
-                            $scope.properties.madre.telefono = $scope.properties.tutor.telefono;
+                            // $scope.properties.madre.telefono = $scope.properties.tutor.telefono;
+                            $scope.properties.padre.telefono = $scope.properties.catSolicitudDeAdmision.telefono;
+                            $scope.properties.padre.telefono = 
                             $scope.properties.madre.codigoPostal = $scope.properties.tutor.codigoPostal;
                             $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
                             $scope.properties.madre.estadoExtranjero = $scope.properties.tutor.estadoExtranjero;
