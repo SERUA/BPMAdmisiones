@@ -102,11 +102,22 @@ class Index implements RestApiController {
 
 					responseBuilder.withMediaType("application/json")
 					if (result.isSuccess()) {
-						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+				
+				case "insertBitacoraSDAEPago":
+					result = new BitacoraSDAEDAO().insertBitacoraSDAEPago(jsonData, context)
+
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;	
 				case "insertUpdateCatTipoMoneda":
 					result = new CatalogosDAO().insertUpdateCatTipoMoneda(jsonData, context);
 

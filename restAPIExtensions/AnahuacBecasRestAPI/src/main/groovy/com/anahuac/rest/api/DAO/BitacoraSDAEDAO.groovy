@@ -311,6 +311,7 @@ class BitacoraSDAEDAO {
 		
 		try {
 			closeCon = validarConexion();
+			con.setAutoCommit(false);
 			
 			pstm = con.prepareStatement(Statements.INSERT_BITACORA_SDAE);
 			pstm.setString(1, objetoBitacoraSDAE.beca);
@@ -323,13 +324,66 @@ class BitacoraSDAEDAO {
 			pstm.setLong(8, Long.valueOf(objetoBitacoraSDAE.caseid));
 			pstm.setString(9, objetoBitacoraSDAE.tipoapoyo);
 			
-			pstm.execute();
+			if(pstm.executeUpdate() < 1) {
+				throw new Exception("No se  pudo insertar el registro");	
+			} else {
+				con.commit();
+			}
 			
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError("[insertBitacoraSDAE]: " + e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result insertBitacoraSDAEPago(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		def jsonSlurper = new JsonSlurper();
+		def objetoBitacoraSDAE = jsonSlurper.parseText(jsonData);
+		String errorLog = "";
+		
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
 			
+			pstm = con.prepareStatement("SELECT descripcion FROM catTipoApoyo WHERE persistenceid = ?");
+			pstm.setLong(1, Long.valueOf(objetoBitacoraSDAE.tipoapoyo));
+			rs = pstm.executeQuery();
+			String tipoapoyo = "";
+			
+			if(rs.next()){
+				tipoapoyo = rs.getString("descripcion");
+			}
+			
+			pstm = con.prepareStatement(Statements.INSERT_BITACORA_SDAE);
+			pstm.setString(1, objetoBitacoraSDAE.beca);
+			pstm.setString(2, objetoBitacoraSDAE.comentario);
+			pstm.setString(3, objetoBitacoraSDAE.correo);
+			pstm.setString(4, objetoBitacoraSDAE.estatus);
+			pstm.setString(5, objetoBitacoraSDAE.financiamiento);
+			pstm.setString(6, objetoBitacoraSDAE.idbanner);
+			pstm.setString(7, objetoBitacoraSDAE.usuarios);
+			pstm.setLong(8, Long.valueOf(objetoBitacoraSDAE.caseid));
+			pstm.setString(9, tipoapoyo);
+			
+			if(pstm.executeUpdate() < 1) {
+				throw new Exception("No se  pudo insertar el registro");
+			} else {
+				con.commit();
+			}
+			
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertBitacoraSDAE]: " + e.getMessage());
 		} finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
