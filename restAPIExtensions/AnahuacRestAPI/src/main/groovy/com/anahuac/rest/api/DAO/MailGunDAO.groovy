@@ -17,7 +17,6 @@ import com.anahuac.catalogos.CatApiKey
 import com.anahuac.catalogos.CatApiKeyDAO
 import com.anahuac.catalogos.CatCampus
 import com.anahuac.catalogos.CatCampusDAO
-import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.Custom.EstructuraMailGun
 import com.mashape.unirest.http.HttpResponse
@@ -56,7 +55,7 @@ class MailGunDAO {
 				assert object.lstCopia instanceof List
 			}
 			
-			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
 			List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
 			lstGrupoCampus = new ArrayList<Map<String, String>>();
 			for(CatCampus objCatCampus : lstCatCampus) {
@@ -355,7 +354,7 @@ class MailGunDAO {
 			estructura.setBody(body);
 			errorlog += ", get lstCatApikey";
 
-			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
 			List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
 			lstGrupoCampus = new ArrayList<Map<String, String>>();
 
