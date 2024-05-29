@@ -2715,7 +2715,7 @@ class ListadoDAO {
                         } else {
                             where += " WHERE "
                         }
-                        where += " (LOWER(sda.fechaultimamodificacion) ";
+                        where += " ( TO_CHAR(sda.fechaultimamodificacion::TIMESTAMP, 'dd/MM/yyyy') ";
                         if (filtro.get("operador").equals("Igual a")) {
                             where += "=LOWER('[valor]')"
                         } else {
@@ -3064,7 +3064,7 @@ class ListadoDAO {
                         } else {
                             where += " WHERE "
                         }
-                        where += " LOWER(to_char(sda.fechasolicitudenviada::timestamp, 'DD-MM-YYYY HH24:MI:SS') ) ";
+                        where += " LOWER(to_char(sda.fechasolicitudenviada::timestamp, 'dd/MM/yyyy HH24:MI:SS') ) ";
                         if (filtro.get("operador").equals("Igual a")) {
                             where += "=LOWER('[valor]')"
                         } else {
