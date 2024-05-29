@@ -764,24 +764,41 @@ class ListadoDAO {
                         where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
                         where = where.replace("[valor]", filtro.get("valor"))
                         break;
-                    case "ULTIMA MODIFICACION":
-                        errorlog += "FECHAULTIMAMODIFICACION"
-                        if (where.contains("WHERE")) {
-                            where += " AND "
-                        } else {
-                            where += " WHERE "
-                        }
-                        where += " (LOWER(fechaultimamodificacion) ";
-                        if (filtro.get("operador").equals("Igual a")) {
-                            where += "=LOWER('[valor]')"
-                        } else {
-                            where += "LIKE LOWER('%[valor]%')"
-                        }
-                        where += " OR to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') ";
-                        where += "LIKE LOWER('%[valor]%'))";
-
-                        where = where.replace("[valor]", filtro.get("valor"))
-                        break;
+					case "ULTIMA MODIFICACION":
+						errorlog += "ULTIMA MODIFICACION"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " to_char(sda.fechaultimamodificacion::timestamp, 'dd/MM/yyyy hh:mm:ss') ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += " LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"));
+						
+						errorlog += where;
+						break;
+//                    case "ULTIMA MODIFICACION":
+//                        errorlog += "FECHAULTIMAMODIFICACION"
+//                        if (where.contains("WHERE")) {
+//                            where += " AND "
+//                        } else {
+//                            where += " WHERE "
+//                        }
+//                        where += " (LOWER(fechaultimamodificacion) ";
+//                        if (filtro.get("operador").equals("Igual a")) {
+//                            where += "=LOWER('[valor]')"
+//                        } else {
+//                            where += "LIKE LOWER('%[valor]%')"
+//                        }
+//                        where += " OR to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') ";
+//                        where += "LIKE LOWER('%[valor]%'))";
+//
+//                        where = where.replace("[valor]", filtro.get("valor"))
+//                        break;
 
                         //filtrado utilizado en lista roja y rechazado
                     case "NOMBRE,EMAIL,CURP":
@@ -1112,13 +1129,14 @@ class ListadoDAO {
                         } else {
                             where += " WHERE "
                         }
-                        where += " LOWER(fechasolicitudenviada) ";
+//                        where += " LOWER(fechasolicitudenviada) ";
+						//to_char(sda.fechasolicitudenviada::timestamp, 'dd/MM/yyyy hh:mm:ss') AS fechasolicitudenviada 
+						where += " to_char(sda.fechasolicitudenviada::timestamp, 'dd/MM/yyyy hh:mm:ss') "
                         if (filtro.get("operador").equals("Igual a")) {
                             where += "=LOWER('[valor]')"
                         } else {
                             where += "LIKE LOWER('%[valor]%')"
                         }
-
 
                         where = where.replace("[valor]", filtro.get("valor"))
                         break;
@@ -1340,7 +1358,7 @@ class ListadoDAO {
             //where+=" "+campus +" "+programa +" " + ingreso + " " + estado +" "+bachillerato +" "+tipoalumno+" "+tiporecidencia+" "+tipodeadmision+" "+sededelexamen
             consulta = consulta.replace("[WHERE]", where);
             errorlog = consulta + " 5";
-            pstm = con.prepareStatement(consulta.replace("periodo.fechafin as periodofin,CASE WHEN prepa.descripcion = 'Otro' THEN sda.estadobachillerato ELSE prepa.estado END AS procedencia, to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') AS tiempoultimamodificacion, sda.fechasolicitudenviada, sda.fechaultimamodificacion, sda.urlfoto, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.NOMBRE AS licenciatura, periodo.DESCRIPCION AS ingreso, CASE WHEN estado.DESCRIPCION ISNULL THEN sda.estadoextranjero ELSE estado.DESCRIPCION END AS estado, CASE WHEN prepa.DESCRIPCION = 'Otro' THEN sda.bachillerato ELSE prepa.DESCRIPCION END AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, sda.telefono, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, TA.descripcion as tipoadmision , R.descripcion as residensia, TAL.descripcion as tipoDeAlumno, catcampus.descripcion as transferencia, campusEstudio.clave as claveCampus, gestionescolar.clave as claveLicenciatura", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", "").replace("GROUP BY periodo.fechafin,prepa.descripcion,sda.estadobachillerato, prepa.estado, sda.fechaultimamodificacion, sda.fechasolicitudenviada, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusestudio.descripcion,campus.descripcion, gestionescolar.nombre, periodo.descripcion, estado.descripcion, sda.estadoextranjero,sda.bachillerato,sda.promediogeneral,sda.estatussolicitud,da.tipoalumno,sda.caseid,sda.telefonocelular,sda.telefono,da.observacioneslistaroja,da.observacionesrechazo,da.idbanner,campus.grupobonita,ta.descripcion,r.descripcion,tal.descripcion,catcampus.descripcion,campusestudio.clave,gestionescolar.clave, sda.persistenceid", ""))
+            pstm = con.prepareStatement(consulta.replace("periodo.fechafin as periodofin,CASE WHEN prepa.descripcion = 'Otro' THEN sda.estadobachillerato ELSE prepa.estado END AS procedencia, to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') AS tiempoultimamodificacion, to_char(sda.fechasolicitudenviada::timestamp, 'dd/MM/yyyy hh:mm:ss') AS fechasolicitudenviada, to_char(sda.fechaultimamodificacion::timestamp, 'dd/MM/yyyy hh:mm:ss') AS fechaultimamodificacion, sda.urlfoto, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.NOMBRE AS licenciatura, periodo.DESCRIPCION AS ingreso, CASE WHEN estado.DESCRIPCION ISNULL THEN sda.estadoextranjero ELSE estado.DESCRIPCION END AS estado, CASE WHEN prepa.DESCRIPCION = 'Otro' THEN sda.bachillerato ELSE prepa.DESCRIPCION END AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, sda.telefono, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, TA.descripcion as tipoadmision , R.descripcion as residensia, TAL.descripcion as tipoDeAlumno, catcampus.descripcion as transferencia, campusEstudio.clave as claveCampus, gestionescolar.clave as claveLicenciatura", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", "").replace("GROUP BY periodo.fechafin,prepa.descripcion,sda.estadobachillerato, prepa.estado, sda.fechaultimamodificacion, sda.fechasolicitudenviada, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusestudio.descripcion,campus.descripcion, gestionescolar.nombre, periodo.descripcion, estado.descripcion, sda.estadoextranjero,sda.bachillerato,sda.promediogeneral,sda.estatussolicitud,da.tipoalumno,sda.caseid,sda.telefonocelular,sda.telefono,da.observacioneslistaroja,da.observacionesrechazo,da.idbanner,campus.grupobonita,ta.descripcion,r.descripcion,tal.descripcion,catcampus.descripcion,campusestudio.clave,gestionescolar.clave, sda.persistenceid", ""))
             //pstm = con.prepareStatement(consulta.replace("CASE WHEN prepa.descripcion = 'Otro' THEN sda.estadobachillerato ELSE prepa.estado END AS procedencia, to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') AS tiempoultimamodificacion, sda.fechasolicitudenviada, sda.fechaultimamodificacion, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.NOMBRE AS licenciatura, periodo.DESCRIPCION AS ingreso, CASE WHEN estado.DESCRIPCION ISNULL THEN sda.estadoextranjero ELSE estado.DESCRIPCION END AS estado, CASE WHEN prepa.DESCRIPCION = 'Otro' THEN sda.bachillerato ELSE prepa.DESCRIPCION END AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, TA.descripcion as tipoadmision , R.descripcion as residensia, TAL.descripcion as tipoDeAlumno, catcampus.descripcion as transferencia, campusEstudio.clave as claveCampus, gestionescolar.clave as claveLicenciatura", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
             //pstm = con.prepareStatement(consulta.replace("to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') AS tiempoultimamodificacion, sda.fechasolicitudenviada, sda.fechaultimamodificacion, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.NOMBRE AS licenciatura, periodo.DESCRIPCION AS ingreso, CASE WHEN estado.DESCRIPCION ISNULL THEN sda.estadoextranjero ELSE estado.DESCRIPCION END AS estado, CASE WHEN prepa.DESCRIPCION = 'Otro' THEN sda.bachillerato ELSE prepa.DESCRIPCION END AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, TA.descripcion as tipoadmision , R.descripcion as residensia, TAL.descripcion as tipoDeAlumno, catcampus.descripcion as transferencia, campusEstudio.clave as claveCampus, gestionescolar.clave as claveLicenciatura", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
             //pstm = con.prepareStatement(consulta.replace("sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.NOMBRE AS licenciatura, periodo.DESCRIPCION AS ingreso, estado.DESCRIPCION AS estado, CASE WHEN prepa.DESCRIPCION = 'Otro' THEN sda.bachillerato ELSE prepa.DESCRIPCION END AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, TA.descripcion as tipoadmision , R.descripcion as residensia, TAL.descripcion as tipoDeAlumno, catcampus.descripcion as transferencia", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
@@ -4048,25 +4066,41 @@ class ListadoDAO {
                         }
                         where = where.replace("[valor]", filtro.get("valor"))
                         break;
-
-                    case "ULTIMA MODIFICACION":
-                        errorlog += "FECHAULTIMAMODIFICACION"
-                        if (where.contains("WHERE")) {
-                            where += " AND "
-                        } else {
-                            where += " WHERE "
-                        }
-                        where += " ( LOWER(fechaultimamodificacion) ";
-                        if (filtro.get("operador").equals("Igual a")) {
-                            where += "=LOWER('[valor]')"
-                        } else {
-                            where += "LIKE LOWER('%[valor]%')"
-                        }
-                        where += " OR to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') ";
-                        where += "LIKE LOWER('%[valor]%') )";
-
-                        where = where.replace("[valor]", filtro.get("valor"))
-                        break;
+					case "ULTIMA MODIFICACION":
+						errorlog += "ULTIMA MODIFICACION"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " to_char(sda.fechaultimamodificacion::timestamp, 'dd/MM/yyyy hh:mm:ss') ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += " LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"));
+						
+						errorlog += where;
+						break;
+//                    case "ULTIMA MODIFICACION":
+//                        errorlog += "FECHAULTIMAMODIFICACION"
+//                        if (where.contains("WHERE")) {
+//                            where += " AND "
+//                        } else {
+//                            where += " WHERE "
+//                        }
+//                        where += " ( LOWER(fechaultimamodificacion) ";
+//                        if (filtro.get("operador").equals("Igual a")) {
+//                            where += "=LOWER('[valor]')"
+//                        } else {
+//                            where += "LIKE LOWER('%[valor]%')"
+//                        }
+//                        where += " OR to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') ";
+//                        where += "LIKE LOWER('%[valor]%') )";
+//
+//                        where = where.replace("[valor]", filtro.get("valor"))
+//                        break;
 
                     case "NÚMERO DE SOLICITUD":
                         errorlog += "SOLICITUD"
@@ -4367,7 +4401,7 @@ class ListadoDAO {
                         } else {
                             where += " WHERE "
                         }
-                        where += " to_char(sda.fechaultimamodificacion::timestamp, 'DD-MM-YYYY HH24:MI:SS') ";
+                        where += " to_char(sda.fechaultimamodificacion::timestamp, 'dd/MM/yyyy hh:mm:ss') ";
                         if (filtro.get("operador").equals("Igual a")) {
                             where += "=LOWER('[valor]')"
                         } else {
@@ -4376,7 +4410,7 @@ class ListadoDAO {
                         where = where.replace("[valor]", filtro.get("valor"))
                         break;
                         /*ARTURO FIN========================================================*/
-                    default:
+					default:
                         //consulta=consulta.replace("[BACHILLERATO]", bachillerato)
                         //consulta=consulta.replace("[WHERE]", where);
 
@@ -4461,7 +4495,7 @@ class ListadoDAO {
             consulta = consulta.replace("[WHERE]", where);
             //|123|
             //                pstm = con.prepareStatement(consulta.replace("sda.urlfoto,sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.NOMBRE AS licenciatura, periodo.DESCRIPCION AS ingreso, estado.DESCRIPCION AS estado, CASE WHEN prepa.DESCRIPCION = 'Otro' THEN sda.bachillerato ELSE prepa.DESCRIPCION END AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
-            pstm = con.prepareStatement(consulta.replace("to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') AS tiempoultimamodificacion, sda.fechaultimamodificacion, sda.urlfoto, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.NOMBRE AS licenciatura, periodo.DESCRIPCION AS ingreso, periodo.fechafin AS periodofin,CASE WHEN prepa.descripcion = 'Otro' THEN sda.estadobachillerato ELSE prepa.estado END AS procedencia, CASE WHEN estado.DESCRIPCION ISNULL THEN sda.estadoextranjero ELSE estado.DESCRIPCION END AS estado, CASE WHEN prepa.DESCRIPCION = 'Otro' THEN sda.bachillerato ELSE prepa.DESCRIPCION END AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, REGISTRO.numeroContacto", "COUNT(DISTINCT sda.persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""));
+            pstm = con.prepareStatement(consulta.replace("to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') AS tiempoultimamodificacion, to_char(sda.fechaultimamodificacion::timestamp, 'dd/MM/yyyy hh:mm:ss') AS fechaultimamodificacion, sda.urlfoto, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.NOMBRE AS licenciatura, periodo.DESCRIPCION AS ingreso, periodo.fechafin AS periodofin,CASE WHEN prepa.descripcion = 'Otro' THEN sda.estadobachillerato ELSE prepa.estado END AS procedencia, CASE WHEN estado.DESCRIPCION ISNULL THEN sda.estadoextranjero ELSE estado.DESCRIPCION END AS estado, CASE WHEN prepa.DESCRIPCION = 'Otro' THEN sda.bachillerato ELSE prepa.DESCRIPCION END AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, REGISTRO.numeroContacto", "COUNT(DISTINCT sda.persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""));
             rs = pstm.executeQuery()
             if (rs.next()) {
                 resultado.setTotalRegistros(rs.getInt("registros"))
@@ -4470,7 +4504,7 @@ class ListadoDAO {
             consulta = consulta.replace("[ORDERBY]", orderby)
             consulta = consulta.replace("[LIMITOFFSET]", "")
 			consulta= "SELECT DISTINCT * FROM (" + consulta + ")datos  LIMIT ? OFFSET ? "
-            errorlog += consulta
+//            errorlog += consulta
             pstm = con.prepareStatement(consulta)
             pstm.setInt(1, object.limit)
             pstm.setInt(2, object.offset)
@@ -4513,11 +4547,9 @@ class ListadoDAO {
 
                 rows.add(columns);
             }
-            resultado.setSuccess(true)
-
-            
-            resultado.setData(rows)
-
+            resultado.setSuccess(true);
+            resultado.setData(rows);
+			resultado.setError_info(errorlog);
         } catch (Exception e) {
             LOGGER.error "[ERROR] " + e.getMessage();
             
@@ -9620,23 +9652,40 @@ class ListadoDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "ULTIMA MODIFICACION":
-						errorlog += "FECHAULTIMAMODIFICACION"
+						errorlog += "ULTIMA MODIFICACION"
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
 							where += " WHERE "
 						}
-						where += " (LOWER(sda.fechaultimamodificacion) ";
+						where += " to_char(sda.fechaultimamodificacion::timestamp, 'dd/MM/yyyy hh:mm:ss') ";
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
-							where += "LIKE LOWER('%[valor]%')"
+							where += " LIKE LOWER('%[valor]%')"
 						}
-						where += " OR to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') ";
-						where += "LIKE LOWER('%[valor]%'))";
-
-						where = where.replace("[valor]", filtro.get("valor"))
+						where = where.replace("[valor]", filtro.get("valor"));
+						
+						errorlog += where;
 						break;
+//					case "ULTIMA MODIFICACION":
+//						errorlog += "FECHAULTIMAMODIFICACION"
+//						if (where.contains("WHERE")) {
+//							where += " AND "
+//						} else {
+//							where += " WHERE "
+//						}
+//						where += " (LOWER(sda.fechaultimamodificacion) ";
+//						if (filtro.get("operador").equals("Igual a")) {
+//							where += "=LOWER('[valor]')"
+//						} else {
+//							where += "LIKE LOWER('%[valor]%')"
+//						}
+//						where += " OR to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') ";
+//						where += "LIKE LOWER('%[valor]%'))";
+//
+//						where = where.replace("[valor]", filtro.get("valor"))
+//						break;
 
 						//filtrado utilizado en lista roja y rechazado
 					case "NOMBRE,EMAIL,CURP":
