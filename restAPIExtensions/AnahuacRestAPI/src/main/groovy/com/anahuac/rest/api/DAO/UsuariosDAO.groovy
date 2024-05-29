@@ -224,6 +224,178 @@ class UsuariosDAO {
 		return resultado;
 	}
 	
+	public Result postRecuperarPassword(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
+		
+		Result resultadoN = new Result();
+		Usuarios objUsuario= new Usuarios();
+		Result resultado = new Result();
+		
+		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
+		List<String> lstResultado = new ArrayList<String>();
+		Boolean closeCon = false;
+		
+		try {
+			Result dataResult = new Result();
+			List<Object> lstParams;
+			String username = "";
+			String password = "";
+						
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+			
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+			apiClient.login(username, password);
+			
+			IdentityAPI identityAPI = apiClient.getIdentityAPI()
+			final User user = identityAPI.getUserByUserName(object.nombreusuario);
+			dataResult = getUsuarioRegistrado(object.nombreusuario);
+			
+			if (dataResult.success) {
+				lstParams = dataResult.getData();
+			} else {
+				throw new Exception("No encontro campus");
+			}
+			//generacion del ramdon
+			String asciiUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			String asciiLowerCase = asciiUpperCase.toLowerCase();
+			String digits = "1234567890";
+			String asciiChars = asciiUpperCase + asciiLowerCase + digits ;
+			int length = 8;
+			String randomString = generateRandomString(length, asciiChars);
+			
+			UserUpdater update_user = new UserUpdater();
+			update_user.setPassword(randomString);
+			final User user_update= identityAPI.updateUser(user.getId(), update_user);
+			object.password = randomString;
+			def str = jsonSlurper.parseText('{"campus": "'+lstParams[0].grupobonita+'","correo":"'+object.nombreusuario+'", "codigo": "recuperar","isEnviar":false}');
+
+			NotificacionDAO nDAO = new NotificacionDAO();
+			 
+			resultadoN = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \""+lstParams[0].grupobonita+"\", \"correo\":\""+object.nombreusuario+"\", \"codigo\": \"recuperar\", \"isEnviar\":false }", context);
+			String plantilla = resultadoN.getData().get(0);
+			plantilla = plantilla.replace("[password]", object.password );
+			MailGunDAO dao = new MailGunDAO();
+			resultado = dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"",lstParams[0].grupobonita+"", context);
+			
+			dataResult = updatePassword(object.password,object.nombreusuario);
+			/*if (dataResult.success) {
+				
+			} else {
+				throw new Exception("no pudo guardar la contraseña, se cambio ");
+			}*/
+			lstResultado.add(plantilla);
+			resultado.setData(lstResultado);
+			resultado.setSuccess(true);
+			
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+	
+	public Result postRecuperarPasswordAdministrativo(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
+		
+		Result resultadoN = new Result();
+		Usuarios objUsuario= new Usuarios();
+		Result resultado = new Result();
+		Long userLogged = 0L;
+		String campus = "";
+		
+		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
+		List<String> lstResultado = new ArrayList<String>();
+		try {
+			Result dataResult = new Result();
+			List<Object> lstParams;
+			String username = "";
+			String password = "";
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+			
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+			apiClient.login(username, password);
+			
+			IdentityAPI identityAPI = apiClient.getIdentityAPI()
+			final User user = identityAPI.getUserByUserName(object.nombreusuario);
+			
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+			List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
+			
+			//userLogged = context.getApiSession().getUserId();
+			userLogged = user.getId();
+			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for(UserMembership objUserMembership : lstUserMembership) {
+				if(campus.length() < 1 ) {
+					for(CatCampus rowGrupo : lstCatCampus) {
+						if(objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+							campus = objUserMembership.getGroupName();
+							break;
+						}
+					}
+				}
+			}
+			//generacion del ramdon
+			String asciiUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			String asciiLowerCase = asciiUpperCase.toLowerCase();
+			String digits = "1234567890";
+			String asciiChars = asciiUpperCase + asciiLowerCase + digits;
+			int length = 8;
+			String randomString = generateRandomString(length, asciiChars);
+			
+			UserUpdater update_user = new UserUpdater();
+			update_user.setPassword(randomString);
+			final User user_update= identityAPI.updateUser(user.getId(), update_user);
+			object.password = randomString;
+			def str = jsonSlurper.parseText('{"campus": "'+campus+'","correo":"'+object.nombreusuario+'", "codigo": "recuperar","isEnviar":false}');
+			NotificacionDAO nDAO = new NotificacionDAO();
+			 
+			resultadoN = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \""+campus+"\", \"correo\":\""+object.nombreusuario+"\", \"codigo\": \"recuperar\", \"isEnviar\":false }", context);
+			String plantilla = resultadoN.getData().get(0);
+			plantilla = plantilla.replace("[password]", object.password );
+			plantilla = plantilla.replace("[NOMBRE]", (user.getFirstName()+" "+user.getLastName()) );
+			MailGunDAO dao = new MailGunDAO();
+			resultado = dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"",campus+"", context);
+			lstResultado.add(plantilla);
+			resultado.setData(lstResultado);
+			resultado.setSuccess(true);
+			
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+	
 	public Result postHabilitarUsaurio(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
 		Usuarios objUsuario= new Usuarios();
 		Result resultado = new Result();
@@ -373,6 +545,60 @@ class UsuariosDAO {
 		return resultado;
 	}
 
+	public Result enviarTarea(String correo,RestAPIContext context) {
+		Result resultado = new Result();
+		List<CatRegistro> lstCatRegistro = new ArrayList<CatRegistro>();
+		CatRegistro objCatRegistro = new CatRegistro();
+		String errorLog ="";
+		Boolean closeCon = false;
+		try {
+			String username = "";
+			String password = "";
+			
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+			
+			/*def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);*/
+
+			errorLog = errorLog + "";
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient()//context.getApiClient();
+			apiClient.login(username, password)
+			
+			SearchOptionsBuilder searchBuilder = new SearchOptionsBuilder(0, 99999);
+			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.NAME, "Validar Cuenta");
+			
+			final SearchOptions searchOptions = searchBuilder.done();
+			SearchResult<HumanTaskInstance>  SearchHumanTaskInstanceSearch = apiClient.getProcessAPI().searchHumanTaskInstances(searchOptions);
+			List<HumanTaskInstance> lstHumanTaskInstanceSearch = SearchHumanTaskInstanceSearch.getResult();
+			def catRegistroDAO = context.apiClient.getDAO(CatRegistroDAO.class);
+			for(HumanTaskInstance objHumanTaskInstance : lstHumanTaskInstanceSearch) {
+				lstCatRegistro = catRegistroDAO.findByCaseId(objHumanTaskInstance.getRootContainerId(), 0, 1)
+				if(lstCatRegistro != null) {
+					if(lstCatRegistro.size() > 0) {
+						objCatRegistro = new CatRegistro();
+						objCatRegistro = lstCatRegistro.get(0);
+						if(objCatRegistro.getCorreoelectronico().equals(correo)) {
+							apiClient.getProcessAPI().assignUserTask(objHumanTaskInstance.getId(), context.getApiSession().getUserId());
+							apiClient.getProcessAPI().executeFlowNode(objHumanTaskInstance.getId());
+						}
+					}
+				}
+			}
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+	
 	public Result getUsuarios(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
