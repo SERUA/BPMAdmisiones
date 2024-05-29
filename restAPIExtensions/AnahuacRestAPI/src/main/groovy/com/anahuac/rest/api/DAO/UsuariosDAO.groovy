@@ -282,7 +282,9 @@ class UsuariosDAO {
 			String plantilla = resultadoN.getData().get(0);
 			plantilla = plantilla.replace("[password]", object.password );
 			MailGunDAO dao = new MailGunDAO();
-			resultado = dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"",lstParams[0].grupobonita+"", context);
+			
+			Result resultadoEnvioCorreo = new Result();
+			resultadoEnvioCorreo = dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"",lstParams[0].grupobonita+"", context);
 			
 			dataResult = updatePassword(object.password,object.nombreusuario);
 			/*if (dataResult.success) {
@@ -290,8 +292,14 @@ class UsuariosDAO {
 			} else {
 				throw new Exception("no pudo guardar la contraseña, se cambio ");
 			}*/
-			lstResultado.add(plantilla);
-			resultado.setData(lstResultado);
+
+			if (resultadoEnvioCorreo.success) {
+				resultado.setSuccess(true);
+			}
+			else {
+				throw new Exception("Falló algo al enviar el correo.")
+			}
+			
 			resultado.setSuccess(true);
 			
 		} catch (Exception e) {
@@ -381,10 +389,16 @@ class UsuariosDAO {
 			plantilla = plantilla.replace("[password]", object.password );
 			plantilla = plantilla.replace("[NOMBRE]", (user.getFirstName()+" "+user.getLastName()) );
 			MailGunDAO dao = new MailGunDAO();
-			resultado = dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"",campus+"", context);
-			lstResultado.add(plantilla);
-			resultado.setData(lstResultado);
-			resultado.setSuccess(true);
+			
+			Result resultadoEnvioCorreo = new Result();
+			resultadoEnvioCorreo = dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"",campus+"", context);
+			
+			if (resultadoEnvioCorreo.success) {
+				resultado.setSuccess(true);
+			}
+			else {
+				throw new Exception("Falló algo al enviar el correo.")
+			}
 			
 		} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();
