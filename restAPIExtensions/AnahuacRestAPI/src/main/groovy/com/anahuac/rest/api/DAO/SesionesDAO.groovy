@@ -1847,10 +1847,9 @@ class SesionesDAO {
 				PruebaCustom row = new PruebaCustom();
 				List<PruebasCustom> rows = new ArrayList<PruebasCustom>();
 				closeCon = validarConexion();
-				errorlog+="llego a filtro "+object.lstFiltro.toString()
+//				errorlog+="llego a filtro "+object.lstFiltro.toString()
 				for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
 					switch(filtro.get("columna")) {
-						
 						
 					case "TIPO DE PRUEBA, RESIDENCIA":
 						residencia +=" AND ( LOWER(residencia) LIKE LOWER('%[valor]%')";
@@ -1931,7 +1930,7 @@ class SesionesDAO {
 						break;
 						
 					case "FECHA":
-						where +=" AND  ( LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
+						where +=" AND  ( LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD/MM/YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
 						where += "OR LOWER(Pruebas.entrada) LIKE LOWER('%[valor]%') "
 						where += "OR LOWER(Pruebas.salida) LIKE LOWER('%[valor]%') )"
 						where = where.replace("[valor]", filtro.get("valor"))
@@ -2006,11 +2005,11 @@ class SesionesDAO {
 						break;
 						
 					}
-					errorlog+="paso el order "
+//					errorlog+="paso el order "
 					orderby+=" "+object.orientation;
 					consulta=consulta.replace("[WHERE]", where);
 					
-					errorlog+="paso el where"
+//					errorlog+="paso el where"
 					String consulta_aspirante =  Statements.EXT_SESIONESCALENDARIZADAS_REGISTRADOS.replace("[RESPONSABLE]",object.usuario.toString());
 					
 					String conteo = Statements.COUNT_SESIONESCALENDARIZADAS_REGISTRADOS;
@@ -2025,15 +2024,12 @@ class SesionesDAO {
 					if(rs.next()) {
 						resultado.setTotalRegistros(rs.getInt("registros"))
 					}
-					errorlog+="paso el registro"
-					
-					
-					
+//					errorlog+="paso el registro"
 					consulta=consulta.replace("[ORDERBY]", orderby)
 					consulta=consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
 					consulta=consulta.replace("[RESIDENCIA]", residencia)
 					consulta=consulta.replace("[COUNTASPIRANTES]", consulta_aspirante)
-					errorlog+="conteo exitoso "
+//					errorlog+="conteo exitoso "
 					
 					pstm = con.prepareStatement(consulta)
 					pstm.setInt(1, object.usuario)
@@ -2042,7 +2038,7 @@ class SesionesDAO {
 					
 					PruebasCustom Pruebas = new PruebasCustom();
 					rs = pstm.executeQuery()
-					errorlog+="Listado "
+//					errorlog+="Listado "
 					while(rs.next()) {
 						
 						row = new PruebaCustom();

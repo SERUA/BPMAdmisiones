@@ -3254,7 +3254,8 @@ class UsuariosDAO {
 						} else {
 							where += " WHERE "
 						}
-						where += " (LOWER(fechaultimamodificacion) ";
+//						where += " (LOWER(fechaultimamodificacion) ";
+						where += " (TO_CHAR(fechaultimamodificacion::TIMESTAMP, 'dd/MM/yyyy hh:mm:ss') "
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
@@ -3265,7 +3266,7 @@ class UsuariosDAO {
 
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-
+						
 						//filtrado utilizado en lista roja y rechazado
 					case "NOMBRE,EMAIL,CURP":
 						errorlog += "NOMBRE,EMAIL,CURP"
@@ -3426,7 +3427,8 @@ class UsuariosDAO {
 						} else {
 							where += " WHERE "
 						}
-						where += " LOWER(fechasolicitudenviada) ";
+//						where += " LOWER(fechasolicitudenviada) ";
+						where += " TO_CHAR(fechasolicitudenviada::TIMESTAMP, 'dd/MM/yyyy hh:mm:ss') "
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
@@ -3445,7 +3447,7 @@ class UsuariosDAO {
 						} else {
 							where += " WHERE "
 						}
-						where += " to_char(sda.fechasolicitudenviada::timestamp, 'DD-MM-YYYY HH24:MI:SS') ";
+						where += " to_char(sda.fechasolicitudenviada::timestamp, 'dd/MM/yyyy HH24:MI:SS') ";
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
@@ -3523,7 +3525,7 @@ class UsuariosDAO {
 				}
 
 			}
-			errorlog = consulta + " 2";
+//			errorlog = consulta + " 2";
 			switch (object.orderby) {
 				case "RESIDEICA":
 					orderby += "residensia";
@@ -3598,7 +3600,7 @@ class UsuariosDAO {
 					orderby += "sda.persistenceid"
 					break;
 			}
-			errorlog = consulta + " 3";
+//			errorlog = consulta + " 3";
 			orderby += " " + object.orientation;
 			consulta = consulta.replace("[CAMPUS]", campus)
 			consulta = consulta.replace("[PROGRAMA]", programa)
@@ -3608,16 +3610,16 @@ class UsuariosDAO {
 			consulta = consulta.replace("[TIPOALUMNO]", tipoalumno)
 			consulta = consulta.replace("[IDSESIONALUMNO]", idsesionalumno)
 			where += " " + campus + " " + programa + " " + ingreso + " " + estado + " " + bachillerato + " " + tipoalumno + " " + idsesionalumno
-			errorlog = consulta + " 4";
+//			errorlog = consulta + " 4";
 
 			consulta = consulta.replace("[WHERE]", where);
-			errorlog = consulta + " 5";
+//			errorlog = consulta + " 5";
 			
 			String consultaCount = Statements.GET_ASPIRANTES_EN_PROCESO_COUNT
 			pstm = con.prepareStatement(consultaCount)
             //pstm = con.prepareStatement(consulta.replaceAll("CASE WHEN prepa.descripcion = 'Otro' THEN sda.estadobachillerato ELSE prepa.estado end AS procedencia, to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') AS tiempoultimamodificacion, sda.fechasolicitudenviada, sda.fechaultimamodificacion, sda.urlfoto, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.NOMBRE AS licenciatura, periodo.DESCRIPCION AS ingreso, CASE WHEN estado.DESCRIPCION isnull THEN sda.estadoextranjero ELSE estado.descripcion end AS estado, CASE WHEN prepa.descripcion = 'Otro' THEN sda.bachillerato ELSE prepa.descripcion end AS preparatoria, sda.promediogeneral, sda.estatussolicitud, da.tipoalumno, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, TA.descripcion AS tipoadmision , R.descripcion AS residensia, TAL.descripcion AS tipodealumno, catcampus.descripcion AS transferencia, campusEstudio.clave AS claveCampus, gestionescolar.clave AS claveLicenciatura, sea.sesiones_pid", "COUNT(sda.persistenceid) as registros").replaceAll("[LIMITOFFSET]", "").replaceAll("[ORDERBY]", "").replaceAll("GROUP BY prepa.descripcion, sda.estadobachillerato, prepa.estado, sda.fechaultimamodificacion, sda.fechasolicitudenviada, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusestudio.descripcion, campus.descripcion, gestionescolar.nombre, periodo.descripcion, estado.descripcion, sda.estadoextranjero, sda.bachillerato, sda.promediogeneral, sda.estatussolicitud, da.tipoalumno, sda.caseid, sda.telefonocelular, da.observacioneslistaroja, da.observacionesrechazo, da.idbanner, campus.grupobonita, ta.descripcion, r.descripcion, tal.descripcion, catcampus.descripcion, campusestudio.clave, gestionescolar.clave, sea.sesiones_pid, sda.persistenceid", ""))
 			
-			errorlog = consulta + " 6";
+//			errorlog = consulta + " 6";
 
 			rs = pstm.executeQuery()
 			if (rs.next()) {
@@ -3625,7 +3627,7 @@ class UsuariosDAO {
 			}
 			consulta = consulta.replace("[ORDERBY]", orderby)
 			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
-			errorlog = consulta + " 7";
+//			errorlog = consulta + " 7";
 
 			pstm = con.prepareStatement(consulta)
 			pstm.setInt(1, object.limit)
@@ -3634,7 +3636,7 @@ class UsuariosDAO {
 			rows = new ArrayList < Map < String, Object >> ();
 			ResultSetMetaData metaData = rs.getMetaData();
 			int columnCount = metaData.getColumnCount();
-			errorlog = consulta + " 8";
+//			errorlog = consulta + " 8";
 			while (rs.next()) {
 				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
 
@@ -3675,18 +3677,17 @@ class UsuariosDAO {
 
 				rows.add(columns);
 			}
-			errorlog = consulta + " 9";
+//			errorlog = consulta + " 9";
 			resultado.setSuccess(true)
-
 			
 			resultado.setData(rows)
 
 		} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();
-			
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 		} finally {
+			resultado.setError_info(where);
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
@@ -3845,7 +3846,7 @@ class UsuariosDAO {
 					} else {
 						where += " WHERE "
 					}
-					where += " LOWER(fechaUltimaModificacion) ";
+					where += " TO_CHAR(fechaUltimaModificacion::TIMESTAMP, 'dd/MM/yyyy hh:mm:ss') ";
 					if (filtro.get("operador").equals("Igual a")) {
 						where += "=LOWER('[valor]')"
 					} else {
@@ -3862,10 +3863,10 @@ class UsuariosDAO {
 					} else {
 						where += " WHERE "
 					}
-					where += " ( LOWER(fechaEnvioSolicitud) like lower('%[valor]%') ";
+					where += " ( TO_CHAR(fechaEnvioSolicitud::TIMESTAMP, 'dd/MM/yyyy hh:mm:ss') like lower('%[valor]%') ";
 					where = where.replace("[valor]", filtro.get("valor"))
 
-					where += " OR LOWER(fechaPago) like lower('%[valor]%') )";
+					where += " OR CASE WHEN fechaPago = 'N/A' THEN fechaPago ELSE TO_CHAR(fechaPago::TIMESTAMP, 'dd/MM/yyyy hh:mm:ss') END like lower('%[valor]%') )";
 					where = where.replace("[valor]", filtro.get("valor"))
 					break;
 				case "CAMPUS,PROGRAMA,INGRESO":
@@ -3980,7 +3981,7 @@ class UsuariosDAO {
 			orderby += " " + object.orientation;
 			consulta = consulta.replace("[WHERE]", where);
 			
-			pstm = con.prepareStatement(consulta.replace("idbanner,concat(apellidopaterno,' ',apellidomaterno,' ',nombre,' ',segundonombre) as nombre, curp, vpd, campusDestino as campus, licenciatura as programa, periodo, estadoPreparatoria as procedencia, concat(clavePreparatoria,' - ',preparatoria) as preparatoria, promedio, residencia, estatus, fechaEnvioSolicitud, fechaUltimaModificacion, correo, fechaPago, rutaPago, rutaSolicitud, foto, paisPreparatoria, rutaActaNacimiento, rutaKardex", "COUNT(persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""));
+			pstm = con.prepareStatement(consulta.replace("idbanner,concat(apellidopaterno,' ',apellidomaterno,' ',nombre,' ',segundonombre) as nombre, curp, vpd, campusDestino as campus, licenciatura as programa, periodo, estadoPreparatoria as procedencia, concat(clavePreparatoria,' - ',preparatoria) as preparatoria, promedio, residencia, estatus, TO_CHAR(fechaEnvioSolicitud::TIMESTAMP, 'dd/MM/yyyy hh:mm:ss') AS fechaEnvioSolicitud, TO_CHAR(fechaUltimaModificacion::TIMESTAMP, 'dd/MM/yyyy hh:mm:ss') AS fechaUltimaModificacion, correo, CASE WHEN fechaPago = 'N/A' THEN fechaPago ELSE TO_CHAR(fechaPago::TIMESTAMP, 'dd/MM/yyyy hh:mm:ss') END AS fechaPago, rutaPago, rutaSolicitud, foto, paisPreparatoria, rutaActaNacimiento, rutaKardex", "COUNT(persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""));
 			rs = pstm.executeQuery()
 			if (rs.next()) {
 				resultado.setTotalRegistros(rs.getInt("registros"))
