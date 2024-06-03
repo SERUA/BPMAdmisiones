@@ -1776,6 +1776,16 @@ class IndexGet implements RestApiController {
 					}
 					
 				break;
+				case "getB64FileByUrlAzure":
+					String urlAzure = request.getParameter "urlAzure"
+					result = new SolicitudUsuarioDAO().getB64FileByUrlAzure(urlAzure);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
 				case "getCasosALimpiar":
 					String estatus = request.getParameter "estatus"
 					String offset = request.getParameter "offset"

@@ -469,24 +469,48 @@ class SecurityFilter {
 				if(allow){break;}
 				break;
 				case "getPropedeuticosNoFecha":
-				allow=bonitaRolFilter(context,"ADMISIONES")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"SERUA")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Becas")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Area Artistica")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Area Deportiva")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Finanzas")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Comite de Finanzas")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"PreAutorizacion")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Reporte SDAE")
-				if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMISIONES")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Reporte SDAE")
+					if(allow){break;}
+				break;
+				case "getB64FileByUrlAzure":
+					allow=bonitaRolFilter(context,"ADMISIONES")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Reporte SDAE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"GUEST")
+					if(allow){break;}
 				break;
 				case "getActiveProcess":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
@@ -581,6 +605,7 @@ class SecurityFilter {
 					allow=true;//Para no bloquear acceso 
 					if(allow){break;}
 				break;
+				
 				
 			}
 			

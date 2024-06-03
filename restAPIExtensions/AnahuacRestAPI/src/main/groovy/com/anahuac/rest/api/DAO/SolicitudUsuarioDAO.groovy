@@ -12,6 +12,7 @@ import com.anahuac.rest.api.Entity.Custom.CatTerapiaCustom
 import com.anahuac.rest.api.Entity.Custom.CatUniversidadesCustom
 import com.anahuac.rest.api.Entity.Custom.ContactoEmergenciaEntity
 import com.anahuac.rest.api.Entity.Custom.PadresTutorEntity
+import com.anahuac.rest.api.Utilities.FileDownload
 import com.bonitasoft.web.extension.rest.RestAPIContext
 
 import groovy.json.JsonSlurper
@@ -1351,5 +1352,68 @@ public Result updateViewDownloadSolicitud(Integer parameterP, Integer parameter,
 		return resultado
 	}
 	
-	
+	public Result getB64FileByUrlAzure(String urlAzure) {
+		Boolean closeCon = false;
+		String errorLog = "";
+		Result resultado = new Result();
+		String SSA = "";
+
+		try {
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA);
+			rs = pstm.executeQuery();
+			def num = Math.random();
+			
+			if (rs.next()) {
+				SSA = rs.getString("valor");
+				String urlDecodificada = "";
+				urlDecodificada = urlAzure.replace("%20", " ");
+				String[] elements = urlDecodificada.split("/");
+				String url = java.net.URLEncoder.encode(elements[elements.length-1], "UTF-8");
+				
+				String finalURL = "";
+				elements.eachWithIndex{it,index ->
+					finalURL += (finalURL.length() == 0?"":"/")+"${(index == elements.length-1 ? url : it)}";
+				}
+				
+				finalURL = finalURL.replace("+", "%20");
+				
+				if(urlAzure.toLowerCase().contains(".jpeg")) {
+					columns.put("extension", ".jpeg");
+					columns.put("b64", "data:image/jpeg;base64, " + (new FileDownload().b64UrlSSA(finalURL, SSA + "&v=" + num)));
+				}else if(urlAzure.toLowerCase().contains(".png")) {
+					columns.put("extension", ".png");
+					columns.put("b64", "data:image/png;base64, " + (new FileDownload().b64UrlSSA(finalURL, SSA + "&v=" + num)));
+				}else if(urlAzure.toLowerCase().contains(".jpg")) {
+					columns.put("extension", ".jpg");
+					columns.put("b64", "data:image/jpg;base64, " + (new FileDownload().b64UrlSSA(finalURL, SSA + "&v=" + num)));
+				}else if(urlAzure.toLowerCase().contains(".jfif")) {
+					columns.put("extension", ".jfif");
+					columns.put("b64", "data:image/jfif;base64, " + (new FileDownload().b64UrlSSA(finalURL, SSA + "&v=" + num)));
+				}else if(urlAzure.toLowerCase().contains(".pdf")) {
+					columns.put("extension", ".pdf");
+					columns.put("b64", "data:application/pdf;base64, " + (new FileDownload().b64UrlSSA(finalURL, SSA + "&v=" + num)));
+				}
+				
+				rows.add(columns);
+			}
+
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+			resultado.setError(errorLog);
+		} catch (Exception e) {
+			errorLog += e.toString();
+			resultado.setSuccess(false)
+			resultado.setError("500 Internal Server Error")
+			resultado.setError_info(errorLog);
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
 }

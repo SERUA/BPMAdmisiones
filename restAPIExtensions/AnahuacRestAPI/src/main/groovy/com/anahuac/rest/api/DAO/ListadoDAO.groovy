@@ -5545,7 +5545,7 @@ class ListadoDAO {
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.HOUR_OF_DAY, -7);
                 Date date = cal.getTime();
-                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
                 /*Date date = new Date();
                 TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
@@ -5610,7 +5610,7 @@ class ListadoDAO {
                 //SolicitudAdmisionCustom  solicitud = new SolicitudAdmisionCustom();
                 DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 Date fechaCreacion = new Date();
-                DateFormat dformat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                DateFormat dformat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
                 for (int i = 0; i < lstParams.size(); ++i) {
                     //solicitud = new SolicitudAdmisionCustom();
@@ -5647,16 +5647,20 @@ class ListadoDAO {
 
                     Cell cell8 = row.createCell(10);
                     if (lstParams[i].fechasolicitudenviada != null) {
-                        fechaCreacion = dfSalida.parse(lstParams[i].fechasolicitudenviada.toString())
-                        cell8.setCellValue(dformat.format(fechaCreacion));
+//                        fechaCreacion = dfSalida.parse(lstParams[i].fechasolicitudenviada.toString())
+//						fechaCreacion = lstParams[i].fechasolicitudenviada.toString()
+//                        cell8.setCellValue(dformat.format(fechaCreacion));
+						cell8.setCellValue(lstParams[i].fechasolicitudenviada.toString());
                     } else {
                         cell8.setCellValue("");
                     }
 
                     Cell cell9 = row.createCell(11);
                     if (lstParams[i].fechaultimamodificacion != null) {
-                        fechaCreacion = dfSalida.parse(lstParams[i].fechaultimamodificacion.toString())
-                        cell9.setCellValue(dformat.format(fechaCreacion));
+//                        fechaCreacion = dfSalida.parse(lstParams[i].fechaultimamodificacion.toString())
+//						fechaCreacion = lstParams[i].fechaultimamodificacion.toString()
+//                        cell9.setCellValue(dformat.format(fechaCreacion));
+						cell9.setCellValue(lstParams[i].fechaultimamodificacion.toString());
                     } else {
                         cell9.setCellValue("");
                     }
@@ -5777,8 +5781,10 @@ class ListadoDAO {
                     Cell cell11 = row.createCell(11);
 
                     if (lstParams[i].fechaultimamodificacion != null) {
-                        fechaCreacion = dfSalida.parse(lstParams[i].fechaultimamodificacion.toString())
-                        cell11.setCellValue(dformat.format(fechaCreacion));
+//                        fechaCreacion = dfSalida.parse(lstParams[i].fechaultimamodificacion.toString())
+//						fechaCreacion = lstParams[i].fechaultimamodificacion.toString()
+//                        cell11.setCellValue(dformat.format(fechaCreacion));
+						cell11.setCellValue(lstParams[i].fechaultimamodificacion);
                     } else {
                         cell11.setCellValue("");
                     }
@@ -5861,8 +5867,10 @@ class ListadoDAO {
                             body[j].setCellValue((lstParams[i][info.get(j)].equals(lstParams[i].campussede))?"MISMO CAMPUS" : "TRANSFERENCIA");
                         }else if (info.get(j).equals("fechasolicitudenviada") || info.get(j).equals("fechaultimamodificacion")){
                             if (lstParams[i][info.get(j)] != null) {
-                                fechaCreacion = dfSalida.parse(lstParams[i][info.get(j)].toString())
-                                body[j].setCellValue(dformat.format(fechaCreacion))
+//                                fechaCreacion = dfSalida.parse(lstParams[i][info.get(j)].toString())
+//								fechaCreacion = lstParams[i][info.get(j)].toString()
+//                                body[j].setCellValue(dformat.format(fechaCreacion))
+								body[j].setCellValue(lstParams[i][info.get(j)].toString())
                             }else{
                                 body[j].setCellValue("")
                             }
@@ -6105,17 +6113,19 @@ class ListadoDAO {
                     errorlog += " | " + i + " fechasolicitudenviada: " + lstParams[i].fechasolicitudenviada + " | ";
                     if (lstParams[i].fechasolicitudenviada != "null" && lstParams[i].fechasolicitudenviada != null && lstParams[i].fechasolicitudenviada != "" && lstParams[i].fechasolicitudenviada != " ") {
 
-                        String sDate1 = lstParams[i].fechasolicitudenviada;
-                        Date date1 = formatter1.parse(sDate1);
+//                        String sDate1 = lstParams[i].fechasolicitudenviada;
+//                        Date date1 = formatter1.parse(sDate1);
                         Cell cell14 = row.createCell(17);
-                        cell14.setCellValue(f.format(date1));
+//                        cell14.setCellValue(f.format(date1));
+						cell14.setCellValue(lstParams[i].fechasolicitudenviada)
                     }
                     errorlog += " | " + i + " fechaultimamodificacion: " + lstParams[i].fechaultimamodificacion + " | ";
                     if (lstParams[i].fechaultimamodificacion != "null" && lstParams[i].fechaultimamodificacion != null && lstParams[i].fechaultimamodificacion != "" && lstParams[i].fechaultimamodificacion != " ") {
-                        String sDate2 = lstParams[i].fechaultimamodificacion;
-                        Date date2 = formatter1.parse(sDate2);
+//                        String sDate2 = lstParams[i].fechaultimamodificacion;
+//                        Date date2 = formatter1.parse(sDate2);
                         Cell cell15 = row.createCell(18);
-                        cell15.setCellValue(f.format(date2));
+//                        cell15.setCellValue(f.format(date2));
+						cell15.setCellValue(lstParams[i].fechaultimamodificacion);
                     }
                     errorlog += " | " + i + " tiempoultimamodificacion: " + lstParams[i].tiempoultimamodificacion + " | ";
                     if (lstParams[i].tiempoultimamodificacion != "null" && lstParams[i].tiempoultimamodificacion != null && lstParams[i].tiempoultimamodificacion != "" && lstParams[i].tiempoultimamodificacion != " ") {
@@ -6560,8 +6570,9 @@ class ListadoDAO {
                     cell9.setCellValue(motivo);
                     Cell cell10 = row.createCell(9);
                     if (lstParams[i].fechaultimamodificacion != null) {
-                        fechaCreacion = dfSalida.parse(lstParams[i].fechaultimamodificacion.toString())
-                        cell10.setCellValue(dformat.format(fechaCreacion));
+//                        fechaCreacion = dfSalida.parse(lstParams[i].fechaultimamodificacion.toString())
+//                        cell10.setCellValue(dformat.format(fechaCreacion));
+						cell10.setCellValue(lstParams[i].fechaultimamodificacion.toString());
                     } else {
                         cell10.setCellValue("");
                     }
