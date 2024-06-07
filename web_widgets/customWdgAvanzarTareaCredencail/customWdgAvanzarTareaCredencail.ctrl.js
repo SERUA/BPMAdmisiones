@@ -10,7 +10,6 @@ function ($scope,$http) {
     
       $scope.$watch('properties.solicitudDeAdmision', function(value) {
         if (angular.isDefined(value) && value !== null) {
-            debugger
              if ($scope.properties.isCorrectTask) {
                 console.log("Cambio de tarea")
                 $scope.asignarTarea();

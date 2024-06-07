@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "GenerarCredencialPDF",
   "name" : "GenerarCredencialPDF",
-  "lastUpdate" : 1669848552692,
+  "lastUpdate" : 1717783237441,
   "rows" : [
     [
       {
@@ -609,6 +609,10 @@
                 "azureTempKeyRes" : {
                   "type" : "expression",
                   "value" : "azureTempKeyRes.data[0]"
+                },
+                "urlFoto" : {
+                  "type" : "expression",
+                  "value" : "azureFotoDescarga[0].b64.trim()"
                 }
               },
               "reference" : "79f954fe-bf45-4a28-bdc0-305beebeaa22",
@@ -699,6 +703,10 @@
                 },
                 "removeItem" : {
                   "type" : "variable"
+                },
+                "caseId" : {
+                  "type" : "variable",
+                  "value" : ""
                 }
               },
               "reference" : "962a7e9a-9821-4ff4-a1fd-a9e448a67874",
@@ -975,6 +983,58 @@
         "reference" : "c530e1df-f45d-4792-b8f2-a2e6b15782c2",
         "hasValidationError" : false,
         "id" : "customWdgAvanzarTareaCredencail"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<pre>{{ azureFotoDescarga | json }}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "ab90ff27-6e9a-4070-a7a3-0b0353ba1f5b",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ]
   ],
@@ -1883,7 +1943,6 @@
         "let value = \"\";\r",
         "if($data.currentTask !== undefined){\r",
         "    if($data.currentTask.length > 0){\r",
-        "        debugger\r",
         "        value = $data.currentTask[0].name;    \r",
         "    }\r",
         "}\r",
@@ -1918,6 +1977,21 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.model.DetalleSolicitud?q=findByCaseId&p=0&c=10&f=caseId={{caseId}}"
       ],
+      "exposed" : false
+    },
+    "urlDownloadFileAzure" : {
+      "type" : "constant",
+      "value" : [
+        "../API/extension/AnahuacRestGet?url=getB64FileByUrlAzure&p=0&c=100&urlAzure="
+      ],
+      "exposed" : false
+    },
+    "azureFotoDescarga" : {
+      "type" : "url",
+      "value" : [
+        "{{urlDownloadFileAzure}}{{usuario[0].urlFoto}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },
