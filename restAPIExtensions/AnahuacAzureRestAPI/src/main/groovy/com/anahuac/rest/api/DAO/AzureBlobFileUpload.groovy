@@ -53,6 +53,7 @@ class AzureBlobFileUpload {
 		String defaultEndpointsProtocol=""
 		String accountName=""
 		String accountKey=""
+		String aContainer= "";
 		List<String> data = new ArrayList<String>();
 		Boolean closeCon=false;
         try {
@@ -71,6 +72,9 @@ class AzureBlobFileUpload {
 					case "AzureDefaultEndpointsProtocol":
 						defaultEndpointsProtocol=rs.getString("valor")
 					break;
+					case "AzureContainer":
+						aContainer=rs.getString("valor")
+					break;
 				}
 			}
 			
@@ -87,6 +91,7 @@ class AzureBlobFileUpload {
 			blob.uploadProperties();
             System.out.println("File uploaded successfully");
 			result.setSuccess(true);
+//			String urlfinal = "https://"+accountName+".blob.core.windows.net/"+aContainer+"/"+filename;
 			String urlfinal = "https://"+accountName+".blob.core.windows.net/"+contenedor+"/"+filename;
 			data.add(urlfinal.replace(" ", "%20"))
 			result.setData(data)
