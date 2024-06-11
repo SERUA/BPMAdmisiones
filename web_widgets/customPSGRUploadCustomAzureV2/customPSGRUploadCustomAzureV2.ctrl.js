@@ -238,6 +238,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
         let extension = ext ? "." + ext : "";
 
         $scope.documetObject["filename"] = $scope.properties.caseid + "/" + name_without_ext + "_" + new Date().getTime() + extension;
+        debugger;
         $scope.documetObject["filetype"] = event.target.files[0].type;
         $scope.documetObject["contenedor"] = "privado";
         
