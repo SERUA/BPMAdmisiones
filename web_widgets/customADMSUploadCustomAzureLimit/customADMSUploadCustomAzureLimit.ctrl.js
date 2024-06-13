@@ -77,9 +77,9 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
         var f = evt.target.files[0];
         var reader = new FileReader(); var size = parseFloat(f.size / 1024).toFixed(2);
         
-        if(size >= 30000){
+        if(size >= (1000 * $scope.properties.max)){
             ctrl.filename = gettextCatalog.getString('Error al subir documento');
-            swal("El archivo es demasiado grande", "El tamaño máximo del archivo es de 30MB", "error");
+            swal("El archivo es demasiado grande", "El tamaño máximo del archivo es de " + $scope.properties.max + "MB", "error");
         } else if($scope.documetObject["filetype"] !== "application/pdf"){
             ctrl.filename = gettextCatalog.getString('Error al subir documento');
             swal("Formato de archivo no válido", "El archivo debe ser formato pdf.", "error");
@@ -231,24 +231,26 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
             $scope.properties.isImagen = "true";
             $scope.properties.isPDF = "false";
             $scope.procesar = true;
-            if($scope.properties.tipoDocumento === "pdf"){
-                // handleFileSelect(event);
-                // handleFileSelectImg(event);
-                swal("Formato de archivo no válido", "El archivo debe ser formato pdf.", "error");
-            } else {
-                handleFileSelectImg(event);
-            }
+            handleFileSelectImg(event);
+            // if($scope.properties.tipoDocumento === "pdf"){
+            //     // handleFileSelect(event);
+            //     // handleFileSelectImg(event);
+            //     swal("Formato de archivo no válido", "El archivo debe ser formato pdf.", "error");
+            // } else {
+            //     handleFileSelectImg(event);
+            // }
         } else if (event.target.files[0].type === "image/png") {
             $scope.properties.isImagen = "true";
             $scope.properties.isPDF = "false";
             $scope.procesar = true;
-            if($scope.properties.tipoDocumento === "pdf"){
-                // handleFileSelect(event);
-                // handleFileSelectImg(event);
-                swal("Formato de archivo no válido", "El archivo debe ser formato pdf.", "error");
-            } else {
-                handleFileSelectImg(event);
-            }
+            handleFileSelectImg(event);
+            // if($scope.properties.tipoDocumento === "pdf"){
+            //     // handleFileSelect(event);
+            //     // handleFileSelectImg(event);
+            //     swal("Formato de archivo no válido", "El archivo debe ser formato pdf.", "error");
+            // } else {
+            //     handleFileSelectImg(event);
+            // }
         } else if (event.target.files[0].type === "application/pdf") {
             if($scope.properties.tipoDocumento === "pdf"){
                 $scope.properties.isPDF = "true";

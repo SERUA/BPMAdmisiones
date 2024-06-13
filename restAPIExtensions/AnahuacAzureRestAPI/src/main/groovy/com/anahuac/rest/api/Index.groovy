@@ -55,7 +55,7 @@ class Index implements RestApiController {
 				assert object instanceof Map;
 				 String errorlog="entro | type:" + object.filetype
 				  result.setSuccess(true)
-				  result.setError_info(errorlog)
+//				  result.setError_info(errorlog)
 				  String imageDataBytes = object.b64.substring(object.b64.indexOf(",")+1);
 				  byte[] decodedBytes = Base64.getDecoder().decode(imageDataBytes);
 				  InputStream is = new ByteArrayInputStream(decodedBytes);

@@ -56,6 +56,8 @@ class AzureBlobFileUpload {
 		String aContainer= "";
 		List<String> data = new ArrayList<String>();
 		Boolean closeCon=false;
+		
+		String errorlog = "";
         try {
 			closeCon = validarConexion();
 			
@@ -84,21 +86,23 @@ class AzureBlobFileUpload {
             // Container name must be lower case.
             CloudBlobContainer container = serviceClient.getContainerReference(contenedor);
             container.createIfNotExists();
-            CloudBlockBlob blob = container.getBlockBlobReference(filename);
+			String newUrl = (aContainer.split("/").length > 1) ? aContainer.replace("privado/", "") + "/"  + filename : filename;
+            CloudBlockBlob blob = container.getBlockBlobReference(newUrl);
+//			CloudBlockBlob blob = container.getBlockBlobReference(filename);
 			blob.upload(file,length)
 			BlobProperties bp = blob.getProperties();
 			bp.setContentType(filetype)
 			blob.uploadProperties();
             System.out.println("File uploaded successfully");
 			result.setSuccess(true);
-//			String urlfinal = "https://"+accountName+".blob.core.windows.net/"+aContainer+"/"+filename;
-			String urlfinal = "https://"+accountName+".blob.core.windows.net/"+contenedor+"/"+filename;
+			String urlfinal = "https://"+accountName+".blob.core.windows.net/"+aContainer+"/"+filename;
+//			String urlfinal = "https://"+accountName+".blob.core.windows.net/"+contenedor+"/"+filename;
 			data.add(urlfinal.replace(" ", "%20"))
 			result.setData(data)
         } catch (StorageException | IOException | URISyntaxException | InvalidKeyException exception) {
 			result.setSuccess(false)
 			result.setError(exception.getMessage())
-        }finally {
+        } finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
