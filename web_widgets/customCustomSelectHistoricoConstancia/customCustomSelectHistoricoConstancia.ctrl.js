@@ -74,7 +74,7 @@ function PbSelectCtrl($scope, $parse, $log, widgetNameFactory, $timeout, $window
             newFile.urlConstancia = newFile.urlConstancia + $scope.properties.azureTempKeyRes.data[0];
             $scope.properties.availableValues.push(newFile);
         }
-        $scope.properties.value = $scope.properties.availableValues[$scope.properties.availableValues.length - 1].urlConstancia;
+        // $scope.properties.value = $scope.properties.availableValues[$scope.properties.availableValues.length - 1].urlConstancia;
     }
 
     $scope.$watch("properties.ListaConstanciaFile", function(){

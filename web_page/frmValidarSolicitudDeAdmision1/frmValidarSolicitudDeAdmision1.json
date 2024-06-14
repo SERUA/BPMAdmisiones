@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "frmValidarSolicitudDeAdmision1",
   "name" : "frmValidarSolicitudDeAdmision",
-  "lastUpdate" : 1716501933362,
+  "lastUpdate" : 1718303105556,
   "rows" : [
     [
       {
@@ -3893,6 +3893,10 @@
                     "title" : {
                       "type" : "interpolation",
                       "value" : "Bachillerato"
+                    },
+                    "active" : {
+                      "type" : "variable",
+                      "value" : ""
                     }
                   },
                   "reference" : "97322523-378f-4c9a-adf6-7e9f10d684e7",
@@ -18415,7 +18419,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "context.descuento_ref.length ==0"
+                                    "value" : "context.descuento_ref.length == 0"
                                   },
                                   "text" : {
                                     "type" : "interpolation",
@@ -18496,7 +18500,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "objSolicitudDeAdmision.urlDescuentos === \"\" || objSolicitudDeAdmision.urlDescuentos === null"
+                                    "value" : "!objSolicitudDeAdmision.urlDescuentos"
                                   },
                                   "text" : {
                                     "type" : "interpolation",

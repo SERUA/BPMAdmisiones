@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "APPUsuariosRegistrados",
   "name" : "APPUsuariosRegistrados",
-  "lastUpdate" : 1700594286122,
+  "lastUpdate" : 1718309612248,
   "rows" : [
     [
       {
@@ -300,6 +300,13 @@
                 "modalId" : {
                   "type" : "constant",
                   "value" : "modalFiltroEspecifico"
+                },
+                "navigationVar" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "newValue" : {
+                  "type" : "constant"
                 }
               },
               "reference" : "b0646cba-7910-424d-b3a5-bd4d51a98cbe",
@@ -1333,6 +1340,13 @@
                           "value" : false
                         },
                         "modalId" : {
+                          "type" : "constant"
+                        },
+                        "navigationVar" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "newValue" : {
                           "type" : "constant"
                         }
                       },
@@ -5015,7 +5029,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "(catUsuarios_selectedNR.urlFoto === \"\" || catUsuarios_selectedNR.urlFoto === null) ||  (context.fotoPasaporte_ref.length > 0)"
+                        "value" : "!catUsuarios_selectedNR.fotografiab64"
                       },
                       "type" : {
                         "type" : "constant",
@@ -5023,7 +5037,7 @@
                       },
                       "url" : {
                         "type" : "expression",
-                        "value" : "catUsuarios_selectedNR.urlfoto"
+                        "value" : "catUsuarios_selectedNR.fotografiab64"
                       },
                       "document" : {
                         "type" : "variable",
@@ -5770,7 +5784,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "disabled" : {
                         "type" : "constant",
@@ -6035,7 +6049,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "(catUsuarios_selectedNR.urlconstancia === \"\") || (Archivos[2].url !== undefined && Archivos[2].url !== \"\" && Archivos[2].url !== null)"
+                        "value" : "!catUsuarios_selectedNR.urlconstancia"
                       },
                       "type" : {
                         "type" : "constant",

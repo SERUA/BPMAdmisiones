@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "appNuevaSolicitudDeAdmision3",
   "name" : "appNuevaSolicitudDeAdmision",
-  "lastUpdate" : 1718239925992,
+  "lastUpdate" : 1718397430588,
   "rows" : [
     [
       {
@@ -16930,6 +16930,8 @@
       "type" : "expression",
       "value" : [
         "if( $data.context && $data.catSolicitudDeAdmision && $data.contactoEmergencia && $data.madre && $data.padre && $data.tutorbdm ){\r",
+        "    console.log(\"$data.catSolicitudDeAdmision.urlFoto \" + $data.catSolicitudDeAdmision.urlFoto);\r",
+        "    console.log(\"foto existe \" + $data.catSolicitudDeAdmision.urlFoto !== undefined);\r",
         "\treturn {\r",
         "\t    isEnviarSolicitudCont: $data.formInput.isEnviarSolicitudCont,\r",
         "\t\tfotoPasaporteDocumentInput: $data.context.fotoPasaporte_ref.map( doc => ({\r",

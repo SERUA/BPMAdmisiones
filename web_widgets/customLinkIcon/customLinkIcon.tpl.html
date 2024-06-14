@@ -9,7 +9,8 @@
                 <div class="td">
                     <div ng-click="viewfile(ctrl.getHref())" class="img-thumbnail anchoPanel iconoUsuario text-center" ng-style="{'background': properties.color}">
                         <!--span class="glyphicon iconSize" ng-class="properties.icono" aria-hidden="true"></span-->
-                        <img class="iconSize object-fitter " src="{{ctrl.getHref()}}">
+                        <img ng-if="!ctrl.getHref().includes('.pdf')" class="iconSize object-fitter " src="{{ctrl.getHref()}}">
+                        <img ng-if="ctrl.getHref().includes('.pdf')" src="widgets/customLinkIcon/assets/img/noimageavailabledoc (2).png"  class="iconSize object-fitter">
                     </div>
                 </div>
             </div>

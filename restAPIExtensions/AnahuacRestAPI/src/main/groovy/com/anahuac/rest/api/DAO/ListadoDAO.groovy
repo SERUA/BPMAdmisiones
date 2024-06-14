@@ -1393,8 +1393,8 @@ class ListadoDAO {
 							if(parameterC == null || parameterC != 777){
 								String urlFoto = rs.getString("urlfoto");
 								if (urlFoto != null && !urlFoto.isEmpty() ) {
-									columns.put("fotografiab64", base64Imagen((rs.getString("urlfoto") + SSA)) );
-									//columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+//									columns.put("fotografiab64", base64Imagen((rs.getString("urlfoto") + SSA)) );
+									columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
 								} else {
 									noAzure = true;
 									List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)

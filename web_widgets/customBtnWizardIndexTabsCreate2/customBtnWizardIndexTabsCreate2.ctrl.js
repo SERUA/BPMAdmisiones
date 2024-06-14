@@ -246,14 +246,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                         };
                                     }
                                 }
-                                $scope.properties.catSolicitudDeAdmision.urlFoto = "";
+                                // $scope.properties.catSolicitudDeAdmision.urlFoto = "";
                             } else {
                                 if ($scope.properties.fotopasaporte !== undefined) {
                                     $scope.properties.fotopasaportearchivo = [];
                                     $scope.properties.fotopasaportearchivo.push({
                                         "newValue": angular.copy($scope.properties.fotopasaporte)
                                     });
-                                    $scope.properties.catSolicitudDeAdmision.urlFoto = "";
+                                    // $scope.properties.catSolicitudDeAdmision.urlFoto = "";
                                 } else {
                                     $scope.properties.fotopasaportearchivo = [];
                                 }
