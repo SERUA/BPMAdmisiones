@@ -98,6 +98,9 @@ function PbInputCtrl($scope, $log, widgetNameFactory) {
                 if (charInput === 46) {
                     $scope.isValid = true;
                 }
+                if (charInput === 48) {
+                    $scope.isValid = true;
+                }
                 if ($scope.isValid) {
 
                 } else {
@@ -153,11 +156,12 @@ function PbInputCtrl($scope, $log, widgetNameFactory) {
                             $scope.properties.value = null;
                             $scope.properties.value = $scope.properties.max;
                         }
+
                         if (parseFloat($scope.properties.value) % 1 != 0) {
-                            $scope.properties.value = parseFloat($scope.properties.value).toFixed(1);
+                            $scope.properties.value = parseFloat($scope.properties.value).toFixed(2);
                             $scope.properties.value = parseFloat($scope.properties.value);
                         } else {
-                            $scope.properties.value = parseFloat($scope.properties.value);
+                            // $scope.properties.value = parseFloat($scope.properties.value);
                         }
                     }
                 }
@@ -166,11 +170,12 @@ function PbInputCtrl($scope, $log, widgetNameFactory) {
                     $scope.properties.value = null;
                     //$scope.properties.value = $scope.properties.max;
                 }
+                
                 if (parseFloat($scope.properties.value) % 1 != 0) {
-                    $scope.properties.value = parseFloat($scope.properties.value).toFixed(1);
+                    $scope.properties.value = parseFloat($scope.properties.value).toFixed(2);
                     $scope.properties.value = parseFloat($scope.properties.value);
                 } else {
-                    $scope.properties.value = parseFloat($scope.properties.value);
+                    // $scope.properties.value = parseFloat($scope.properties.value);
                 }
             }
 
@@ -185,11 +190,13 @@ function PbInputCtrl($scope, $log, widgetNameFactory) {
                             $scope.properties.value = null;
                             $scope.properties.value = $scope.properties.max;
                         }
+                        
                         if (parseFloat($scope.properties.value) % 1 != 0) {
-                            $scope.properties.value = parseFloat($scope.properties.value).toFixed(1);
+                            $scope.properties.value = parseFloat($scope.properties.value).toFixed(2);
                             $scope.properties.value = parseFloat($scope.properties.value);
                         } else {
-                            $scope.properties.value = parseFloat($scope.properties.value);
+                            $scope.properties.value = parseFloat($scope.properties.value).toFixed(2);
+                            // $scope.properties.value = parseFloat($scope.properties.value);
                         }
                     }
                 }
@@ -198,11 +205,13 @@ function PbInputCtrl($scope, $log, widgetNameFactory) {
                     $scope.properties.value = null;
                     //$scope.properties.value = $scope.properties.max;
                 }
+                
+                
                 if (parseFloat($scope.properties.value) % 1 != 0) {
-                    $scope.properties.value = parseFloat($scope.properties.value).toFixed(1);
-                    $scope.properties.value = parseFloat($scope.properties.value);
+                    $scope.properties.value = parseFloat($scope.properties.value).toFixed(2);
+                    // $scope.properties.value = parseFloat($scope.properties.value);
                 } else {
-                    $scope.properties.value = parseFloat($scope.properties.value);
+                    // $scope.properties.value = parseFloat($scope.properties.value);
                 }
             }
             //$scope.otroPais.pais = isNaN($scope.properties.value)?"":$scope.properties.value.toString();
