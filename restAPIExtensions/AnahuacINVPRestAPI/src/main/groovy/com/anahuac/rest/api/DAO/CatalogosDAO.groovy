@@ -1812,14 +1812,23 @@ public Result getCatPreguntas(String jsonData) {
 			
 			if(existe) {
 				pstm = con.prepareStatement(Statements.UPDATE_INICIAR_PRUEBA_INVP);
+				pstm.setInt(1, 0);
+				pstm.setInt(2, 0);
+				pstm.setBoolean(3, true);
+				pstm.setLong(4, object.idprueba);
 			} else {
 				pstm = con.prepareStatement(Statements.INSERT_INICIAR_PRUEBA_INVP);
+				pstm.setInt(1, 0);
+				pstm.setInt(2, 0);
+				pstm.setLong(3, object.idprueba);
+				pstm.setBoolean(4, true);
 			}
 			
-			pstm.setInt(1, 0);
-			pstm.setInt(2, 0);
-			pstm.setLong(3, object.idprueba);
-			pstm.setBoolean(4, true);
+//			pstm.setInt(1, 0);
+//			pstm.setInt(2, 0);
+//			pstm.setLong(3, object.idprueba);
+//			pstm.setBoolean(4, true);
+			
 			pstm.executeUpdate();
 			
 			con.commit();
