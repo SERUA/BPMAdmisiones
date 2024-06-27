@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "appPsicometricoV3",
   "name" : "appPsicometricoV3",
-  "lastUpdate" : 1697679853579,
+  "lastUpdate" : 1719450227291,
   "rows" : [
     [
       {
@@ -473,7 +473,7 @@
                 },
                 "url" : {
                   "type" : "expression",
-                  "value" : "foto"
+                  "value" : "solicitudDeAdmisionBDM.urlFoto + getTempKeyAzure.data[0]"
                 },
                 "assetName" : {
                   "type" : "constant"
@@ -8787,6 +8787,14 @@
     },
     "foto" : {
       "type" : "constant",
+      "exposed" : false
+    },
+    "getTempKeyAzure" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacRestGet?url=getTempKeyAzure&p=0&c=10"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },

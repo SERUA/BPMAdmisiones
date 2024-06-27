@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "viewValidarSolicitudDeAdmision",
   "name" : "viewValidarSolicitudDeAdmision",
-  "lastUpdate" : 1716501249803,
+  "lastUpdate" : 1719444213148,
   "rows" : [
     [
       {
@@ -27812,9 +27812,13 @@
       "exposed" : false
     },
     "context" : {
-      "type" : "url",
+      "type" : "expression",
       "value" : [
-        "../API/bpm/archivedUserTask/{{task[task.length-1].id}}/context"
+        "if($data.contextTask){",
+        "   return $data.contextTask; ",
+        "} else if($data.contextArchievedTask){",
+        "    return $data.contextArchievedTask;",
+        "}"
       ],
       "exposed" : false
     },
@@ -29281,6 +29285,22 @@
       "value" : [
         "caseId"
       ],
+      "exposed" : false
+    },
+    "contextArchievedTask" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedUserTask/{{taskId}}/context"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "contextTask" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/userTask/{{taskId}}/context"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },

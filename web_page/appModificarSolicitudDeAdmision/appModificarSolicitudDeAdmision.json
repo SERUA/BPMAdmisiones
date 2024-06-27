@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "appModificarSolicitudDeAdmision",
   "name" : "appModificarSolicitudDeAdmision",
-  "lastUpdate" : 1718901894212,
+  "lastUpdate" : 1719449349505,
   "rows" : [
     [
       {
@@ -5504,7 +5504,8 @@
                 "catEscolaridad" : "catEscolaridad",
                 "catTitulo" : "catTitulo",
                 "catVive" : "catVive",
-                "codigopostalpadre" : "codigopostalpadre"
+                "codigopostalpadre" : "codigopostalpadre",
+                "modificacion" : "true"
               }
             }
           ],
@@ -16228,18 +16229,30 @@
         "if( $data.context && $data.catSolicitudDeAdmision && $data.contactoEmergencia && $data.madre && $data.padre && $data.tutorbdm ){\r",
         "\treturn {\r",
         "\t    isEnviarSolicitudCont: $data.formInput.isEnviarSolicitudCont,\r",
-        "\t\tfotoPasaporteDocumentInput: $data.context.fotoPasaporte_ref.map( doc => ({\r",
+        "// \t\tfotoPasaporteDocumentInput: $data.context.fotoPasaporte_ref.map( doc => ({\r",
+        "// \t\t\tid : doc.id ? doc.id.toString() : null,\r",
+        "// \t\t\tfilename : doc.newValue && doc.newValue.filename ? doc.newValue.filename : null,\r",
+        "// \t\t\ttempPath : doc.newValue && doc.newValue.tempPath ? doc.newValue.tempPath : null,\r",
+        "// \t\t\tcontentType : doc.newValue && doc.newValue.contentType ? doc.newValue.contentType : null\r",
+        "// \t\t})),\r",
+        "        fotoPasaporteDocumentInput: !$data.catSolicitudDeAdmision.urlFoto ? $data.context.fotoPasaporte_ref.map( doc => ({\r",
         "\t\t\tid : doc.id ? doc.id.toString() : null,\r",
         "\t\t\tfilename : doc.newValue && doc.newValue.filename ? doc.newValue.filename : null,\r",
         "\t\t\ttempPath : doc.newValue && doc.newValue.tempPath ? doc.newValue.tempPath : null,\r",
         "\t\t\tcontentType : doc.newValue && doc.newValue.contentType ? doc.newValue.contentType : null\r",
-        "\t\t})),\r",
-        "\t\tactaNacimientoDocumentInput: $data.context.actaNacimiento_ref.map( doc => ({\r",
+        "\t\t})) : [],\r",
+        "// \t\tactaNacimientoDocumentInput: $data.context.actaNacimiento_ref.map( doc => ({\r",
+        "// \t\t\tid : doc.id ? doc.id.toString() : null,\r",
+        "// \t\t\tfilename : doc.newValue && doc.newValue.filename ? doc.newValue.filename : null,\r",
+        "// \t\t\ttempPath : doc.newValue && doc.newValue.tempPath ? doc.newValue.tempPath : null,\r",
+        "// \t\t\tcontentType : doc.newValue && doc.newValue.contentType ? doc.newValue.contentType : null\r",
+        "// \t\t})),\r",
+        "        actaNacimientoDocumentInput: !$data.catSolicitudDeAdmision.urlActaNacimiento ? $data.context.actaNacimiento_ref.map( doc => ({\r",
         "\t\t\tid : doc.id ? doc.id.toString() : null,\r",
         "\t\t\tfilename : doc.newValue && doc.newValue.filename ? doc.newValue.filename : null,\r",
         "\t\t\ttempPath : doc.newValue && doc.newValue.tempPath ? doc.newValue.tempPath : null,\r",
         "\t\t\tcontentType : doc.newValue && doc.newValue.contentType ? doc.newValue.contentType : null\r",
-        "\t\t})),\r",
+        "\t\t})) : [], \r",
         "\t\tconstanciaDocumentInput: $data.context.constancia_ref.map( doc => ({\r",
         "\t\t\tid : doc.id ? doc.id.toString() : null,\r",
         "\t\t\tfilename : doc.newValue && doc.newValue.filename ? doc.newValue.filename : null,\r",

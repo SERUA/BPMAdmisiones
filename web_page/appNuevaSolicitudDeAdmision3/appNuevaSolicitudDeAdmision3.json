@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "appNuevaSolicitudDeAdmision3",
   "name" : "appNuevaSolicitudDeAdmision",
-  "lastUpdate" : 1718397430588,
+  "lastUpdate" : 1719445539087,
   "rows" : [
     [
       {
@@ -5670,7 +5670,8 @@
                 "catEscolaridad" : "catEscolaridad",
                 "catTitulo" : "catTitulo",
                 "catVive" : "catVive",
-                "codigopostalpadre" : "codigopostalpadre"
+                "codigopostalpadre" : "codigopostalpadre",
+                "modificacion" : "false"
               }
             }
           ],
@@ -16934,12 +16935,18 @@
         "    console.log(\"foto existe \" + $data.catSolicitudDeAdmision.urlFoto !== undefined);\r",
         "\treturn {\r",
         "\t    isEnviarSolicitudCont: $data.formInput.isEnviarSolicitudCont,\r",
-        "\t\tfotoPasaporteDocumentInput: $data.context.fotoPasaporte_ref.map( doc => ({\r",
+        "// \t\tfotoPasaporteDocumentInput: $data.context.fotoPasaporte_ref.map( doc => ({\r",
+        "// \t\t\tid : doc.id ? doc.id.toString() : null,\r",
+        "// \t\t\tfilename : doc.newValue && doc.newValue.filename ? doc.newValue.filename : null,\r",
+        "// \t\t\ttempPath : doc.newValue && doc.newValue.tempPath ? doc.newValue.tempPath : null,\r",
+        "// \t\t\tcontentType : doc.newValue && doc.newValue.contentType ? doc.newValue.contentType : null\r",
+        "// \t\t})),\r",
+        "        fotoPasaporteDocumentInput: !$data.catSolicitudDeAdmision.urlFoto ? $data.context.fotoPasaporte_ref.map( doc => ({\r",
         "\t\t\tid : doc.id ? doc.id.toString() : null,\r",
         "\t\t\tfilename : doc.newValue && doc.newValue.filename ? doc.newValue.filename : null,\r",
         "\t\t\ttempPath : doc.newValue && doc.newValue.tempPath ? doc.newValue.tempPath : null,\r",
         "\t\t\tcontentType : doc.newValue && doc.newValue.contentType ? doc.newValue.contentType : null\r",
-        "\t\t})),\r",
+        "\t\t})) : [],\r",
         "\t\tactaNacimientoDocumentInput: $data.context.actaNacimiento_ref.map( doc => ({\r",
         "\t\t\tid : doc.id ? doc.id.toString() : null,\r",
         "\t\t\tfilename : doc.newValue && doc.newValue.filename ? doc.newValue.filename : null,\r",

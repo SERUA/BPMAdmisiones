@@ -124,7 +124,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             $scope.properties.madre.colonia = $scope.properties.tutor.colonia;
                             // $scope.properties.madre.telefono = $scope.properties.tutor.telefono;
                             $scope.properties.padre.telefono = $scope.properties.catSolicitudDeAdmision.telefono;
-                            $scope.properties.padre.telefono = 
+                            // $scope.properties.padre.telefono = 
                             $scope.properties.madre.codigoPostal = $scope.properties.tutor.codigoPostal;
                             $scope.properties.madre.delegacionMunicipio = $scope.properties.tutor.delegacionMunicipio;
                             $scope.properties.madre.estadoExtranjero = $scope.properties.tutor.estadoExtranjero;
@@ -441,6 +441,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     swal("¡Correo electrónico!", "El correo electrónico de tu padre no es válido", "warning");
                                 } else if ($scope.properties.padre.catEscolaridad === 0 || $scope.properties.padre.catEscolaridad === null) {
                                     swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu padre", "warning");
+                                } else if (!$scope.properties.padre.telefonoCelular) {
+                                    swal("¡Teléfono celular!", "Debes agregar el teléfono celular de tu padre", "warning");
                                 } else if ($scope.properties.padre.catPais === 0 || $scope.properties.padre.catPais === null) {
                                     swal("¡País!", "Debes agregar el país del domicilio de tu padre", "warning");
                                 } else if (($scope.properties.padre.codigoPostal === "" || $scope.properties.padre.codigoPostal === undefined) && $scope.properties.padre.catPais.descripcion === "México") {
@@ -478,6 +480,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     swal("¡Correo electrónico!", "El correo electrónico de tu padre no es válido", "warning");
                                 } else if ($scope.properties.padre.catEscolaridad === 0 || $scope.properties.padre.catEscolaridad === null) {
                                     swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu padre", "warning");
+                                } else if (!$scope.properties.padre.telefonoCelular) {
+                                    swal("¡Teléfono celular!", "Debes agregar el teléfono celular de tu padre", "warning");
                                 } else if ($scope.properties.padre.catPais === 0 || $scope.properties.padre.catPais === null) {
                                     swal("¡País!", "Debes agregar el país del domicilio de tu padre", "warning");
                                 } else if (($scope.properties.padre.codigoPostal === "" || $scope.properties.padre.codigoPostal === undefined) && $scope.properties.padre.catPais.descripcion === "México") {
@@ -527,6 +531,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Correo electrónico!", "El correo electrónico de tu padre no es válido", "warning");
                             } else if ($scope.properties.padre.catEscolaridad === 0 || $scope.properties.padre.catEscolaridad === null) {
                                 swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu padre", "warning");
+                            } else if (!$scope.properties.padre.telefonoCelular) {
+                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular de tu padre", "warning");
                             } else if ($scope.properties.padre.catPais === 0 || $scope.properties.padre.catPais === null) {
                                 swal("¡País!", "Debes agregar el país del domicilio de tu padre", "warning");
                             } else if (($scope.properties.padre.codigoPostal === "" || $scope.properties.padre.codigoPostal === undefined) && $scope.properties.padre.catPais.descripcion === "México") {
@@ -564,6 +570,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Correo electrónico!", "El correo electrónico de tu padre no es válido", "warning");
                             } else if ($scope.properties.padre.catEscolaridad === 0 || $scope.properties.padre.catEscolaridad === null) {
                                 swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu padre", "warning");
+                            } else if (!$scope.properties.padre.telefonoCelular) {
+                                swal("¡Teléfono celular!", "Debes agregar el teléfono celular de tu padre", "warning");
                             } else if ($scope.properties.padre.catPais === 0 || $scope.properties.padre.catPais === null) {
                                 swal("¡País!", "Debes agregar el país del domicilio de tu padre", "warning");
                             } else if (($scope.properties.padre.codigoPostal === "" || $scope.properties.padre.codigoPostal === undefined) && $scope.properties.padre.catPais.descripcion === "México") {
@@ -648,6 +656,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     swal("¡Correo electrónico!", "El correo electrónico de tu madre no es válido", "warning");
                                 } else if ($scope.properties.madre.catEscolaridad === 0 || $scope.properties.madre.catEscolaridad === null) {
                                     swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu madre", "warning");
+                                } else if ($scope.properties.madre.telefonoCelular === "" || $scope.properties.madre.telefonoCelular === undefined) {
+                                    swal("¡Teléfono!", "Debes agregar el teléfono celular de tu madre", "warning");
                                 } else if ($scope.properties.madre.catPais === 0 || $scope.properties.madre.catPais === null) {
                                     swal("¡País!", "Debes agregar el país del domicilio de tu madre", "warning");
                                 } else if (($scope.properties.madre.codigoPostal === "" || $scope.properties.madre.codigoPostal === undefined) && $scope.properties.madre.catPais.descripcion === "México") {
@@ -685,6 +695,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     swal("¡Correo electrónico!", "El correo electrónico de tu madre no es válido", "warning");
                                 } else if ($scope.properties.madre.catEscolaridad === 0 || $scope.properties.madre.catEscolaridad === null) {
                                     swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu madre", "warning");
+                                } else if ($scope.properties.madre.telefonoCelular === "" || $scope.properties.madre.telefonoCelular === undefined) {
+                                    swal("¡Teléfono!", "Debes agregar el teléfono celular de tu madre", "warning");
                                 } else if ($scope.properties.madre.catPais === 0 || $scope.properties.madre.catPais === null) {
                                     swal("¡País!", "Debes agregar el país del domicilio de tu madre", "warning");
                                 } else if (($scope.properties.madre.codigoPostal === "" || $scope.properties.madre.codigoPostal === undefined) && $scope.properties.madre.catPais.descripcion === "México") {
@@ -734,6 +746,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Correo electrónico!", "El correo electrónico de tu madre no es válido", "warning");
                             } else if ($scope.properties.madre.catEscolaridad === 0 || $scope.properties.madre.catEscolaridad === null) {
                                 swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu madre", "warning");
+                            } else if ($scope.properties.madre.telefonoCelular === "" || $scope.properties.madre.telefonoCelular === undefined) {
+                                swal("¡Teléfono!", "Debes agregar el teléfono celular de tu madre", "warning");
                             } else if ($scope.properties.madre.catPais === 0 || $scope.properties.madre.catPais === null) {
                                 swal("¡País!", "Debes agregar el país del domicilio de tu madre", "warning");
                             } else if (($scope.properties.madre.codigoPostal === "" || $scope.properties.madre.codigoPostal === undefined) && $scope.properties.madre.catPais.descripcion === "México") {
@@ -771,6 +785,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 swal("¡Correo electrónico!", "El correo electrónico de tu madre no es válido", "warning");
                             } else if ($scope.properties.madre.catEscolaridad === 0 || $scope.properties.madre.catEscolaridad === null) {
                                 swal("¡Escolaridad!", "Debes seleccionar la escolaridad de tu madre", "warning");
+                            } else if ($scope.properties.madre.telefonoCelular === "" || $scope.properties.madre.telefonoCelular === undefined) {
+                                swal("¡Teléfono!", "Debes agregar el teléfono celular de tu madre", "warning");
                             } else if ($scope.properties.madre.catPais === 0 || $scope.properties.madre.catPais === null) {
                                 swal("¡País!", "Debes agregar el país del domicilio de tu madre", "warning");
                             } else if (($scope.properties.madre.codigoPostal === "" || $scope.properties.madre.codigoPostal === undefined) && $scope.properties.madre.catPais.descripcion === "México") {

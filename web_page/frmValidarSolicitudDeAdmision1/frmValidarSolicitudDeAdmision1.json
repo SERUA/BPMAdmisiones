@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "frmValidarSolicitudDeAdmision1",
   "name" : "frmValidarSolicitudDeAdmision",
-  "lastUpdate" : 1718303105556,
+  "lastUpdate" : 1719447493176,
   "rows" : [
     [
       {
@@ -3596,7 +3596,7 @@
                                               },
                                               "hidden" : {
                                                 "type" : "expression",
-                                                "value" : "context.fotoPasaporte_ref.length==0"
+                                                "value" : "objSolicitudDeAdmision.urlFoto"
                                               },
                                               "type" : {
                                                 "type" : "constant",
@@ -3640,7 +3640,7 @@
                                               },
                                               "hidden" : {
                                                 "type" : "expression",
-                                                "value" : "context.fotoPasaporte_ref.length>0"
+                                                "value" : "!objSolicitudDeAdmision.urlFoto"
                                               },
                                               "type" : {
                                                 "type" : "constant",
@@ -3712,7 +3712,7 @@
                                               },
                                               "hidden" : {
                                                 "type" : "expression",
-                                                "value" : "context.actaNacimiento_ref.length==0"
+                                                "value" : "objSolicitudDeAdmision.urlActaNacimiento"
                                               },
                                               "type" : {
                                                 "type" : "constant",
@@ -3756,7 +3756,7 @@
                                               },
                                               "hidden" : {
                                                 "type" : "expression",
-                                                "value" : "context.actaNacimiento_ref.length>0"
+                                                "value" : "!objSolicitudDeAdmision.urlActaNacimiento"
                                               },
                                               "type" : {
                                                 "type" : "constant",
@@ -3764,7 +3764,7 @@
                                               },
                                               "url" : {
                                                 "type" : "expression",
-                                                "value" : "objSolicitudDeAdmision.urlActaNacimiento + azureTempKeyRes.data[0]"
+                                                "value" : "objSolicitudDeAdmision.urlActaNacimiento+ azureTempKeyRes.data[0]"
                                               },
                                               "document" : {
                                                 "type" : "variable",
@@ -6408,7 +6408,7 @@
                                         },
                                         "label" : {
                                           "type" : "interpolation",
-                                          "value" : "Submit"
+                                          "value" : "Siguiente"
                                         },
                                         "alignment" : {
                                           "type" : "constant",

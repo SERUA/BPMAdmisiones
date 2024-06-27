@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "frgInformaciondelPadreUpdate",
   "name" : "frgInformaciondelPadreUpdate",
-  "lastUpdate" : 1716491607191,
+  "lastUpdate" : 1719445298989,
   "rows" : [
     [
       {
@@ -743,7 +743,7 @@
                 },
                 "readOnly" : {
                   "type" : "expression",
-                  "value" : "isPadretutor || padre.isTutor"
+                  "value" : "(isPadretutor || padre.isTutor )  && (!modificacion)"
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -2539,6 +2539,13 @@
         "}"
       ],
       "exposed" : false
+    },
+    "modificacion" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
     }
   },
   "hasValidationError" : false,
